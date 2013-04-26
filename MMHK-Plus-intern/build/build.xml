@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+    Contact : aendawyn@gmail.com
+    Website : http://www.mmhk-plus.net
+     ====================================================================== -->
+
+<project name="MMHK-Plus build" default="build">
+	<description>
+            Build MMHK-Plus JS script with manifest.json (Chrome Extension)
+			and version.ini
+    </description>
+
+	<import file="buildDefinition.xml" />
+
+	<macrodef name="expandProperties">
+		<attribute name="path.refid" />
+		<attribute name="tofile" />
+
+		<sequential>
+			<copy file="@{tofile}" tofile="${working.dir}/copy_tmp_file" />
+			<concat destfile="@{tofile}" append="true">
+				<path refid="@{path.refid}" />
+				<filterchain>
+					<expandproperties />
+				</filterchain>
+			</concat>
+			<delete file="${working.dir}/copy_tmp_file" />
+		</sequential>
+	</macrodef>
+
+	<target name="setEnv/intern">
+		<property name="output.dir" location="output#" />
+		<property name="working.dir" location="working#" />
+		<property name="output.script.name" value="mmhk-plus.user.js" />
+		<property name="output.script.file" location="${output.dir}/${output.script.name}" />
+
+		<delete dir="${output.dir}" />
+		<delete dir="${working.dir}" />
+
+		<mkdir dir="${output.dir}" />
+		<mkdir dir="${working.dir}" />
+		<touch file="${output.script.file}" />
+	</target>
+
+	<target name="loadProperties/intern">
+		<loadproperties srcfile="${mmhkplus.build.project.dir}/build/mmhk-plus.properties" />
+		<loadfile property="mmhk-plus.licence" srcFile="${mmhkplus.project.dir}/src/licence_short.txt">
+			<filterchain>
+				<expandproperties />
+			</filterchain>
+		</loadfile>
+	</target>
+
+
+	<target name="build" depends="setEnv/intern, loadProperties/intern">
+		<expandProperties path.refid="src.header.files" tofile="${output.script.file}" />
+		<expandProperties path.refid="src.jquery.files" tofile="${output.script.file}" />
+		<expandProperties path.refid="src.mmhk-plus.files" tofile="${output.script.file}" />
+		<expandProperties path.refid="src.footer.files" tofile="${output.script.file}" />
+	</target>
+
+</project>

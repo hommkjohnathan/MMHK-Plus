@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+    Contact : aendawyn@gmail.com
+    Website : http://www.mmhk-plus.net
+     ====================================================================== -->
+
+<project name="MMHK-Plus build definition">
+
+	<property name="workspace" location="${ant.file.MMHK-Plus build}/../../.." />
+	<property name="mmhkplus.project.dir" location="${workspace}/MMHK-Plus" />
+	<property name="mmhkplus.build.project.dir" location="${workspace}/MMHK-Plus-intern" />
+
+	<path id="src.header.files">
+		<pathelement location="${mmhkplus.project.dir}/src/header/header.js" />
+		<pathelement location="${mmhkplus.project.dir}/src/header/utilities.js" />
+	</path>
+
+	<path id="src.jquery.files">
+		<pathelement location="${mmhkplus.project.dir}/src/modules/jquery.js" />
+	</path>
+
+	<path id="src.mmhk-plus.files">
+		<pathelement location="${mmhkplus.project.dir}/src/header/mmhkplus_header.js" />
+		<pathelement location="${mmhkplus.project.dir}/src/modules/translations.js" />
+		<pathelement location="${mmhkplus.project.dir}/src/modules/css.js" />
+		<pathelement location="${mmhkplus.project.dir}/src/modules/mmhkplus_utilities.js" />
+		<fileset dir="${mmhkplus.project.dir}/src/modules/unordered">
+			<include name="**/*.js" />
+		</fileset>
+	</path>
+
+	<path id="src.footer.files">
+		<pathelement location="${mmhkplus.project.dir}/src/footer/footer.js" />
+	</path>
+
+</project>
