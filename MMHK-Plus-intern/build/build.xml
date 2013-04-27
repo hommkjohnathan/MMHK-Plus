@@ -23,6 +23,22 @@
 			and version.ini
     </description>
 
+	<!--
+		Set configuration env.
+		
+		conf.name=dev : do not compress script
+		conf.name=prod : use closure compiler to compress script
+	-->
+	<fail unless="conf.name" />
+	<condition property="isProdEnv" value="true">
+		<equals arg1="${conf.name}" arg2="prod" />
+	</condition>
+
+	<!--
+		Taskdef for Closure Compiler
+	-->
+	<taskdef classpath="../resources/compiler.jar" name="closureCompiler" classname="com.google.javascript.jscomp.ant.CompileTask" />
+
 	<import file="buildDefinition.xml" />
 
 	<macrodef name="expandProperties">
@@ -69,7 +85,7 @@
 
 	<target name="manifest/intern" depends="setEnv/intern, loadProperties/intern">
 		<path id="manifest_template.path">
-			<pathelement location="${mmhkplus.build.project.dir}/resources/manifest_template.json" />
+			<pathelement location="${mmhkplus.build.project.dir}/resources/manifestTemplate.json" />
 		</path>
 		<expandProperties path.refid="manifest_template.path" tofile="${working.dir}/manifest.json" />
 	</target>
@@ -79,7 +95,7 @@
 			<fileset dir="${mmhkplus.build.project.dir}/resources/icons" />
 		</copy>
 		<zip destfile="${output.extension.file}/">
-			<fileset dir="${working.dir}" includes="*" />
+			<fileset dir="${working.dir}" includes="**/*" />
 		</zip>
 	</target>
 
@@ -88,7 +104,27 @@
 		<expandProperties path.refid="src.jquery.files" tofile="${output.script.file}" />
 		<expandProperties path.refid="src.mmhk-plus.files" tofile="${output.script.file}" />
 		<expandProperties path.refid="src.footer.files" tofile="${output.script.file}" />
-		<echo file="${output.version.file}" message="${mmhk-plus.script.version}"/>
+		<antcall target="closureCompiler/intern" />
+		<echo file="${output.version.file}" message="${mmhk-plus.script.version}" />
+		<copy file="${output.script.file}" tofile="${working.dir}/tmp_copy" />
+		<concat destfile="${output.script.file}" outputencoding="UTF-8">
+			<path>
+				<pathelement location="${mmhkplus.build.project.dir}/resources/userscriptHeader.js" />
+				<pathelement location="${working.dir}/tmp_copy" />
+			</path>
+			<filterchain>
+				<expandproperties />
+			</filterchain>
+		</concat>
+		<delete file="${working.dir}/tmp_copy" />
+	</target>
+
+	<target name="closureCompiler/intern" if="isProdEnv">
+		<closureCompiler outputencoding="UTF-8" compilationlevel="simple" languagein="ECMASCRIPT5" warning="quiet" output="${working.dir}/${output.script.name}">
+			<sources dir="${working.dir}">
+				<file name="${output.script.name}" />
+			</sources>
+		</closureCompiler>
 	</target>
 
 	<target name="publish" depends="build, chromeExtension/intern">
