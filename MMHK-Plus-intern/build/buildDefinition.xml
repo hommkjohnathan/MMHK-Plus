@@ -25,20 +25,40 @@
 
 	<path id="src.header.files">
 		<pathelement location="${mmhkplus.project.dir}/src/header/header.js" />
+		<!--
+			FIXME
+			Move jQuery in its own path (required for YUI compressor)
+		-->
+		<pathelement location="${mmhkplus.project.dir}/src/modules/jquery.js" />
 		<pathelement location="${mmhkplus.project.dir}/src/header/utilities.js" />
 	</path>
 
+
 	<path id="src.jquery.files">
+		<!--
 		<pathelement location="${mmhkplus.project.dir}/src/modules/jquery.js" />
+		-->
 	</path>
 
 	<path id="src.mmhk-plus.files">
-		<pathelement location="${mmhkplus.project.dir}/src/header/mmhkplus_header.js" />
+		<pathelement location="${mmhkplus.project.dir}/src/header/mmhkplusHeader.js" />
 		<pathelement location="${mmhkplus.project.dir}/src/modules/translations.js" />
 		<pathelement location="${mmhkplus.project.dir}/src/modules/css.js" />
-		<pathelement location="${mmhkplus.project.dir}/src/modules/mmhkplus_utilities.js" />
-		<fileset dir="${mmhkplus.project.dir}/src/modules/unordered">
-			<include name="**/*.js" />
+		<pathelement location="${mmhkplus.project.dir}/src/modules/mmhkplusUtilities.js" />
+
+		<pathelement location="${mmhkplus.project.dir}/src/modules/common/ordered/extendableElement.js" />
+		<pathelement location="${mmhkplus.project.dir}/src/modules/common/ordered/refreshableElement.js" />
+		<pathelement location="${mmhkplus.project.dir}/src/modules/common/ordered/panelElement.js" />
+		<pathelement location="${mmhkplus.project.dir}/src/modules/common/ordered/armiesPanelElement.js" />
+
+		<fileset dir="${mmhkplus.project.dir}/src/modules/common">
+			<include name="*.js" />
+		</fileset>
+
+		<fileset dir="${mmhkplus.project.dir}/src/modules/">
+			<include name="*/*.js" />
+			<exclude name="common/*.js" />
+			<exclude name="*.js" />
 		</fileset>
 	</path>
 

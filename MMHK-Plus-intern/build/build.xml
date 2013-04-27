@@ -17,7 +17,7 @@
     Website : http://www.mmhk-plus.net
      ====================================================================== -->
 
-<project name="MMHK-Plus build" default="build">
+<project name="MMHK-Plus build" default="publish">
 	<description>
             Build MMHK-Plus JS script with manifest.json (Chrome Extension)
 			and version.ini
@@ -30,46 +30,71 @@
 		<attribute name="tofile" />
 
 		<sequential>
-			<copy file="@{tofile}" tofile="${working.dir}/copy_tmp_file" />
-			<concat destfile="@{tofile}" append="true">
+			<concat destfile="@{tofile}" append="true" outputencoding="UTF-8">
 				<path refid="@{path.refid}" />
 				<filterchain>
 					<expandproperties />
 				</filterchain>
 			</concat>
-			<delete file="${working.dir}/copy_tmp_file" />
 		</sequential>
 	</macrodef>
 
-	<target name="setEnv/intern">
+	<target name="setEnv/intern" depends="loadProperties/intern" unless="setEnv/intern/check">
 		<property name="output.dir" location="output#" />
 		<property name="working.dir" location="working#" />
 		<property name="output.script.name" value="mmhk-plus.user.js" />
-		<property name="output.script.file" location="${output.dir}/${output.script.name}" />
+		<property name="output.script.file" location="${working.dir}/${output.script.name}" />
+		<property name="output.extension.file" location="${working.dir}/mmhk-plus-${mmhk-plus.script.version}.zip" />
+		<property name="output.version.file" location="${working.dir}/version.ini" />
 
 		<delete dir="${output.dir}" />
 		<delete dir="${working.dir}" />
 
 		<mkdir dir="${output.dir}" />
 		<mkdir dir="${working.dir}" />
-		<touch file="${output.script.file}" />
+
+		<property name="setEnv/intern/check" value="true" />
 	</target>
 
-	<target name="loadProperties/intern">
+	<target name="loadProperties/intern" unless="loadProperties/intern">
 		<loadproperties srcfile="${mmhkplus.build.project.dir}/build/mmhk-plus.properties" />
-		<loadfile property="mmhk-plus.licence" srcFile="${mmhkplus.project.dir}/src/licence_short.txt">
+		<loadfile property="mmhk-plus.licence" srcFile="${mmhkplus.project.dir}/src/licenceShort.txt">
 			<filterchain>
 				<expandproperties />
 			</filterchain>
 		</loadfile>
+
+		<property name="loadProperties/intern" value="true" />
 	</target>
 
+	<target name="manifest/intern" depends="setEnv/intern, loadProperties/intern">
+		<path id="manifest_template.path">
+			<pathelement location="${mmhkplus.build.project.dir}/resources/manifest_template.json" />
+		</path>
+		<expandProperties path.refid="manifest_template.path" tofile="${working.dir}/manifest.json" />
+	</target>
+
+	<target name="chromeExtension/intern" depends="manifest/intern">
+		<copy todir="${working.dir}/icons">
+			<fileset dir="${mmhkplus.build.project.dir}/resources/icons" />
+		</copy>
+		<zip destfile="${output.extension.file}/">
+			<fileset dir="${working.dir}" includes="*" />
+		</zip>
+	</target>
 
 	<target name="build" depends="setEnv/intern, loadProperties/intern">
 		<expandProperties path.refid="src.header.files" tofile="${output.script.file}" />
 		<expandProperties path.refid="src.jquery.files" tofile="${output.script.file}" />
 		<expandProperties path.refid="src.mmhk-plus.files" tofile="${output.script.file}" />
 		<expandProperties path.refid="src.footer.files" tofile="${output.script.file}" />
+		<echo file="${output.version.file}" message="${mmhk-plus.script.version}"/>
+	</target>
+
+	<target name="publish" depends="build, chromeExtension/intern">
+		<copy file="${output.script.file}" todir="${output.dir}" />
+		<copy file="${output.extension.file}" todir="${output.dir}" />
+		<copy file="${output.version.file}" todir="${output.dir}" />
 	</target>
 
 </project>
