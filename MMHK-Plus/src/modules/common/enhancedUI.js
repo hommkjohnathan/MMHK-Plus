@@ -106,6 +106,7 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
         this._setupMarketPlaceFrame();
         this._setupGamePosition();
         this._setupSiegeFrame();
+        this._setupTimelineCaravansTooltip();
 	},
 	
 	_setupBuyable : function()
@@ -1006,6 +1007,38 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
         };
 
         MMHKPLUS.HOMMK.SiegeFrame.prototype.display = injectAfter(MMHKPLUS.HOMMK.SiegeFrame.prototype.display, onSiegeFrameDisplay);
+    },
+    
+    _setupTimelineCaravansTooltip : function() 
+    {
+    	var caravansContent = function(result) 
+    	{
+    		var newResult = result;
+    		if(this.content.type == "CARAVAN_DELIVERY") 
+			{
+    			var $content = $(newResult);
+    			for(var i = 1; i <=7; i++)
+    			{
+    				$content
+    					.append(
+    							MMHKPLUS.getCssSprite("Ressources", MMHKPLUS.resources[i-1]).addClass("MMHKPLUS_KingdomResourcesImage").css("display", "inline-block").css("margin-bottom", "10px").css("margin-left", "10px"))
+    					.append(
+    						$("<span/>")
+    							.html(formatNumber(parseInt(this.content.paramList[i])))
+    							.css("padding-left", "4px").css("top", "-4px").css("position", "relative"));
+    			}
+    			newResult = $content.append("<br/>").html();
+    			var $content = $(newResult);
+			}
+    		return newResult;
+    	};
+    	
+    	MMHKPLUS.HOMMK.MasterAction.prototype.getTooltipContent = injectAfter(MMHKPLUS.HOMMK.MasterAction.prototype.getTooltipContent, caravansContent);
+    	MMHKPLUS.getElement("Player").getActions().forEach(function(a)
+    		{
+    			a.display();
+    		}
+    	);
     },
 	
 	unload : function()

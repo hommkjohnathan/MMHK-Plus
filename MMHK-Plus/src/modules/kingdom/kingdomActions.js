@@ -91,10 +91,25 @@ MMHKPLUS.KingdomActions = MMHKPLUS.PanelElement.extend({
 						{
 							if((slave.endDate * 1000) > new Date().getTime())
 							{
+								var $specificContent = "";
+								if(slave.type == "CARAVAN_DELIVERY_MOVE")
+								{
+									$specificContent = $("<div/>");
+					    			for(var i = 1; i <=7; i++)
+					    			{
+					    				$specificContent
+					    					.append(
+					    							MMHKPLUS.getCssSprite("Ressources", MMHKPLUS.resources[i-1]).addClass("MMHKPLUS_KingdomResourcesImage").css("display", "inline-block").css("margin-bottom", "10px").css("margin-left", "10px"))
+					    					.append(
+					    						$("<span/>")
+					    							.html(formatNumber(parseInt(slave.paramList[i])))
+					    							.css("padding-left", "4px").css("top", "-4px").css("position", "relative"));
+					    			}
+								}
 								var $lineS = $("<tr style='color:lightgray;' class='MMHKPLUS_Action_" + action.id + "'/>").appendTo($table);
 								var d3 = new Date(); d3.setTime(slave.endDate * 1000 - new Date().getTime());
 								var d4 = new Date(); d4.setTime(slave.endDate * 1000);
-								$("<td style='padding-left:45px;border-top:1px solid gray;'/>").append($("<p/>").html(slave.typeName)).appendTo($lineS);
+								$("<td style='padding-left:45px;border-top:1px solid gray;'/>").append($("<p/>").html(slave.typeName).append($specificContent)).appendTo($lineS);
 								$("<td style='width:170px;border-top:1px solid gray;' class='MMHKPLUS_TextCenter'/>")
 									.html(d4.toShortFrenchFormat())
 									.appendTo($lineS);
