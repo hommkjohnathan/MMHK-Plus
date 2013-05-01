@@ -93,7 +93,11 @@ MMHKPLUS.Jactari = MMHKPLUS.ExtendableElement.extend({
 	_camps_abr : ['a','d'],
 	_factions : 
 	{
-		ACADEMY:0,HAVEN:1,INFERNO:2,NECROPOLIS:3,SYLVAN:4,FORTRESS:5,DUNGEON:6,NEUTRAL:7
+		ACADEMY:0,HAVEN:1,INFERNO:2,NECROPOLIS:3,SYLVAN:4,FORTRESS:5,DUNGEON:6,NEUTRAL:7,SYLVAN_S:4
+	},
+	_special_factions :
+	{
+		SYLVAN_S:122
 	},
 	_ecoles : 
 	{
@@ -101,7 +105,7 @@ MMHKPLUS.Jactari = MMHKPLUS.ExtendableElement.extend({
 	},
 	_rangs : 
 	{
-		T1:0, T1P:1, T2:2, T2P:3, T3:4, T3P:5, T4:6, T4P:7, T5:8, T5P:9, T6:10, T6P:11, T7:12, T7P:13, T8:14, T8P:15
+		T1:0, T1P:1, T2:2, T2P:3, T3:4, T3P:5, T4:6, T4P:7, T5:8, T5P:9, T6:10, T6P:11, T7:12, T7P:13, T8:14, T8P:15, T1S:1,  T2S:2,  T3S:3,  T4S:4,  T5S:5,  T6S:6,  T7S:7
 	},
 	_neutres : 
 	{
@@ -145,7 +149,10 @@ MMHKPLUS.Jactari = MMHKPLUS.ExtendableElement.extend({
 		{
 			var rang = self._rangs[donnees.tier];
 			var faction = self._factions[donnees.factionEntityTagName];
-			u = (faction * 16) + (rang & 15) + (faction == 4 ? 5 : 0) + (faction >= 5 ? 11 : 0);
+			if(donnees.tier.indexOf("S") != -1)
+				u = self._special_factions[donnees.factionEntityTagName + "_S"] + rang;
+			else
+				u = (faction * 16) + (rang & 15) + (faction == 4 ? 5 : 0) + (faction >= 5 ? 11 : 0);
 		}
 		return {unite:u, nombre:donnees.quantity};
 	},
