@@ -90,10 +90,10 @@ MMHKPLUS.Menu = MMHKPLUS.ExtendableElement.extend({
     				if(self.options.type == 0)
     				{
     					var $submenus = $("body > ul.MMHKPLUS_SubMenu");
-    					$submenus.eq(0).css({left : 1 * 120 + 1 * 4 + scrollLeft + "px", top : 22 + scrollTop + "px"});
-    					$submenus.eq(1).css({left : 2 * 120 + 2 * 4 + scrollLeft + "px", top : 22 + scrollTop + "px"});
-    					$submenus.eq(2).css({left : 3 * 120 + 3 * 4 + scrollLeft + "px", top : 22 + scrollTop + "px"});
-    					$submenus.eq(3).css({left : 4 * 120 + 4 * 4 + scrollLeft + "px", top : 22 + scrollTop + "px"});
+    					$submenus.eq(0).css({left : 1 * 130 + 1 * 4 + scrollLeft + "px", top : 22 + scrollTop + "px"});
+    					$submenus.eq(1).css({left : 2 * 130 + 2 * 4 + scrollLeft + "px", top : 22 + scrollTop + "px"});
+    					$submenus.eq(2).css({left : 3 * 130 + 3 * 4 + scrollLeft + "px", top : 22 + scrollTop + "px"});
+    					$submenus.eq(3).css({left : 4 * 130 + 4 * 4 + scrollLeft + "px", top : 22 + scrollTop + "px"});
     				}
     			}
     		);
@@ -114,7 +114,7 @@ MMHKPLUS.Menu = MMHKPLUS.ExtendableElement.extend({
 		{
 			$("<table>").append($("<tr>")).appendTo(this.$elem);
 			var $container = this.$elem.find("tr");
-			$("<td style='width : 120px;'>").append("MMHK-Plus").click(function()
+			$("<td style='width : 130px;'>").append("MMHK-Plus").click(function()
 				{
 					MMHKPLUS.openURL(MMHKPLUS.URL);
 				}
@@ -127,7 +127,7 @@ MMHKPLUS.Menu = MMHKPLUS.ExtendableElement.extend({
 				{
 					if(!item.ra || (item.ra && isInAlliance))
 					{
-						var $cell = $("<td style='width : 120px;'>")
+						var $cell = $("<td style='width : 130px;'>")
 										.append("<img src='" + baseURL + item.i + "' class='MMHKPLUS_MainMenuIcons'/>")
 										.append((showText ? "<a href='#'>" + item.t + "</a>": ""))
 										.button()
@@ -142,7 +142,7 @@ MMHKPLUS.Menu = MMHKPLUS.ExtendableElement.extend({
 						}
 						if(hasProperty(item, "s"))
 						{
-							var $submenu = $("<ul style='width : 120px;'>").addClass("MMHKPLUS_SubMenu MMHKPLUS_MaxZIndex hidden").css({left : $cell.offset().left + "px"}).appendTo($("body"));
+							var $submenu = $("<ul style='width : 130px;'>").addClass("MMHKPLUS_SubMenu MMHKPLUS_MaxZIndex hidden").css({left : $cell.offset().left + "px"}).appendTo($("body"));
 							$.each(item.s, function(index, item)
 								{
 									$("<li>").append("<a href='#'>" + item.t + "</a>").on("click", function()
@@ -165,7 +165,7 @@ MMHKPLUS.Menu = MMHKPLUS.ExtendableElement.extend({
 			this.$elem.append("MMHK-Plus").button()
 				.css({top : this.options.y, left : this.options.x, cursor : "move"});
 			
-			var $menu = $("<ul style='width : 120px;'>").addClass("MMHKPLUS_MaxZIndex").hide()
+			var $menu = $("<ul style='width : 130px;'>").addClass("MMHKPLUS_MaxZIndex").hide()
 				.css({position : "absolute", left : this.options.x + "px", top : this.options.y + 20 + "px"})
 				.appendTo($("body"));
 			
@@ -191,7 +191,7 @@ MMHKPLUS.Menu = MMHKPLUS.ExtendableElement.extend({
 						}
 						if(hasProperty(item, "s"))
 						{
-							var $submenu = $("<ul style='width : 120px;'>").addClass("MMHKPLUS_SubMenu MMHKPLUS_MaxZIndex").appendTo($cell);
+							var $submenu = $("<ul style='width : 130px;'>").addClass("MMHKPLUS_SubMenu MMHKPLUS_MaxZIndex").appendTo($cell);
 							$.each(item.s, function(index, item)
 								{
 									$("<li>").append("<a href='#'>" + item.t + "</a>").click(function()

@@ -287,7 +287,7 @@ MMHKPLUS.localizeUnit = function(faction, tier) {
 };
 
 MMHKPLUS.localizeText = function(text) {
-    var languages = ["fr", "en"];
+    var languages = ["fr", "en", "ru"];
     var result = "NotFound_(" + text + ")";
     MMHKPLUS.translationsText.forEach(function(t)
         {
@@ -351,7 +351,7 @@ MMHKPLUS.checkUpdate = function() {
 
 MMHKPLUS.init = function() {
 	window.MMHKPLUS = MMHKPLUS;
-	MMHKPLUS.locale = (MMHKPLUS.HOMMK.getLanguage() != "fr" ? "en" : "fr") || "fr";
+	MMHKPLUS.locale = (MMHKPLUS.HOMMK.getLanguage() == "fr" ? "fr" : (MMHKPLUS.HOMMK.getLanguage() == "ru" ? "ru" : "en")) || "en";
 	$("<style/>").attr("type", "text/css").html(MMHKPLUS.css.join("")).appendTo($("head"));
 	
 	MMHKPLUS.addElement(Object.create(MMHKPLUS.Ajax).init());

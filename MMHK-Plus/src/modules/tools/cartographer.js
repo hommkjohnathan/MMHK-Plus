@@ -181,7 +181,7 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
             .html(MMHKPLUS.localize("ACTUAL") + " (" + MMHKPLUS.HOMMK.currentView.regionX + "," + MMHKPLUS.HOMMK.currentView.regionY + ")")
             .appendTo(this.$elem);
         $("<p>")
-            .css({position:"absolute", "top":"7px", left:"150px"})
+            .css({position:"absolute", "top":"7px", left:"170px"})
             .css("height", "25px")
             .appendTo(this.$elem);
         $("<div>").button()
