@@ -63,7 +63,7 @@ MMHKPLUS.translations = {
     CITIES_BUILDINGS :{fr : "Bâtiments", en : "Buildings", ru : "Строения в городе"},
     REGIONS :       {fr : "Régions", en : "Regions", ru : "Регионы"},
     ATTACKS_SIEGES :{fr : "Sièges", en : "Sieges", ru : "Осады"},
-	VIGIE : 		{fr : "Vigie", en : "Vigie", ru : "Передвижения"},
+	LOOKOUT : 		{fr : "Vigie", en : "Lookout", ru : "Передвижения"},
 	MAPFINDER : 	{fr : "MapFinder", en : "MapFinder", ru : "Поиск ресурсов"},
 	CARTO : 		{fr : "Cartographe", en : "Cartographer", ru : "Карта мира"},
 	DISTANCES : 	{fr : "Distances", en : "Distances", ru : "Расстояния"},
@@ -325,7 +325,7 @@ MMHKPLUS.translations = {
     SIEGES :        {fr : "Sièges", en : "Sieges", ru : "Осады"},
     COORDINATES:    {fr : "Coordonnées", en : "Coordinates", ru : "Координаты"},
 
-    // Vigie
+    // Lookout
 	FILTER :		{fr : "Filtre", en : "Filter", ru : "Фильтр"},
 	HIDE_ALLIANCE :	{fr : "Cacher les mouvements de l'alliance", en : "Hide alliance movements", ru : "Скрыть передвижения игроков альянса"},
 	NONE :			{fr : "Aucune", en : "None", ru : "Без альянса"},
@@ -342,10 +342,10 @@ MMHKPLUS.translations = {
 	WEALTH :		{fr : "Richesse", en : "Wealth", ru : "Богатство"},
 	HONOR :			{fr : "Honneur", en : "Honor", ru : "Честь"},
 	CITY_COUNT :	{fr : "Nombre de cités", en : "City count", ru : "Количество городов"},
-	VIGIE_SPEED_1 :	{fr : "Inconnue (en halte)", en : "Unknown (in halt)", ru : "На привале"},
-	VIGIE_SPEED_2 :	{fr : "Rapide (Héros seul ou départ d'une cité avec Graal)", en : "Fast (Single hero or starting from city with Grail)", ru : "Быстрая (Герой вышел из города с Граалем)"},
-	VIGIE_SPEED_3 :	{fr : "Normale", en : "Regular", ru : "Обычная"},
-	VIGIE_SPEED_4 :	{fr : "Lente (Armes de siège)", en : "Slow (Siege weapons)", ru : "Медленная (Герой идет с осадными орудиями)"},
+	LOOKOUT_SPEED_1 :	{fr : "Inconnue (en halte)", en : "Unknown (in halt)", ru : "На привале"},
+	LOOKOUT_SPEED_2 :	{fr : "Rapide (Héros seul ou départ d'une cité avec Graal)", en : "Fast (Single hero or starting from city with Grail)", ru : "Быстрая (Герой вышел из города с Граалем)"},
+	LOOKOUT_SPEED_3 :	{fr : "Normale", en : "Regular", ru : "Обычная"},
+	LOOKOUT_SPEED_4 :	{fr : "Lente (Armes de siège)", en : "Slow (Siege weapons)", ru : "Медленная (Герой идет с осадными орудиями)"},
     STARTED_SINCE : {fr : "Commencé depuis", en : "Started since", ru : "Вышел в"},
 	
 	// Cartographer

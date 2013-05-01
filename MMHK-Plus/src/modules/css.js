@@ -72,8 +72,8 @@ MMHKPLUS.css = [
 	// KingdomActions
 	".MMHKPLUS_KingdomActionsCell { border-top:1px solid #FFFFFF; color:#FFFFFF; padding: 10px 5px 10px 5px; }",
 
-    // Vigie
-    ".MMHKPLUS_VigieSpot { border:3px solid #000000; z-index:1700; }",
+    // Lookout
+    ".MMHKPLUS_LookoutSpot { border:3px solid #000000; z-index:1700; }",
 
     // Cartographer
     ".MMHKPLUS_CartographerRotate { -moz-transform:rotate(180deg); -webkit-transform:rotate(180deg);}",

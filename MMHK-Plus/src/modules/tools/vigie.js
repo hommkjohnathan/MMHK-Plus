@@ -1,5 +1,5 @@
-MMHKPLUS.Vigie = MMHKPLUS.PanelElement.extend({
-	elementType : "Vigie",
+MMHKPLUS.Lookout = MMHKPLUS.PanelElement.extend({
+	elementType : "Lookout",
 	intervalUpdate : null,
 	moves : [],
 	cachePlayers : {},
@@ -26,7 +26,7 @@ MMHKPLUS.Vigie = MMHKPLUS.PanelElement.extend({
 	init : function(options)
 	{
 		this.options = $.extend({}, this.options, options);
-		this.options.title = MMHKPLUS.localize("VIGIE");
+		this.options.title = MMHKPLUS.localize("LOOKOUT");
 		this.$elem = $("<div>");
 		this._setupPanel();
 		
@@ -145,21 +145,21 @@ MMHKPLUS.Vigie = MMHKPLUS.PanelElement.extend({
 
 					$("<td>").addClass("MMHKPLUS_Cell clickable")
 						.css({textAlign : "left", paddingLeft : "15px"})
-						.addClass("MMHKPLUS_VigieAlliance" + data.allianceId)
+						.addClass("MMHKPLUS_LookoutAlliance" + data.allianceId)
 						.append(self._createBlockColor(self, playerId) + data.allianceName)
 						.appendTo($line);
 					$("<td>").addClass("MMHKPLUS_Cell MMHKPLUS_TextCenter clickable")
-						.addClass("MMHKPLUS_VigiePlayer" + playerId)
+						.addClass("MMHKPLUS_LookoutPlayer" + playerId)
 						.click(function() {MMHKPLUS.openPlayerFrame(playerId);})
 						.html(data.playerName)
 						.appendTo($line);
 					$("<td>").addClass("MMHKPLUS_Cell MMHKPLUS_TextCenter clickable")
-						.addClass("MMHKPLUS_Vigie" + from.x + "_" + from.y)
+						.addClass("MMHKPLUS_Lookout" + from.x + "_" + from.y)
 						.html("(" + from.x + "," + from.y + ")")
 						.click(function() {MMHKPLUS.centerOn(from.x, from.y);})
 						.appendTo($line);
 					$("<td>").addClass("MMHKPLUS_Cell MMHKPLUS_TextCenter clickable")
-						.addClass("MMHKPLUS_Vigie" + to.x + "_" + to.y)
+						.addClass("MMHKPLUS_Lookout" + to.x + "_" + to.y)
 						.html("(" + to.x + "," + to.y + ")")
 						.click(function() {MMHKPLUS.centerOn(to.x, to.y);})
 						.appendTo($line);
@@ -197,7 +197,7 @@ MMHKPLUS.Vigie = MMHKPLUS.PanelElement.extend({
 							// .css({width : "45px"})
 							.html("<img src='" + self.options.images  + "unknow.png' style='width:15px;height:15px;'/>")
 							.appendTo($line);
-						speedText = MMHKPLUS.localize("VIGIE_SPEED_1");
+						speedText = MMHKPLUS.localize("LOOKOUT_SPEED_1");
 					}
 					else if(neededTime * 0.97 > diff)
 					{
@@ -205,7 +205,7 @@ MMHKPLUS.Vigie = MMHKPLUS.PanelElement.extend({
 							// .css({width : "45px"})
 							.html("<img src='" + self.options.images  + "increase.png' style='width:15px;height:15px;'/>")
 							.appendTo($line);
-						speedText = MMHKPLUS.localize("VIGIE_SPEED_2");
+						speedText = MMHKPLUS.localize("LOOKOUT_SPEED_2");
 					}
 					else if(neededTime * 0.97 < diff && neededTime * 1.03 > diff)
 					{
@@ -213,7 +213,7 @@ MMHKPLUS.Vigie = MMHKPLUS.PanelElement.extend({
 							// .css({width : "45px"})
 							.html("<img src='" + self.options.images  + "normal.png' style='width:15px;height:15px;'/>")
 							.appendTo($line);
-						speedText = MMHKPLUS.localize("VIGIE_SPEED_3");
+						speedText = MMHKPLUS.localize("LOOKOUT_SPEED_3");
 					}
 					else if(neededTime * 0.35 < diff)
 					{
@@ -221,7 +221,7 @@ MMHKPLUS.Vigie = MMHKPLUS.PanelElement.extend({
 							// .css({width : "45px"})
 							.html("<img src='" + self.options.images  + "decrease.png' style='width:15px;height:15px;'/>")
 							.appendTo($line);
-						speedText = MMHKPLUS.localize("VIGIE_SPEED_4");
+						speedText = MMHKPLUS.localize("LOOKOUT_SPEED_4");
 					}
 
                     $("<td>").addClass("MMHKPLUS_Cell MMHKPLUS_TextCenter")
@@ -234,10 +234,10 @@ MMHKPLUS.Vigie = MMHKPLUS.PanelElement.extend({
                                 .css("padding", "2px")
                                 .click(function()
                                     {
-                                        $("div.MMHKPLUS_VigieSpot").removeClass("MMHKPLUS_VigieSpot");
+                                        $("div.MMHKPLUS_LookoutSpot").removeClass("MMHKPLUS_LookoutSpot");
                                         if(self.currentPlot != "HeroMove" + move.id + "Plot")
                                         {
-                                            $("div[id^='HeroMove" + move.id + "Plot']").addClass("MMHKPLUS_VigieSpot");
+                                            $("div[id^='HeroMove" + move.id + "Plot']").addClass("MMHKPLUS_LookoutSpot");
                                             self.currentPlot = "HeroMove" + move.id + "Plot";
                                         }
                                         else
@@ -326,7 +326,7 @@ MMHKPLUS.Vigie = MMHKPLUS.PanelElement.extend({
 				if(r.content && r.content.x && r.content.y)
 				{
 					if(r.content.cN)
-						$(".MMHKPLUS_Vigie" + r.content.x + "_" + r.content.y).html("(" + r.content.x + "," + r.content.y + ")<br/><i>" + r.content.cN + "</i>");
+						$(".MMHKPLUS_Lookout" + r.content.x + "_" + r.content.y).html("(" + r.content.x + "," + r.content.y + ")<br/><i>" + r.content.cN + "</i>");
 				} 
 			}
 		);
@@ -390,13 +390,13 @@ MMHKPLUS.Vigie = MMHKPLUS.PanelElement.extend({
 	_updateDisplayedInformations : function(self, id)
 	{
 		var data = self.cachePlayers[id];
-		self.$elem.find("td.MMHKPLUS_VigiePlayer" + id)
+		self.$elem.find("td.MMHKPLUS_LookoutPlayer" + id)
 			.parent()
 			.find("td:first")
 			.removeClass()
-			.addClass("MMHKPLUS_Cell clickable MMHKPLUS_VigieAlliance" + data.allianceId);
-		self.$elem.find("td.MMHKPLUS_VigiePlayer" + id).html(data.playerName);
-		self.$elem.find("td.MMHKPLUS_VigieAlliance" + data.allianceId).html(self._createBlockColor(self, id) + data.allianceName);
+			.addClass("MMHKPLUS_Cell clickable MMHKPLUS_LookoutAlliance" + data.allianceId);
+		self.$elem.find("td.MMHKPLUS_LookoutPlayer" + id).html(data.playerName);
+		self.$elem.find("td.MMHKPLUS_LookoutAlliance" + data.allianceId).html(self._createBlockColor(self, id) + data.allianceName);
 		$("div.MMHKPLUS_Color" + data.allianceId).css({backgroundColor : getColor(data.color)});;
 	},
 	
