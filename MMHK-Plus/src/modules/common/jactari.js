@@ -159,6 +159,38 @@ MMHKPLUS.Jactari = MMHKPLUS.ExtendableElement.extend({
 	
 	prepare_talent : function(a,talent) 
 	{
+		/*
+		 
+		In Jactari by Aspirin, IDs of Legendary skills ares like this: 
+		 
+		triplets[36]|=(donnees.a.legendary_sovereign_a&3)<<21;
+		triplets[36]|=(donnees.a.legendary_sovereign_b&3)<<18;
+		triplets[36]|=(donnees.a.legendary_sovereign_c&3)<<15;
+		triplets[36]|=(donnees.a.legendary_legwarrior_a&3)<<12;
+		triplets[36]|=(donnees.a.legendary_legwarrior_b&3)<<9;
+		triplets[36]|=(donnees.a.legendary_legwarrior_c&3)<<6;
+		triplets[36]|=(donnees.a.legendary_magehunter_a&3)<<3;
+		triplets[36]|=(donnees.a.legendary_magehunter_b&3);
+		
+		triplets[37]|=(donnees.a.legendary_magehunter_c&3)<<21;
+		triplets[37]|=(donnees.a.legendary_legpaladin_a&3)<<18;
+		triplets[37]|=(donnees.a.legendary_legpaladin_b&3)<<15;
+		triplets[37]|=(donnees.a.legendary_legpaladin_c&3)<<12;
+		triplets[37]|=(donnees.a.legendary_ethernalnight_a&3)<<9;
+		triplets[37]|=(donnees.a.legendary_ethernalnight_b&3)<<6;
+		triplets[37]|=(donnees.a.legendary_ethernalnight_c&3)<<3;
+		triplets[37]|=(donnees.a.legendary_kingundead_a&3);
+		
+		triplets[38]|=(donnees.a.legendary_kingundead_b&3)<<21;
+		triplets[38]|=(donnees.a.legendary_kingundead_c&3)<<18;
+		triplets[38]|=(donnees.a.legendary_legmagician_a&3)<<15;
+		triplets[38]|=(donnees.a.legendary_legmagician_b&3)<<12;
+		triplets[38]|=(donnees.a.legendary_legmagician_c&3)<<9;
+		triplets[38]|=(donnees.a.legendary_dragonkinght_a&3)<<6;
+		triplets[38]|=(donnees.a.legendary_dragonkinght_b&3)<<3;
+		triplets[38]|=(donnees.a.legendary_dragonkinght_c&3);
+
+		*/
 		var self = this;
 		switch (talent.heroClassSkillEntityTagName) 
 		{
@@ -195,6 +227,39 @@ MMHKPLUS.Jactari = MMHKPLUS.ExtendableElement.extend({
 			case 'ATTRITION_RATE_INCREASE': a.massacreur = talent.level; break;
 			case 'PILLAGE_INCREASE': break;
 			case 'DEFENSE_POWER_PER_UNIT_INCREASE': a.bon_payeur = talent.level; break;
+			
+			// Legendary classes
+			case 'MASTER_HARANGUER' : a.legendary_sovereign_a = talent.level; break
+			case 'MASTER_FIGHTER' : a.legendary_sovereign_b = talent.level; break
+			case 'RUTHLESS' : a.legendary_sovereign_c = talent.level; break
+			
+			case 'MASTER_FIGHTER_2' : a.legendary_legwarrior_a = talent.level; break
+			case 'MASTER_DEFENDER' : a.legendary_legwarrior_b = talent.level; break
+			case 'WALL_BREAKER' : a.legendary_legwarrior_c = talent.level; break
+			
+			case 'HERO_ATTACK_DECREASE' : a.legendary_magehunter_a = talent.level; break
+			case 'HERO_MAGIC_DECREASE' : a.legendary_magehunter_b = talent.level; break
+			case 'HERO_MAGIC_RESISTANCE' : a.legendary_magehunter_c = talent.level; break
+			
+			case 'GUARDIAN' : a.legendary_legpaladin_a = talent.level; break
+			case 'MASTER_DEFENDER_2' : a.legendary_legpaladin_b = talent.level; break
+			case 'DIVINE_INSPIRATION' : a.legendary_legpaladin_c = talent.level; break
+			
+			case 'GUARDIAN_2' : a.legendary_ethernalnight_a = talent.level; break
+			case 'MILITARY_ENGINEERING' : a.legendary_ethernalnight_b = talent.level; break
+			case 'ETERNAL_DARKNESS' : a.legendary_ethernalnight_c = talent.level; break
+			
+			case 'ETERNAL_DARKNESS_2' : a.legendary_kingundead_a = talent.level; break
+			case 'SUPREME_SUMMONER' : a.legendary_kingundead_b = talent.level; break
+			case 'RUTHLESS_3' : a.legendary_kingundead_c = talent.level; break
+			
+			case 'SUPREME_SUMMONER_2' : a.legendary_legmagician_a = talent.level; break
+			case 'DIVINE_INSPIRATION_2' : a.legendary_legmagician_b = talent.level; break
+			case 'GUARDIAN_3' : a.legendary_legmagician_c = talent.level; break
+			
+			case 'RUTHLESS_2' : a.legendary_dragonkinght_a = talent.level; break
+			case 'GREAT_DESTROYER' : a.legendary_dragonkinght_b = talent.level; break
+			case 'MASTER_FIGHTER_3' : a.legendary_dragonkinght_c = talent.level; break
 		}
 	},
 	
