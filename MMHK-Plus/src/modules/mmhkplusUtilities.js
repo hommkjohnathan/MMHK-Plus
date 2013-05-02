@@ -72,6 +72,33 @@ MMHKPLUS.alert = function(title, message) {
 		);
 };
 
+MMHKPLUS.alertTextArea = function(title, content) {
+	$("<div>")
+	    .attr({title: title})
+	    .append(
+	    	$("<textarea/>")
+	    		.css(
+	    			{
+	    				width : "500px",
+	    				height : "400px",
+	    				resize : "none"
+	    			})
+	    		.val(content)
+	    		.attr("readonly", "readonly")
+	    		.click(function() { this.select(); }))
+	    .dialog(
+			{
+				buttons: {OK: function(){$(this).dialog('close');}},
+				close: function(){$(this).remove();},
+				draggable: false,
+				modal: true,
+				resizable: false,
+				width: "auto", height : "auto",
+				zIndex : 1000000
+			}
+	);
+};
+
 MMHKPLUS.getCssSprite = function (l, c) {
 	var d = $("<div>");
     try {
