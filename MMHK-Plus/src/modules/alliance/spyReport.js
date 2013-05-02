@@ -1,5 +1,5 @@
-MMHKPLUS.BBCodeSpyReport = MMHKPLUS.ArmiesPanelElement.extend({
-    elementType : "BBCodeSpyReport",
+MMHKPLUS.SpyReport = MMHKPLUS.ArmiesPanelElement.extend({
+    elementType : "SpyReport",
     currentReport : null,
 
     options : {
