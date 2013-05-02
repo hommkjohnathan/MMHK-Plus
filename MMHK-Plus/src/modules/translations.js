@@ -310,7 +310,6 @@ MMHKPLUS.translations = {
     MAGICAL :       {fr : "Magique", en : "Magical", ru : "Гильдия магов"},
     DEFENSE :       {fr : "Défense", en : "Defense", ru : "Оборонительное строение"},
     OTHER :         {fr : "Autre", en : "Other", ru : "Другие здания"},
-    RECRUITMENT :   {fr : "Recrutement ", en : "Recruitment", ru : "Здания для найма существ"},
 
     // KingdomRegions
     MINES :         {fr : "Mines", en : "Mines", ru : "Шахты"},
