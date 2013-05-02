@@ -29,8 +29,8 @@ MMHKPLUS.css = [
 		
 	// EnhanceUi
 	"body.MMHKPLUS_UiBuyable .heroTrainingContainer,  body.MMHKPLUS_UiBuyable .heroPortraitContainer,  body.MMHKPLUS_UiBuyable .cityOptionsTitle,  body.MMHKPLUS_UiBuyable .avatarFriendsBox,  body.MMHKPLUS_UiBuyable .avatarPortrait,  body.MMHKPLUS_UiBuyable .avatarFoldButton,  body.MMHKPLUS_UiBuyable .regionViewRegionNameTop,  body.MMHKPLUS_UiBuyable .regionViewRegionNameContentBg,  body.MMHKPLUS_UiBuyable .requisitionChoice { display:none }",
-	".MMHKPLUS_UiCenterOn { position:relative; top:4px; left:450px; width:190px; height:25px; line-height:25px; }",
-	".MMHKPLUS_UiChatButton { position:absolute; right:-360px; width:310px; height:25px; line-height:25px; }",
+	".MMHKPLUS_UiCenterOn { position:relative; top:4px; left:450px; width:200px; height:25px; line-height:25px; }",
+	".MMHKPLUS_UiChatButton { position:absolute; right:-350px; width:310px; height:25px; line-height:25px; }",
     "body.MMHKPLUS_UiPanels .worldMapAlertImage_zoom1, body.MMHKPLUS_UiPanels .worldMapAlertImage_zoom2 { display:none }",
     "body.MMHKPLUS_UiMovements .MMHKPLUS_UiBigPlot { display:none; }",
     ".MMHKPLUS_UiGameToLeft { float:left; background-position-x:-295px !important; }",
@@ -39,6 +39,7 @@ MMHKPLUS.css = [
 	".MMHKPLUS_Tooltip { position : absolute; z-index : 100000; padding : 10px; border : 1px solid #FFFFFF; border-radius : 10px; background-color : rgba(0, 0, 0, 0.85); color : #FFFFFF; }",
 	
 	// Menu et SousMenu
+	".MMHKPLUS_MenuWidth { width:140px; }",
 	".MMHKPLUS_MainMenuTopbar { position : absolute; top : 0px; width : 100%; height : 25px; max-height : 21px; } body.MMHKPLUS_BodyMainMenuTopbar { padding-top : 60px !important; background-position : 50% 10px!important; }",
 	".MMHKPLUS_MainMenuFloatting { position : absolute; top : 0px; width : 100px; height : 22px;} body.MMHKPLUS_BodyMainMenuFloatting { padding-top : 40px !important; background-position : 50% 10px!important; }",
 	".MMHKPLUS_MainMenuIcons { position : relative; float : left; width : 17px; height : 17px;  }",

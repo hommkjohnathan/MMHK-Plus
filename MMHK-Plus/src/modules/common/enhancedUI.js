@@ -399,7 +399,7 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
 		$("<label>").html(" Y : ").appendTo($container);
 		$("<input maxlength='3' style='width:35px;'>").appendTo($container);
 		$("<div>").button()
-			.css({height : "20px", width : "55px", marginLeft : "10px", marginTop : "3px", lineHeight : "20px"})
+			.css({height : "20px", width : "65px", marginLeft : "10px", marginTop : "3px", lineHeight : "20px"})
 			.html(MMHKPLUS.localize("CENTER"))
 			.click(function()
 				{
