@@ -1,5 +1,5 @@
-MMHKPLUS.SpyReport = MMHKPLUS.ArmiesPanelElement.extend({
-    elementType : "SpyReport",
+MMHKPLUS.BBCodeSpyReport = MMHKPLUS.ArmiesPanelElement.extend({
+    elementType : "BBCodeSpyReport",
     currentReport : null,
 
     options : {
@@ -819,7 +819,7 @@ MMHKPLUS.SpyReport = MMHKPLUS.ArmiesPanelElement.extend({
                     ennemyHero._level = received[4];
 
                     var archetype = received[5];
-                    ennemyHero.heroTrainingEntityTagName = self._stringToArchetype(archetype);
+                    ennemyHero.heroTrainingEntityTagName = self.stringToArchetype(archetype);
 
                     sessionStorage.removeItem("MMHKPLUS_Hero");
                 }
@@ -852,41 +852,6 @@ MMHKPLUS.SpyReport = MMHKPLUS.ArmiesPanelElement.extend({
                 }
             }
         );
-        return result;
-    },
-
-    _stringToArchetype : function(name)
-    {
-        var languages = ["fr", "en"];
-        var newName = removeDiacritics(name).replace(/[ ,‚'"]/g,"").toUpperCase();
-        var archetypes = 
-            {
-                ARCANE_MAGE :           {fr : "Mage des arcanes", en : "Arcane mage"},
-                DISTURBED_WIZARD :      {fr : "Magicien dérangé", en : "Disturbed Wizard"},
-                FANATIC_SORCERER :      {fr : "Sorcier fanatique", en : "Fanatic Sorcerer"},
-                ILLUMINATED_PROTECTOR : {fr : "Protecteur illuminé", en : "Illuminated Protector"},
-                MERCENARY :             {fr : "Mercenaire", en : "Mercenary"},
-                OUTLAND_WARRIOR :       {fr : "Guerrier des confins", en : "Outland Warrior"},
-                PALADIN :               {fr : "Baron", en : "Paladin"},
-                PIT_WARRIOR :           {fr : "Guerrier d'arène", en : "Pit Warrior"},
-                PROTECTOR :             {fr : "Protecteur", en : "Protector"},
-                WARMAGE :               {fr : "Mage de guerre", en : "Warmage"},
-                WARMASTER :             {fr : "Maître de guerre", en : "Warmaster"},
-                WARRIOR_MAGE :          {fr : "Mage guerrier", en : "Warrior Mage"},
-                SENACHAL :              {fr : "Sénéchal", en : "Senachal"},
-                SOBERED_WIZARD :        {fr : "Magicien assagi", en : "Sobered Wizard"},
-                EXPLORER :              {fr : "Explorateur", en : "Explorer"}
-            };
-        var result = "ARCANE_MAGE";
-        for(var i in archetypes)
-        {
-            languages.forEach(function(l)
-                {
-                    if(newName == removeDiacritics(archetypes[i][l]).replace(/[ ,‚'"]/g, "").toUpperCase())
-                        result = i;
-                }
-            );
-        }
         return result;
     },
 

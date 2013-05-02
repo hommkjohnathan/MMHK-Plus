@@ -77,5 +77,40 @@ MMHKPLUS.ArmiesPanelElement = MMHKPLUS.PanelElement.extend({
 			}
 		);
         return result;
-	}
+	},
+	
+	stringToArchetype : function(name)
+    {
+        var languages = ["fr", "en", "ru"];
+        var newName = removeDiacritics(name).replace(/[ ,‚'"]/g,"").toUpperCase();
+        var archetypes = 
+            {
+                ARCANE_MAGE :           MMHKPLUS.translations.ARCANE_MAGE,
+                DISTURBED_WIZARD :      MMHKPLUS.translations.DISTURBED_WIZARD,
+                FANATIC_SORCERER :      MMHKPLUS.translations.FANATIC_SORCERER,
+                ILLUMINATED_PROTECTOR : MMHKPLUS.translations.ILLUMINATED_PROTECTOR,
+                MERCENARY :             MMHKPLUS.translations.MERCENARY,
+                OUTLAND_WARRIOR :       MMHKPLUS.translations.OUTLAND_WARRIOR,
+                PALADIN :               MMHKPLUS.translations.PALADIN,
+                PIT_WARRIOR :           MMHKPLUS.translations.PIT_WARRIOR,
+                PROTECTOR :             MMHKPLUS.translations.PROTECTOR,
+                WARMAGE :               MMHKPLUS.translations.WARMAGE,
+                WARMASTER :             MMHKPLUS.translations.WARMASTER,
+                WARRIOR_MAGE :          MMHKPLUS.translations.WARRIOR_MAGE,
+                SENACHAL :              MMHKPLUS.translations.SENACHAL,
+                SOBERED_WIZARD :        MMHKPLUS.translations.SOBERED_WIZARD,
+                EXPLORER :              MMHKPLUS.translations.EXPLORER
+            };
+        var result = "ARCANE_MAGE";
+        for(var i in archetypes)
+        {
+            languages.forEach(function(l)
+                {
+                    if(newName == removeDiacritics(archetypes[i][l]).replace(/[ ,‚'"]/g, "").toUpperCase())
+                        result = i;
+                }
+            );
+        }
+        return result;
+    }
 });
