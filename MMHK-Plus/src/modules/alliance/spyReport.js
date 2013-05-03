@@ -861,21 +861,21 @@ MMHKPLUS.SpyReport = MMHKPLUS.ArmiesPanelElement.extend({
         var newName = removeDiacritics(name).replace(/[ ,‚'"]/g,"").toUpperCase();
         var archetypes = 
             {
-                ARCANE_MAGE :           {fr : "Mage des arcanes", en : "Arcane mage"},
-                DISTURBED_WIZARD :      {fr : "Magicien dérangé", en : "Disturbed Wizard"},
-                FANATIC_SORCERER :      {fr : "Sorcier fanatique", en : "Fanatic Sorcerer"},
-                ILLUMINATED_PROTECTOR : {fr : "Protecteur illuminé", en : "Illuminated Protector"},
-                MERCENARY :             {fr : "Mercenaire", en : "Mercenary"},
-                OUTLAND_WARRIOR :       {fr : "Guerrier des confins", en : "Outland Warrior"},
-                PALADIN :               {fr : "Baron", en : "Paladin"},
-                PIT_WARRIOR :           {fr : "Guerrier d'arène", en : "Pit Warrior"},
-                PROTECTOR :             {fr : "Protecteur", en : "Protector"},
-                WARMAGE :               {fr : "Mage de guerre", en : "Warmage"},
-                WARMASTER :             {fr : "Maître de guerre", en : "Warmaster"},
-                WARRIOR_MAGE :          {fr : "Mage guerrier", en : "Warrior Mage"},
-                SENACHAL :              {fr : "Sénéchal", en : "Senachal"},
-                SOBERED_WIZARD :        {fr : "Magicien assagi", en : "Sobered Wizard"},
-                EXPLORER :              {fr : "Explorateur", en : "Explorer"}
+                ARCANE_MAGE :           MMHKPLUS.translations.ARCANE_MAGE,
+                DISTURBED_WIZARD :      MMHKPLUS.translations.DISTURBED_WIZARD,
+                FANATIC_SORCERER :      MMHKPLUS.translations.FANATIC_SORCERER,
+                ILLUMINATED_PROTECTOR : MMHKPLUS.translations.ILLUMINATED_PROTECTOR,
+                MERCENARY :             MMHKPLUS.translations.MERCENARY,
+                OUTLAND_WARRIOR :       MMHKPLUS.translations.OUTLAND_WARRIOR,
+                PALADIN :               MMHKPLUS.translations.PALADIN,
+                PIT_WARRIOR :           MMHKPLUS.translations.PIT_WARRIOR,
+                PROTECTOR :             MMHKPLUS.translations.PROTECTOR,
+                WARMAGE :               MMHKPLUS.translations.WARMAGE,
+                WARMASTER :             MMHKPLUS.translations.WARMASTER,
+                WARRIOR_MAGE :          MMHKPLUS.translations.WARRIOR_MAGE,
+                SENACHAL :              MMHKPLUS.translations.SENACHAL,
+                SOBERED_WIZARD :        MMHKPLUS.translations.SOBERED_WIZARD,
+                EXPLORER :              MMHKPLUS.translations.EXPLORER
             };
         var result = "ARCANE_MAGE";
         for(var i in archetypes)
@@ -887,6 +887,7 @@ MMHKPLUS.SpyReport = MMHKPLUS.ArmiesPanelElement.extend({
                 }
             );
         }
+        console.log(result);
         return result;
     },
 
