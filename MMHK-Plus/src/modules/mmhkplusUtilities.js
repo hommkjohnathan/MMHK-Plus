@@ -47,11 +47,7 @@ MMHKPLUS.openDisplayable = function(type) {
 };
 
 MMHKPLUS.openHiddenDisplayable = function(type) {
-    var data = {
-        SpyReport : MMHKPLUS.localize("SPY_REPORT")
-    };
-
-    var $sel = $("ul.MMHKPLUS_SubMenu > li:contains('" + data[type] + "')");
+    var $sel = $("ul.MMHKPLUS_SubMenu > li:contains('" + type + "')");
     $sel[0].click();
 };
 

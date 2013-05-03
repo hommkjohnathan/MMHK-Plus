@@ -27,7 +27,7 @@ MMHKPLUS.Menu = MMHKPLUS.ExtendableElement.extend({
                     {t : MMHKPLUS.localize("ONLINE_MEMBERS"), ref : "AllianceOnlineMembers"},
 					{t : MMHKPLUS.localize("ALLIANCE_SPYS"), ref : "AllianceSpys"},
 					{t : MMHKPLUS.localize("ALLIANCE_HEROES"), ref : "AllianceHeroes"},
-                    {t : MMHKPLUS.localize("SPY_REPORT"), ref : "SpyReport", v : false}
+                    {t : MMHKPLUS.SpyReport.elementType, ref : "SpyReport", v : false}
 				]
 			},
 			{i : "kingdom.png", t : MMHKPLUS.localize("KINGDOM"), ra : false, s : 
