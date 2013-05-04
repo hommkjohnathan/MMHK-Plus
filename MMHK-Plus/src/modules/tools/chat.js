@@ -331,8 +331,8 @@ MMHKPLUS.Chat = MMHKPLUS.PanelElement.extend({
         messageContent = messageContent.replace(new RegExp("(\\(\\s*([0-9]{1,3})\\s*\.\\s*([0-9]{1,3}\\s*)\\))", "gi"), "<span style='color:blue;cursor:pointer;' onClick='MMHKPLUS.centerOn($2, $3, false);'>$1</span>");
         messageContent = messageContent.replace(new RegExp("(\\(\\s*([0-9]{1,3})\\s*:\\s*([0-9]{1,3}\\s*)\\))", "gi"), "<span style='color:blue;cursor:pointer;' onClick='MMHKPLUS.centerOn($2, $3, false);'>$1</span>");     
         messageContent = messageContent.replace(new RegExp("(\\(\\s*([0-9]{1,3})\\s*\,\\s*([0-9]{1,3}\\s*)\\))", "gi"), "<span style='color:blue;cursor:pointer;' onClick='MMHKPLUS.centerOn($2, $3, false);'>$1</span>");
-        messageContent = messageContent.replace(/MMHKPLUS_ScoutPL\(([0-9]+),([A-Za-z0-9_\-\s'"\?\!\w]+)\)/,"<span style='color:blue;cursor:pointer;' onClick='MMHKPLUS.getElement(\"Ajax\").getSpyReportContent($1);'>$2</span>");
-        messageContent = messageContent.replace(/MMHKPLUS_HeroPL\(([0-9]+),([0-9]+),([A-Za-z0-9_\-\s'"\?\!\w]+)\)/,"<span style='color:blue;cursor:pointer;' onClick='MMHKPLUS.openDisplayable(\"AllianceHeroes\");MMHKPLUS.getElement(\"AllianceHeroes\")._loadHero($1,$2);'>$3</span>");
+        messageContent = messageContent.replace(/MMHKPLUS_ScoutPL\(([0-9]+),([#A-Za-z0-9_\-\s'"\?\!\w]+)\)/,"<span style='color:blue;cursor:pointer;' onClick='MMHKPLUS.getElement(\"Ajax\").getSpyReportContent($1);'>$2</span>");
+        messageContent = messageContent.replace(/MMHKPLUS_HeroPL\(([0-9]+),([0-9]+),([#A-Za-z0-9_\-\s'"\?\!\w]+)\)/,"<span style='color:blue;cursor:pointer;' onClick='MMHKPLUS.openDisplayable(\"AllianceHeroes\");MMHKPLUS.getElement(\"AllianceHeroes\")._loadHero($1,$2);'>$3</span>");
         $content
 			.append(
 				MMHKPLUS.getPlayerAvatar(message.from_backgroundNb, message.from_patternNb, message.from_iconNb)

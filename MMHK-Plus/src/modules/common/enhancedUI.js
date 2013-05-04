@@ -645,8 +645,8 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
                 newContent = newContent.replace(new RegExp("(\\(\\s*([0-9]{1,3})\\s*\-\\s*([0-9]{1,3}\\s*)\\))", "gi"), "<span style='color:blue;cursor:pointer;' onClick='MMHKPLUS.centerOn($2, $3, false);'>$1</span>");
                 newContent = newContent.replace(new RegExp("(\\(\\s*([0-9]{1,3})\\s*\.\\s*([0-9]{1,3}\\s*)\\))", "gi"), "<span style='color:blue;cursor:pointer;' onClick='MMHKPLUS.centerOn($2, $3, false);'>$1</span>");
                 newContent = newContent.replace(new RegExp("(\\(\\s*([0-9]{1,3})\\s*:\\s*([0-9]{1,3}\\s*)\\))", "gi"), "<span style='color:blue;cursor:pointer;' onClick='MMHKPLUS.centerOn($2, $3, false);'>$1</span>");
-                newContent = newContent.replace(/MMHKPLUS_ScoutPL\(([0-9]+),([A-Za-z0-9_\-\s'"\?\!\w]+)\)/,"<span style='color:blue;cursor:pointer;' onClick='MMHKPLUS.getElement(\"Ajax\").getSpyReportContent($1);'>$2</span>");
-                newContent = newContent.replace(/MMHKPLUS_HeroPL\(([0-9]+),([0-9]+),([A-Za-z0-9_\-\s'"\?\!\w]+)\)/,"<span style='color:blue;cursor:pointer;' onClick='MMHKPLUS.openDisplayable(\"AllianceHeroes\");MMHKPLUS.getElement(\"AllianceHeroes\")._loadHero($1,$2);'>$3</span>");
+                newContent = newContent.replace(/MMHKPLUS_ScoutPL\(([0-9]+),([#A-Za-z0-9_\-\s'"\?\!\w]+)\)/,"<span style='color:blue;cursor:pointer;' onClick='MMHKPLUS.getElement(\"Ajax\").getSpyReportContent($1);'>$2</span>");
+                newContent = newContent.replace(/MMHKPLUS_HeroPL\(([0-9]+),([0-9]+),([#A-Za-z0-9_\-\s'"\?\!\w]+)\)/,"<span style='color:blue;cursor:pointer;' onClick='MMHKPLUS.openDisplayable(\"AllianceHeroes\");MMHKPLUS.getElement(\"AllianceHeroes\")._loadHero($1,$2);'>$3</span>");
 
                 content.innerHTML = newContent;
                 newContent = null;
