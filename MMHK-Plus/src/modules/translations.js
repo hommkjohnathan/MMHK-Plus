@@ -386,6 +386,7 @@ MMHKPLUS.translations = {
     MAGIC_BBCODE : 	{fr : "Magie", en : "Magic", ru : "магия"},
     CLASSES : 		{fr : "Carrières", en : "Classes", ru : "профессии"},
     SPELLS : 		{fr : "Sorts", en : "Spells", ru : "Заклинания"},
+    TROOPS : 		{fr : "Troupes", en : "Troops", ru : "войска"},
 
     // Options
     MENU_TYPE :     {fr : "Type de menu du script", en : "Script menu type ", ru : "Тип меню скрипта"},
@@ -594,7 +595,7 @@ MMHKPLUS.translationsText = [
     {fr : "Mine de gemmes", en : "Gem mine", ru : "Самоцветная шахта"},
     {fr : "Mine de soufre", en : "Sulfur mine", ru : "Серная шахта"},
     {fr : "Mine de cristaux", en : "Crystal mine", ru : "Кристальная шахта"},
-    {fr : "mine de mercure", en : "Mercury mine", ru : "Ртутная шахта"},
+    {fr : "Mine de mercure", en : "Mercury mine", ru : "Ртутная шахта"},
 
     {fr : "Conseil du village", en : "Village Hall", ru : "Дом старейшин"},
     {fr : "Mairie", en : "Town Hall", ru : "Ратуша"},
