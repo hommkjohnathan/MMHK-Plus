@@ -442,7 +442,7 @@ MMHKPLUS.translationsUnits = {
     },
 
     HAVEN : {
-        T1  : {fr : "Payson", en : "Peasant", ru : "Крестьянин"},
+        T1  : {fr : "Paysan", en : "Peasant", ru : "Крестьянин"},
         T1P : {fr : "Conscrit", en : "Conscript", ru : "Ополченец"},
         T2  : {fr : "Archer", en : "Archer", ru : "Лучник"},
         T2P : {fr : "Arbalétrier", en : "Marksman", ru : "Арбалетчик"},
