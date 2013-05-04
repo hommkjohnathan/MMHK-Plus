@@ -283,6 +283,12 @@ MMHKPLUS.SpyReport = MMHKPLUS.ArmiesPanelElement.extend({
                         .click(self._openJactariFight))
                 .appendTo($line);
         }
+        $("<td>")
+	        .append(
+	            $("<div/>")
+	                .html("BBCode").button()
+	                .click(function() { MMHKPLUS.getElement("BBCodeSpyReport", true).loadReport(self.currentReport) ; } ))
+	        .appendTo($line);
         $("<br>").appendTo($header);
         if(hasProperty(content, "scoutingLevel"))
         {
