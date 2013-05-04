@@ -796,7 +796,7 @@ MMHKPLUS.Jactari = MMHKPLUS.ExtendableElement.extend({
 		}
 		
 		var troupes = [];
-		if ( MMHKPLUS.HOMMK.isPveWorld && frame.mainElementId.substring(0,8) == "HaltFrame".substring(0,8) ) 
+		if ( MMHKPLUS.HOMMK.isPveWorld && frame && frame.mainElementId.substring(0,8) == "HaltFrame".substring(0,8) ) 
 		{
 			var heroMoveId = frame.haltList.options[frame.haltList.options.selectedIndex].value;
 			var worldMoveId = 0;
