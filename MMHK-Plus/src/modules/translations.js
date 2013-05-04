@@ -379,6 +379,13 @@ MMHKPLUS.translations = {
     CITY_1 :        {fr : "Mairie", en : "Town Hall", ru : "Ратуша"},
     CITY_2 :        {fr : "Hôtel de ville", en : "City Hall", ru : "Магистрат"},
     CITY_3 :        {fr : "Capitole", en : "Capitol", ru : "Капитолий"},
+    
+    //BBCodeSpyReport
+    ATTACK_BBCODE : {fr : "Attaque", en : "Attack", ru : "атака"},
+    DEFENSE_BBCODE :{fr : "Défense", en : "Defense", ru : "защита"},
+    MAGIC_BBCODE : 	{fr : "Magie", en : "Magic", ru : "магия"},
+    CLASSES : 		{fr : "Carrières", en : "Classes", ru : "профессии"},
+    SPELLS : 		{fr : "Sorts", en : "Spells", ru : "Заклинания"},
 
     // Options
     MENU_TYPE :     {fr : "Type de menu du script", en : "Script menu type ", ru : "Тип меню скрипта"},
