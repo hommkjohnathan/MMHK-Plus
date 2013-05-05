@@ -107,6 +107,7 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
         this._setupGamePosition();
         this._setupSiegeFrame();
         this._setupTimelineCaravansTooltip();
+        this._setupBattleRoundBonus();
 	},
 	
 	_setupBuyable : function()
@@ -1039,6 +1040,63 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
     			a.display();
     		}
     	);
+    },
+    
+    _setupBattleRoundBonus : function() 
+    {
+    	/*
+    	 * From Heroes Kinfdom Evolution
+    	 * http://amroth.free.fr/MMHK/extension/
+    	 */
+    	var computeBonus = function(round, type) 
+    	{
+    		var totalBonus = round[ type + "TotalBonus" ] ? round[ type + "TotalBonus" ] : 0;
+    		var typeBonus = round[ type + "UnitStackUnitTypeBonus" ] ? round[ type + "UnitStackUnitTypeBonus" ] : 0;
+    		if( totalBonus > typeBonus ) {
+    			var bonus = totalBonus - typeBonus;
+    			return "+" + Math.round( 1000*bonus/round[ type + 'UnitStackPower' ] )/10 + "%";
+    		}
+    		return false;
+    	};
+    	
+    	var addPowerBonus = function() 
+    	{
+    		var obj = this;
+    		// get the full battle report object
+    		var id = obj.elementId.substring( 0, obj.elementId.indexOf('_') );
+    		var battle = MMHKPLUS.HOMMK.elementPool.get( "BattleResultDetailedMessage" ).get( id );
+
+    		var attackBonus = false, defenseBonus = false;
+
+    		// determine the attack and defense bonus
+    		var attackBonus = computeBonus( obj.content, 'attacker' );
+    		var defenseBonus = computeBonus( obj.content, 'defender' );
+
+    		// display it all
+    		function displayBonus( type, bonus ) {
+    			var before = $( "#"+obj.elementType + obj.elementId + type + "QuantityBefore" );	
+    			var div = $("<div></div>", {
+    				id: obj.elementType + obj.elementId + type + "Bonus",
+    				style: "font-size:12px;"
+    			})
+    			.html( bonus );
+    			div.prependTo( before.parent() );
+    			before.css( "display", "inline" )
+    				.remove()
+    				.prependTo( div );			
+    		}
+    		if ( battle.content.type == MMHKPLUS.HOMMK.MESSAGE_TYPE_BATTLE_RESULT_DEFENDER ) {
+    			if( attackBonus ) displayBonus( "Enemy", attackBonus );
+    			if( defenseBonus ) displayBonus( "Ally", defenseBonus );
+    		}
+    		else {
+    			if( attackBonus ) displayBonus( "Ally", attackBonus );
+    			if( defenseBonus ) displayBonus( "Enemy", defenseBonus );
+    		}
+    	};
+    	
+    	MMHKPLUS.HOMMK.BattleRound.prototype.addToDOM = injectAfter(MMHKPLUS.HOMMK.BattleRound.prototype.addToDOM, addPowerBonus);
+
     },
 	
 	unload : function()
