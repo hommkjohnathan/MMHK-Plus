@@ -108,6 +108,7 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
         this._setupSiegeFrame();
         this._setupTimelineCaravansTooltip();
         this._setupBattleRoundBonus();
+        this._setupExportToImageButtons();
 	},
 	
 	_setupBuyable : function()
@@ -1097,6 +1098,54 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
     	
     	MMHKPLUS.HOMMK.BattleRound.prototype.addToDOM = injectAfter(MMHKPLUS.HOMMK.BattleRound.prototype.addToDOM, addPowerBonus);
 
+    },
+    
+    _setupExportToImageButtons : function() 
+    {
+    	var addExportButtonsBattle = function() 
+    	{
+    		var self = this;
+    		$(this.allyResultTextElement).append(
+    			$("<div/>")
+    				.html("PNG")
+    				.addClass("MMHKPLUS_PNGButton")
+    				.button()
+    				.css({float:"left", fontSize:"50%"})
+    				.click(function()
+    					{
+    						$("div.MMHKPLUS_PNGButton").css("display", "none");
+    						var $toExport = $("#BattleResultDetailedMessage" + self.elementId + "Body").clone()
+    						$toExport.find("#BattleResultDetailedMessage" + self.elementId + "Content").remove();;
+    						$toExport.find("div.MMHKPLUS_PNGButton").remove();
+    						MMHKPLUS.exportToImage($toExport);
+    						
+    					}));
+    	};
+    	
+    	var addExportButtonsSpys = function() 
+    	{
+    		var self = this;
+    		$("#" + self.elementType + self.elementId + "Description").append(
+    			$("<div/>")
+    				.html("PNG")
+    				.addClass("MMHKPLUS_PNGButton")
+    				.button()
+    				.css({float:"right"})
+    				.click(function()
+    					{
+    						$("div.MMHKPLUS_PNGButton").css("display", "none");
+    						var $toExport = $("#" + self.elementType + self.elementId + "Body").clone()
+    						$toExport.find("#" + self.elementType + self.elementId + "Content").remove();;
+    						$toExport.find("div.MMHKPLUS_PNGButton").remove();
+    						MMHKPLUS.exportToImage($toExport);
+    						
+    					}));
+    	};
+    	
+    	MMHKPLUS.HOMMK.BattleResultDetailedMessage.prototype.display = injectAfter(MMHKPLUS.HOMMK.BattleResultDetailedMessage.prototype.display, addExportButtonsBattle);
+    	MMHKPLUS.HOMMK.TroopScoutingResultDetailedMessage.prototype.display = injectAfter(MMHKPLUS.HOMMK.TroopScoutingResultDetailedMessage.prototype.display, addExportButtonsSpys);
+    	MMHKPLUS.HOMMK.RegionScoutingResultDetailedMessage.prototype.display = injectAfter(MMHKPLUS.HOMMK.RegionScoutingResultDetailedMessage.prototype.display, addExportButtonsSpys);
+    	MMHKPLUS.HOMMK.CityScoutingResultDetailedMessage.prototype.display = injectAfter(MMHKPLUS.HOMMK.CityScoutingResultDetailedMessage.prototype.display, addExportButtonsSpys);
     },
 	
 	unload : function()

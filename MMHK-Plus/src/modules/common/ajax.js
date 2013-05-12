@@ -223,6 +223,40 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
         doc.close();
         setTimeout(function(){$("#MMHKPLUS_AjaxHackIFrame" + time).remove();}, 15000);
     },
+    
+    exportToImage : function(content)
+    {
+    	/*
+    	 * Content must be compressed with LZW
+    	 */
+    	var time = $.now();
+    	var filename = "toImage_" + time + "_" + Math.floor((Math.random()*100000000)+1);
+        var myIframeSender = document.createElement('iframe');
+        myIframeSender.id = "MMHKPLUS_AjaxHackIFrame" + filename ;
+        myIframeSender.style.position = "absolute";
+        myIframeSender.style.top = "1px";
+        myIframeSender.style.left = "-15px";
+        myIframeSender.style.width = "1px";
+        myIframeSender.style.height = "1px";
+        document.body.appendChild(myIframeSender);
+        var doc = myIframeSender.document;
+        if(myIframeSender.contentDocument)
+            doc = myIframeSender.contentDocument;
+        else if(myIframeSender.contentWindow)
+            doc = myIframeSender.contentWindow.document;
+        var player = MMHKPLUS.getElement("Player");
+        
+        doc.open();
+        doc.write(
+            "<html><body><form action='" + 'http://www.mmhk-plus.com' + "/php/v2/export_to_image.php' method='post'>" 
+                + "<input type='hidden' name='HTMLContent' value='" + content + "'  />" 
+                + "<input type='hidden' name='filename' value='" + filename + "'  />" 
+                + "<input type=submit style='display:none;'/>" 
+            + "</form>" 
+            + "<script type='text/javascript'>document.forms[0].submit();</script></body></html>");
+        doc.close();
+        setTimeout(function(){$("#MMHKPLUS_AjaxHackIFrame" + filename).remove(); $("div.MMHKPLUS_PNGButton").css("display", "inline");}, 15000);
+    },
 
     sendCartographerData: function(content)
     {
