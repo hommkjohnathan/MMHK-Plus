@@ -375,7 +375,7 @@ MMHKPLUS.AllianceHeroes = MMHKPLUS.PanelElement.extend({
         ).appendTo(divDetailContent);
         
         
-        $("<div/>").html("<p style='height:17px;line-height:17px;'><img src='http://jactari.mmhk-plus.com/images/icone-combat.png' style='margin-right:10px;'/><span style='position:relative;margin-top:-5px;top:-4px;padding-right:7px;'>" + MMHKPLUS.localize("ATTACKER") + "</span></p>").css(
+        $("<div/>").html("<p style='height:17px;line-height:17px;'><img src='http://jactari.mmhk-plus.eu/images/icone-combat.png' style='margin-right:10px;'/><span style='position:relative;margin-top:-5px;top:-4px;padding-right:7px;'>" + MMHKPLUS.localize("ATTACKER") + "</span></p>").css(
             {
                 "position" : "absolute",
                 "top" : "10px",
@@ -412,7 +412,7 @@ MMHKPLUS.AllianceHeroes = MMHKPLUS.PanelElement.extend({
             }
         ).appendTo($heroContent);
         
-        $("<div/>").html("<p style='height:17px;line-height:17px;'><img src='http://jactari.mmhk-plus.com/images/icone-combat.png' style='margin-right:10px;'/><span style='position:relative;margin-top:-5px;top:-4px;padding-right:5px;'>" + MMHKPLUS.localize("DEFENDER") + "</span></p>").css(
+        $("<div/>").html("<p style='height:17px;line-height:17px;'><img src='http://jactari.mmhk-plus.eu/images/icone-combat.png' style='margin-right:10px;'/><span style='position:relative;margin-top:-5px;top:-4px;padding-right:5px;'>" + MMHKPLUS.localize("DEFENDER") + "</span></p>").css(
             {
                 "position" : "absolute",
                 "top" : "35px",

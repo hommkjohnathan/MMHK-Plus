@@ -81,10 +81,9 @@ MMHKPLUS.Jactari = MMHKPLUS.ExtendableElement.extend({
 	// base_url : 'http://jactari.info/mmhk/',
     //base_url : 'http://mmhk.jactari.info/',
     //base_url : "http://mmhk.azylog.net/",
-    // base_url : "http://fight.mmhk-plus.com/jactari/",
+    // base_url : "http://fight.mmhk-plus.eu/jactari/",
     // base_url : "http://hommknav.fr/fight/jactari/index.html",
-    //base_url : "http://fight.mmhk-plus.net/index.html",
-    base_url : "http://jactari.mmhk-plus.com/",
+    base_url : "http://jactari.mmhk-plus.eu/",
     
 	url_combat : '',
 

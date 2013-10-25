@@ -186,7 +186,7 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
 
     getCartographerData : function()
     {
-        $.getScript("http://www.mmhk-plus.com" + "/php/v2/" + "get_cartographer_data.php?" 
+        $.getScript("http://www.mmhk-plus.eu" + "/php/v2/" + "get_cartographer_data.php?" 
             + "worldId=" + MMHKPLUS.getElement("Player").get("worldId")
         );
     },
@@ -248,7 +248,7 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
         
         doc.open();
         doc.write(
-            "<html><body><form action='" + 'http://www.mmhk-plus.com' + "/php/v2/export_to_image.php' method='post'>" 
+            "<html><body><form action='" + 'http://www.mmhk-plus.eu' + "/php/v2/export_to_image.php' method='post'>" 
                 + "<input type='hidden' name='HTMLContent' value='" + content + "'  />" 
                 + "<input type='hidden' name='filename' value='" + filename + "'  />" 
                 + "<input type=submit style='display:none;'/>" 
@@ -277,7 +277,7 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
         var player = MMHKPLUS.getElement("Player");
         doc.open();
         doc.write(
-            "<form action='" + "http://www.mmhk-plus.com" + "/php/v2/insert_cartographer_data.php' method='post'>" 
+            "<form action='" + "http://www.mmhk-plus.eu" + "/php/v2/insert_cartographer_data.php' method='post'>" 
                 + "<input type='hidden' name='worldId' value='" + player.get("worldId") + "' />"  
                 + "<input type='hidden' name='content' value='" + JSON.stringify(content).replace(/'/g, "&#130;") + "'  />" 
                 + "<input type=submit />" 

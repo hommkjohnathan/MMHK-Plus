@@ -421,7 +421,7 @@ MMHKPLUS.checkUpdate = function() {
                 $("<br/>").appendTo(panel);
                 $("<p><a class='MMHKPLUS_Link' href='" + MMHKPLUS.URL + "' target='_blank' style='font-size:140%;'>" + MMHKPLUS.localize("SITE") + "</a></p>").addClass("center").appendTo(panel);
                 if(!hasProperty(window, "chrome"))
-                    $("<p><a class='MMHKPLUS_Link' href='" + "http://www.mmhk-plus.net/script/download.php?.user.js" + "' target='_blank' style='font-size:140%;'>" + MMHKPLUS.localize("DOWNLOAD") + "</a></p>").addClass("center").appendTo(panel);
+                    $("<p><a class='MMHKPLUS_Link' href='" + "http://www.mmhk-plus.eu/script/download.php?.user.js" + "' target='_blank' style='font-size:140%;'>" + MMHKPLUS.localize("DOWNLOAD") + "</a></p>").addClass("center").appendTo(panel);
                 panel.dialog(
                     {
                         autoOpen : false,
