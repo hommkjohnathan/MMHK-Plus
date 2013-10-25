@@ -14,7 +14,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     Contact : aendawyn@gmail.com
-    Website : http://www.mmhk-plus.net
+    Website : http://www.mmhk-plus.eu
      ====================================================================== -->
 
 <project name="Jactari build" default="publish">
