@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+    Contact : aendawyn@gmail.com
+    Website : http://www.mmhk-plus.net
+     ====================================================================== -->
+
+<project name="Jactari build" default="publish">
+	<description>
+            Build Jactari website
+    </description>
+	
+	<import file="buildDefinition.xml"/>
+
+	<target name="setEnv/intern" unless="setEnv/intern/check">
+		<tstamp>
+			<format pattern="yyyyMMdd-HHmmss" property="buildLabel"/>
+		</tstamp>
+		<property name="output.dir" location="output#" />
+		<property name="working.dir" location="working#" />
+		<property name="output.zip.filename" value="Jactari-${buildLabel}.zip"/>
+		<property name="output.zip.file" location="${output.dir}/backup/${output.zip.filename}"/>
+		
+		<delete dir="${output.dir}" />
+		<delete dir="${working.dir}" />
+
+		<mkdir dir="${output.dir}" />
+		<mkdir dir="${working.dir}" />
+
+		<property name="setEnv/intern/check" value="true" />
+	</target>
+
+	<target name="build" depends="setEnv/intern">
+		<!-- Copy Jactari files -->
+		<copy overwrite="true" todir="${working.dir}">
+			<path refid="src.jactari.files"/>
+		</copy>
+		<!-- Expand build label -->
+		<replaceregexp match="##JACTARI-BUILD-LABEL##" replace="${buildLabel}" flags="g" byline="true">
+			<fileset dir="${working.dir}" includes="**/*.html"/>
+		</replaceregexp>
+	</target>
+
+	<target name="publish" depends="build">
+		<zip destfile="${output.zip.file}">
+			<fileset dir="${working.dir}" includes="**/*"/>
+		</zip>
+		<copy overwrite="true" todir="${output.dir}">
+			<fileset dir="${working.dir}" includes="**/*"/>
+		</copy>
+	</target>
+
+</project>
