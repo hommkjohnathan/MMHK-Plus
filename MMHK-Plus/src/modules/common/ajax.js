@@ -147,7 +147,7 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
 
     getSpyReportsForSelectedRegion : function()
     {
-        $.getScript(MMHKPLUS.URL_RESOURCES + "/php/v2/" + "get_spy_report.php?" 
+        $.getScript(MMHKPLUS.URL_PHP + "get_spy_report.php?" 
             + "worldId=" + MMHKPLUS.getElement("Player").get("worldId")
             + "&allianceId=" + MMHKPLUS.getElement("Player").get("allianceId")
             + "&curX=" + MMHKPLUS.HOMMK.worldMap.selectedRegion.content.x
@@ -158,7 +158,7 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
 
     getSpyReportContent : function(reportId)
     {
-        $.getScript(MMHKPLUS.URL_RESOURCES + "/php/v2/" + "get_spy_report.php?" 
+        $.getScript(MMHKPLUS.URL_PHP + "get_spy_report.php?" 
             + "worldId=" + MMHKPLUS.getElement("Player").get("worldId")
             + "&allianceId=" + MMHKPLUS.getElement("Player").get("allianceId")
             + "&reportId=" + reportId
@@ -167,7 +167,7 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
 
     getHeroes : function(targetedPlayerId)
     {
-        $.getScript(MMHKPLUS.URL_RESOURCES + "/php/v2/" + "heroes.php?" 
+        $.getScript(MMHKPLUS.URL_PHP + "heroes.php?" 
             + "worldId=" + MMHKPLUS.getElement("Player").get("worldId")
             + "&allianceId=" + MMHKPLUS.getElement("Player").get("allianceId")
             + "&playerId=" + targetedPlayerId
@@ -176,7 +176,7 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
 
     getSpyHeroContent : function(targetedPlayerId, heroId)
     {
-        $.getScript(MMHKPLUS.URL_RESOURCES + "/php/v2/" + "heroes.php?" 
+        $.getScript(MMHKPLUS.URL_PHP + "heroes.php?" 
             + "worldId=" + MMHKPLUS.getElement("Player").get("worldId")
             + "&allianceId=" + MMHKPLUS.getElement("Player").get("allianceId")
             + "&targetedPlayerId=" + targetedPlayerId
@@ -186,7 +186,7 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
 
     getCartographerData : function()
     {
-        $.getScript("http://www.mmhk-plus.eu" + "/php/v2/" + "get_cartographer_data.php?" 
+        $.getScript(MMHKPLUS.URL_PHP + "get_cartographer_data.php?" 
             + "worldId=" + MMHKPLUS.getElement("Player").get("worldId")
         );
     },
@@ -210,7 +210,7 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
         var player = MMHKPLUS.getElement("Player");
         doc.open();
         doc.write(
-            "<form action='" + MMHKPLUS.URL_RESOURCES + "/php/v2/insert_spy_report.php' method='post'>" 
+            "<form action='" + MMHKPLUS.URL_PHP + "insert_spy_report.php' method='post'>" 
                 + "<input type='hidden' name='worldId' value='" + player.get("worldId") + "' />" 
                 + "<input type='hidden' name='allianceId' value='" + player.get("allianceId") + "' />" 
                 + "<input type='hidden' name='allianceName' value='" + player.get("allianceName") + "' />" 
@@ -248,7 +248,7 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
         
         doc.open();
         doc.write(
-            "<html><body><form action='" + 'http://www.mmhk-plus.eu' + "/php/v2/export_to_image.php' method='post'>" 
+            "<html><body><form action='" + MMHKPLUS.URL_PHP + "export_to_image.php' method='post'>" 
                 + "<input type='hidden' name='HTMLContent' value='" + content + "'  />" 
                 + "<input type='hidden' name='filename' value='" + filename + "'  />" 
                 + "<input type=submit style='display:none;'/>" 
@@ -277,7 +277,7 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
         var player = MMHKPLUS.getElement("Player");
         doc.open();
         doc.write(
-            "<form action='" + "http://www.mmhk-plus.eu" + "/php/v2/insert_cartographer_data.php' method='post'>" 
+            "<form action='" + MMHKPLUS.URL_PHP + "insert_cartographer_data.php' method='post'>" 
                 + "<input type='hidden' name='worldId' value='" + player.get("worldId") + "' />"  
                 + "<input type='hidden' name='content' value='" + JSON.stringify(content).replace(/'/g, "&#130;") + "'  />" 
                 + "<input type=submit />" 
@@ -289,7 +289,7 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
 
     getAllianceSpyReports : function(allianceId, playerId, location, x, y, page)
     {
-        $.getScript(MMHKPLUS.URL_RESOURCES + "/php/v2/" + "spy_archives.php?" 
+        $.getScript(MMHKPLUS.URL_PHP + "spy_archives.php?" 
             + "worldId=" + MMHKPLUS.getElement("Player").get("worldId")
             + "&allianceId=" + MMHKPLUS.getElement("Player").get("allianceId")
             + "&allianceName=" + allianceId
@@ -303,7 +303,7 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
 
     getAlliances : function()
     {
-        $.getScript(MMHKPLUS.URL_RESOURCES + "/php/v2/" + "get_alliances.php?" 
+        $.getScript(MMHKPLUS.URL_PHP + "get_alliances.php?" 
             + "worldId=" + MMHKPLUS.getElement("Player").get("worldId")
             + "&allianceId=" + MMHKPLUS.getElement("Player").get("allianceId")
         );
@@ -311,7 +311,7 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
 
     getPlayers : function(allianceId)
     {
-        $.getScript(MMHKPLUS.URL_RESOURCES + "/php/v2/" + "get_players.php?" 
+        $.getScript(MMHKPLUS.URL_PHP + "get_players.php?" 
             + "worldId=" + MMHKPLUS.getElement("Player").get("worldId")
             + "&allianceId=" + allianceId
         );

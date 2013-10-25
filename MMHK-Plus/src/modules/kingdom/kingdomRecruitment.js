@@ -14,7 +14,7 @@ MMHKPLUS.KingdomRecruitment = MMHKPLUS.ArmiesPanelElement.extend({
 		saveWidth : true,
 		saveHeight : true,
 		saveOpened : true,
-		images : MMHKPLUS.URL_RESOURCES + "/images/ressources/"
+		images : MMHKPLUS.URL_IMAGES + "ressources/"
 	},
 	
 	init : function(options)

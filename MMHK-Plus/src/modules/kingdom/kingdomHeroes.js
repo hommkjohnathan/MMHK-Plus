@@ -14,7 +14,7 @@ MMHKPLUS.KingdomHeroes = MMHKPLUS.PanelElement.extend({
 		saveWidth : true,
 		saveHeight : true,
 		saveOpened : true,
-		images : MMHKPLUS.URL_RESOURCES + "/images/kingdom/"
+		images : MMHKPLUS.URL_IMAGES + "kingdom/"
 	},
 	
 	init : function(options)

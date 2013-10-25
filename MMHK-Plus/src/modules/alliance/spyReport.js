@@ -14,7 +14,7 @@ MMHKPLUS.SpyReport = MMHKPLUS.ArmiesPanelElement.extend({
         saveWidth : true,
         saveHeight : true,
         saveOpened : false,
-        images : MMHKPLUS.URL_RESOURCES + "/images/kingdom/",
+        images : MMHKPLUS.URL_IMAGES + "kingdom/",
 
         troop : "TROOP_SCOUTING",
         city : "CITY_SCOUTING",
@@ -111,7 +111,7 @@ MMHKPLUS.SpyReport = MMHKPLUS.ArmiesPanelElement.extend({
         $("<td style='width:25%;padding:15px;'>")
             .addClass("center")
             .append(
-                $("<img>").attr("src", MMHKPLUS.URL_RESOURCES + "/images/spy/ressourcesBuildingIcon.png"))
+                $("<img>").attr("src", MMHKPLUS.URL_IMAGES + "spy/ressourcesBuildingIcon.png"))
             .appendTo($header);
         ressources.forEach(function(r)
             {
@@ -125,7 +125,7 @@ MMHKPLUS.SpyReport = MMHKPLUS.ArmiesPanelElement.extend({
         $("<td style='width:25%;padding:15px;'>")
             .addClass("center")
             .append(
-                $("<img>").attr("src", MMHKPLUS.URL_RESOURCES + "/images/spy/troopBuildingIcon.png"))
+                $("<img>").attr("src", MMHKPLUS.URL_IMAGES + "spy/troopBuildingIcon.png"))
             .appendTo($header);
         troops.forEach(function(t)
             {
@@ -139,7 +139,7 @@ MMHKPLUS.SpyReport = MMHKPLUS.ArmiesPanelElement.extend({
         $("<td style='width:25%;padding:15px;'>")
             .addClass("center")
             .append(
-                $("<img>").attr("src", MMHKPLUS.URL_RESOURCES + "/images/spy/magicBuildingIcon.png"))
+                $("<img>").attr("src", MMHKPLUS.URL_IMAGES + "spy/magicBuildingIcon.png"))
             .appendTo($header);
         magic.forEach(function(m)
             {
@@ -153,7 +153,7 @@ MMHKPLUS.SpyReport = MMHKPLUS.ArmiesPanelElement.extend({
         $("<td style='width:25%;padding:15px;'>")
             .addClass("center")
             .append(
-                $("<img>").attr("src", MMHKPLUS.URL_RESOURCES + "/images/spy/otherBuildingIcon.png"))
+                $("<img>").attr("src", MMHKPLUS.URL_IMAGES + "spy/otherBuildingIcon.png"))
             .appendTo($header);
         other.forEach(function(o)
             {
@@ -519,7 +519,7 @@ MMHKPLUS.SpyReport = MMHKPLUS.ArmiesPanelElement.extend({
         var div = $("<div/>").css(
             {
                 "margin-top" : "10px",
-                "background-image" : "url(" + MMHKPLUS.URL_RESOURCES + "/images/spy/background_class.png)",
+                "background-image" : "url(" + MMHKPLUS.URL_IMAGES + "spy/background_class.png)",
                 "width" : "165px",
                 "height" : "52px",
                 "background-repeat" : "no-repeat no-repeat"
@@ -555,7 +555,7 @@ MMHKPLUS.SpyReport = MMHKPLUS.ArmiesPanelElement.extend({
         var div = $("<div/>").css(
             {
                 "margin-top" : "10px",
-                "background-image" : "url(" + MMHKPLUS.URL_RESOURCES + "/images/spy/background_spells.png)",
+                "background-image" : "url(" + MMHKPLUS.URL_IMAGES + "spy/background_spells.png)",
                 "width" : "100px",
                 "height" : "48px",
                 "background-repeat" : "no-repeat no-repeat"
@@ -592,7 +592,7 @@ MMHKPLUS.SpyReport = MMHKPLUS.ArmiesPanelElement.extend({
         var div = $("<div/>").css(
             {
                 "margin-top" : "10px",
-                "background-image" : "url(" + MMHKPLUS.URL_RESOURCES + "/images/spy/background_artefacts.png)",
+                "background-image" : "url(" + MMHKPLUS.URL_IMAGES + "spy/background_artefacts.png)",
                 "width" : "350px",
                 "height" : "47px",
                 "background-repeat" : "no-repeat no-repeat"

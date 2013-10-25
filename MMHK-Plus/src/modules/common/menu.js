@@ -4,7 +4,7 @@ MMHKPLUS.Menu = MMHKPLUS.ExtendableElement.extend({
 	options : {
 		type : 0, // 0 = topbar, 1 = floating div,
 		showText : true,
-		images : MMHKPLUS.URL_RESOURCES + "/images/icons/",
+		images : MMHKPLUS.URL_IMAGES + "icons/",
 		menuWidth : 140,
 		x : 0,
 		y : 0

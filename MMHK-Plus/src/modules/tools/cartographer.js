@@ -42,7 +42,7 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
         hop : 35,
         showDetails : false,
         centerOnFirstCity : false,
-        images : MMHKPLUS.URL_RESOURCES + "/images/carto/"
+        images : MMHKPLUS.URL_IMAGES + "carto/"
     },
     
     init : function(options)
@@ -199,7 +199,7 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
             .appendTo(this.$container);
 
         this.$marker = $("<img>")
-                .attr("src", MMHKPLUS.URL_RESOURCES + "/images/carto/marker.png")
+                .attr("src", MMHKPLUS.URL_IMAGES + "carto/marker.png")
                 .css({position:"relative", width:"50px", height:"50px"}).appendTo(this.$container);
         this.$marker.mousemove(this._onMouseMove);
         this.$marker.mouseleave(this._onMouseLeave);
@@ -383,7 +383,7 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
                         "position" : "absolute",
                         "top" : "31px",
                         "left" : "0px",
-                        "background-image" : "url(" + MMHKPLUS.URL_RESOURCES + "/images/" + "map/color_" + (hasProperty(region, "c") ? region.c : self.cache[region.ref].c)+ ".png)",
+                        "background-image" : "url(" + MMHKPLUS.URL_IMAGES + "map/color_" + (hasProperty(region, "c") ? region.c : self.cache[region.ref].c)+ ".png)",
                         "opacity" : "0.7",
                         "width" : "62px",
                         "height" : "32px"

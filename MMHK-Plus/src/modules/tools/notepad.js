@@ -14,7 +14,7 @@ MMHKPLUS.Notepad = MMHKPLUS.PanelElement.extend({
 		saveHeight : false,
 		saveOpened : true,
 		limit : 500,
-		images : MMHKPLUS.URL_RESOURCES + "/images/marks/"
+		images : MMHKPLUS.URL_IMAGES + "marks/"
 	},
 	
 	init : function(options)

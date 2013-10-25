@@ -79,11 +79,7 @@ MMHKPLUS.Jactari = MMHKPLUS.ExtendableElement.extend({
 	
 	//set_artefacts_fixer : {_143:524,_144:525,_145:506,_146:507,_147:508,_148:509,_149:510,_150:511,_508:519,_509:521,_510:535,_511:518,_512:522,_513:520,_514:523,_515:512,_516:513,_517:514,_518:515,_519:516,_520:517,_521:532,_522:533,_523:536,_524:537,_525:538,_526:539,_527:540,_528:541,_529:542,_530:543,_531:544,_532:545,_533:546,_534:547,_535:548,_536:549,_537:528,_538:530,_539:531,_540:527,_541:526,_542:529,_543:534,_544:550,_545:551,_546:552,_547:553},
 	// base_url : 'http://jactari.info/mmhk/',
-    //base_url : 'http://mmhk.jactari.info/',
-    //base_url : "http://mmhk.azylog.net/",
-    // base_url : "http://fight.mmhk-plus.eu/jactari/",
-    // base_url : "http://hommknav.fr/fight/jactari/index.html",
-    base_url : "http://jactari.mmhk-plus.eu/",
+    base_url : MMHKPLUS.JACTARI.URL,
     
 	url_combat : '',
 

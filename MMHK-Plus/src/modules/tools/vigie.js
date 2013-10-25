@@ -20,7 +20,7 @@ MMHKPLUS.Lookout = MMHKPLUS.PanelElement.extend({
 		saveOpened : true,
 		refresh : 30000,
 		size : 30,
-		images : MMHKPLUS.URL_RESOURCES + "/images/vigie/"
+		images : MMHKPLUS.URL_IMAGES + "vigie/"
 	},
 	
 	init : function(options)

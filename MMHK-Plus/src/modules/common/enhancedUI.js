@@ -157,7 +157,7 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
                                     "position" : "absolute",
                                     "top" : 341- ((q - 6) * 32/2) + ((n - 6) * 32/2) + 1 +"px",
                                     "left" : 302 + ((q - 6) * 65/2) + ((n - 6) * 65/2) + "px",
-                                    "background-image" : "url(" + MMHKPLUS.URL_RESOURCES + "/images/" + "map/color_" + color + ".png)",
+                                    "background-image" : "url(" + MMHKPLUS.URL_IMAGES + "map/color_" + color + ".png)",
                                     "opacity" : "0.75",
                                     "width" : "65px",
                                     "height" : "32px"
@@ -205,13 +205,13 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
         var isRunning = false;
 
         var ressourcesImages = [
-                MMHKPLUS.URL_RESOURCES + "/images/" + "ressources/gold.png",
-                MMHKPLUS.URL_RESOURCES + "/images/" + "ressources/wood.png",
-                MMHKPLUS.URL_RESOURCES + "/images/" + "ressources/ore.png",
-                MMHKPLUS.URL_RESOURCES + "/images/" + "ressources/mercury.png",
-                MMHKPLUS.URL_RESOURCES + "/images/" + "ressources/crystal.png",
-                MMHKPLUS.URL_RESOURCES + "/images/" + "ressources/sulfure.png",
-                MMHKPLUS.URL_RESOURCES + "/images/" + "ressources/gem.png",
+                MMHKPLUS.URL_IMAGES + "ressources/gold.png",
+                MMHKPLUS.URL_IMAGES + "ressources/wood.png",
+                MMHKPLUS.URL_IMAGES + "ressources/ore.png",
+                MMHKPLUS.URL_IMAGES + "ressources/mercury.png",
+                MMHKPLUS.URL_IMAGES + "ressources/crystal.png",
+                MMHKPLUS.URL_IMAGES + "ressources/sulfure.png",
+                MMHKPLUS.URL_IMAGES + "ressources/gem.png",
             ];
         
         var getRessourcesAt = function(x, y)
@@ -230,7 +230,7 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
             isRunning = true;
             console.log("Getting ressources for " + regionId);
             var size = MMHKPLUS.getElement("Player").get("worldSize");
-            $.getScript(MMHKPLUS.URL_RESOURCES + "/php/v2/"  + "map_ressources.php?worldId=" 
+            $.getScript(MMHKPLUS.URL_PHP + "map_ressources.php?worldId=" 
                     + MMHKPLUS.getElement("Player").get("worldId")
                     + "&regionId=" + regionId 
                     + "&worldSize=" + size, 

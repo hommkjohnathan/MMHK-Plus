@@ -17,7 +17,7 @@ MMHKPLUS.Distances = MMHKPLUS.PanelElement.extend({
 		saveHeight : true,
 		saveOpened : true,
 		refresh : 1000,
-		images : MMHKPLUS.URL_RESOURCES + "/images/side/"
+		images : MMHKPLUS.URL_IMAGES + "side/"
 	},
 	
 	init : function(options)

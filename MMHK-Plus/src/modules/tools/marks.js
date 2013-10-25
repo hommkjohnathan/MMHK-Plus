@@ -14,7 +14,7 @@ MMHKPLUS.Marks = MMHKPLUS.PanelElement.extend({
 		saveWidth : false,
 		saveHeight : false,
 		saveOpened : true,
-		images : MMHKPLUS.URL_RESOURCES + "/images/marks/"
+		images : MMHKPLUS.URL_IMAGES + "marks/"
 	},
 	
 	init : function(options)
