@@ -7,8 +7,8 @@ MMHKPLUS.css = [
     ".chatlatestmessage { color:#000000; }",
 
 	// Jactari
-	'#permalien_jactari:hover{} #permalien_jactari { font-size:smaller; background-color:beige; padding-left: 26px; position: absolute; top: 50px; left: 320px; width: 65px; border: solid black 1px; background-repeat:no-repeat; height: 16px; background-image: url(' + MMHKPLUS.JACTARI.URL + '/images/icone-combat.png); z-index: 1000; }',
-	'#permalien_jactari_defencer:hover{} #permalien_jactari_defencer { font-size:smaller; background-color:beige; padding-left: 26px; position: absolute; top: 50px; left: 320px; width: 65px; border: solid black 1px; background-repeat:no-repeat; height: 16px; background-image: url(' + MMHKPLUS.JACTARI.URL + '/images/icone-combat.png); z-index: 1000; }',
+	'#permalien_jactari:hover{} #permalien_jactari { font-size:smaller; background-color:beige; padding-left: 26px; position: absolute; top: 50px; left: 320px; width: 65px; border: solid black 1px; background-repeat:no-repeat; height: 16px; background-image: url(' + MMHKPLUS.JACTARI_URL + '/images/icone-combat.png); z-index: 1000; }',
+	'#permalien_jactari_defencer:hover{} #permalien_jactari_defencer { font-size:smaller; background-color:beige; padding-left: 26px; position: absolute; top: 50px; left: 320px; width: 65px; border: solid black 1px; background-repeat:no-repeat; height: 16px; background-image: url(' + MMHKPLUS.JACTARI_URL + '/images/icone-combat.png); z-index: 1000; }',
 	
 	// Common
 	".MMHKPLUS_alert { padding: 1em; text-align: center; white-space: nowrap; width: auto; word-wrap: normal; }",
