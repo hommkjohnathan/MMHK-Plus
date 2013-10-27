@@ -29,7 +29,7 @@ MMHKPLUS.css = [
 		
 	// EnhanceUi
 	"body.MMHKPLUS_UiBuyable .heroTrainingContainer,  body.MMHKPLUS_UiBuyable .heroPortraitContainer,  body.MMHKPLUS_UiBuyable .cityOptionsTitle,  body.MMHKPLUS_UiBuyable .avatarFriendsBox,  body.MMHKPLUS_UiBuyable .avatarPortrait,  body.MMHKPLUS_UiBuyable .avatarFoldButton,  body.MMHKPLUS_UiBuyable .regionViewRegionNameTop,  body.MMHKPLUS_UiBuyable .regionViewRegionNameContentBg,  body.MMHKPLUS_UiBuyable .requisitionChoice { display:none }",
-	".MMHKPLUS_UiCenterOn { position:relative; top:4px; left:450px; width:200px; height:25px; line-height:25px; }",
+	".MMHKPLUS_UiCenterOn { position:relative; top:4px; left:410px; width:240px; height:25px; line-height:25px; }",
 	".MMHKPLUS_UiChatButton { position:absolute; right:-350px; width:310px; height:25px; line-height:25px; }",
     "body.MMHKPLUS_UiPanels .worldMapAlertImage_zoom1, body.MMHKPLUS_UiPanels .worldMapAlertImage_zoom2 { display:none }",
     "body.MMHKPLUS_UiMovements .MMHKPLUS_UiBigPlot { display:none; }",
