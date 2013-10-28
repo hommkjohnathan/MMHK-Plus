@@ -16,10 +16,10 @@ MMHKPLUS.Jactari = MMHKPLUS.ExtendableElement.extend({
 		var lang = MMHKPLUS.locale;
 		switch (lang) 
 		{
-			case 'de': self.url_combat = self.base_url + '/Kampf'; break;
-			case 'ru': self.url_combat = self.base_url + '/fight_ru'; break;
-			case 'fr': self.url_combat = self.base_url + '/combat'; break;
-			default: self.url_combat = self.base_url + '/fight'; break;
+			case 'de': self.url_combat = self.base_url + 'Kampf'; break;
+			case 'ru': self.url_combat = self.base_url + 'fight_ru'; break;
+			case 'fr': self.url_combat = self.base_url + 'combat'; break;
+			default: self.url_combat = self.base_url + 'fight'; break;
 		};
 
         //self.url_combat = self.base_url;
@@ -668,7 +668,10 @@ MMHKPLUS.Jactari = MMHKPLUS.ExtendableElement.extend({
 			var hero = (frame.linkedHero || frame.hero || frame.selectedHero);	
 		var heros = frame ? hero.content : (spy_attaquer.hero || spy_attaquer);
 		self.prepare_heros( playerHero, heros );
-			
+		
+        // dont understand how correctly apply this code, try here
+        heros.isMainHero = heros.id ? ($('#Hero' + heros.id + ' .heroMainHeroBorder').length > 0) : undefined;
+        
 		if ( !frame ) 
 		{
 			if ( spy_attaquer.bonus ) 
