@@ -192,7 +192,7 @@ MMHKPLUS.Lookout = MMHKPLUS.PanelElement.extend({
 					
 					 $("<td>").addClass("MMHKPLUS_Cell MMHKPLUS_TextCenter clickable")
 						// .css({width : "45px"})
-						.html(move.masterHeroMove.heroId)
+						.html(data ? move.masterHeroMove.heroId : "")
 						.click(function() {if(data) {MMHKPLUS.openDisplayable("AllianceHeroes");MMHKPLUS.getElement("AllianceHeroes",true)._loadHero(playerId,move.masterHeroMove.heroId); }})
 						.appendTo($line);
 					var diff = move.dur;
