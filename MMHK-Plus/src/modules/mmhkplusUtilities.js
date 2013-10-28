@@ -394,24 +394,16 @@ MMHKPLUS.localizeText = function(text) {
 };
 
 MMHKPLUS.checkUpdate = function() {
-    $.getScript(MMHKPLUS.URL_PHP + "check_update.php", function(e)
-    // $.getScript("http://hommknav.fr/mmhk-plus/check_update.php", function(e)
+	$.getJSON(MMHKPLUS.URL_API + "version", function(json)
         {
+			console.log(json);
             var local = MMHKPLUS.version.split(".");
             
             var LNV_Major = parseInt(local[0]);
             var LNV_Minor = parseInt(local[1]);
-            var LNV_Build = parseInt(local[2]);
+            var LNV_Patch = parseInt(local[2]);
             
-            var NV_Major = localStorage.getItem('MMHKPLUS_NEXT_VERSION_MAJOR');
-            var NV_Minor = localStorage.getItem('MMHKPLUS_NEXT_VERSION_MINOR');
-            var NV_Build = localStorage.getItem('MMHKPLUS_NEXT_VERSION_BUILD');
-
-            localStorage.removeItem("MMHKPLUS_NEXT_VERSION_MAJOR");
-            localStorage.removeItem("MMHKPLUS_NEXT_VERSION_MINOR");
-            localStorage.removeItem("MMHKPLUS_NEXT_VERSION_BUILD");
-            
-            var need = (LNV_Major < NV_Major) || ((LNV_Major == NV_Major) && (LNV_Minor < NV_Minor)) || ((LNV_Major == NV_Major) && (LNV_Minor == NV_Minor) && (LNV_Build < NV_Build));
+            var need = (LNV_Major < json.major) || ((LNV_Major == json.major) && (LNV_Minor < json.minor)) || ((LNV_Major == json.major) && (LNV_Minor == json.minor) && (LNV_Patch < json.patch));
             if(need)
             {
                 panel = $("<div/>");
