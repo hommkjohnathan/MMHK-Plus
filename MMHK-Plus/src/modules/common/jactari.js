@@ -668,7 +668,10 @@ MMHKPLUS.Jactari = MMHKPLUS.ExtendableElement.extend({
 			var hero = (frame.linkedHero || frame.hero || frame.selectedHero);	
 		var heros = frame ? hero.content : (spy_attaquer.hero || spy_attaquer);
 		self.prepare_heros( playerHero, heros );
-			
+		
+        // dont understand how correctly apply this code, try here
+        heros.isMainHero = heros.id ? ($('#Hero' + heros.id + ' .heroMainHeroBorder').length > 0) : undefined;
+        
 		if ( !frame ) 
 		{
 			if ( spy_attaquer.bonus ) 
@@ -1005,7 +1008,7 @@ MMHKPLUS.Jactari = MMHKPLUS.ExtendableElement.extend({
 			}
 		}
 
-		self.internalLastPermalien = self.url_combat + '?info=' + self.encode_donnees_combat(donnees);
+		self.internalLastPermalien = self.url_combat + '.html?info=' + self.encode_donnees_combat(donnees);
 		if(jactariButton)
 			jactariButton.href = self.internalLastPermalien;
 		return true;

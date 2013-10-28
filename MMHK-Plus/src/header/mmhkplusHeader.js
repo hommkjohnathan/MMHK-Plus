@@ -4,6 +4,7 @@ MMHKPLUS.contact = "${mmhk-plus.author.email}";
 MMHKPLUS.HOMMK = window.HOMMK;
 MMHKPLUS.locale = "fr";
 MMHKPLUS.URL = "${mmhk-plus.website.url}";
+
 MMHKPLUS.URL_JACTARI = "${mmhk-plus.jactari.website.url}";
 MMHKPLUS.URL_IMAGES = MMHKPLUS.URL + "/script/images/";
 MMHKPLUS.URL_PHP = MMHKPLUS.URL + "/script/php/";
