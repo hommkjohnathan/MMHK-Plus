@@ -396,7 +396,6 @@ MMHKPLUS.localizeText = function(text) {
 MMHKPLUS.checkUpdate = function() {
 	$.getJSON(MMHKPLUS.URL_API + "version", function(json)
         {
-			console.log(json);
             var local = MMHKPLUS.version.split(".");
             
             var LNV_Major = parseInt(local[0]);
