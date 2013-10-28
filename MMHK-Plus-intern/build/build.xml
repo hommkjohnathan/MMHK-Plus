@@ -46,7 +46,7 @@
 		<attribute name="tofile" />
 
 		<sequential>
-			<concat destfile="@{tofile}" append="true" outputencoding="UTF-8">
+			<concat destfile="@{tofile}" append="true" encoding="UTF-8" outputencoding="UTF-8">
 				<path refid="@{path.refid}" />
 				<filterchain>
 					<expandproperties />
@@ -107,7 +107,7 @@
 		<antcall target="closureCompiler/intern" />
 		<echo file="${output.version.file}" message="${mmhk-plus.script.version}" />
 		<copy file="${output.script.file}" tofile="${working.dir}/tmp_copy" />
-		<concat destfile="${output.script.file}" outputencoding="UTF-8">
+		<concat destfile="${output.script.file}" encoding="UTF-8" outputencoding="UTF-8">
 			<path>
 				<pathelement location="${mmhkplus.build.project.dir}/resources/userscriptHeader.js" />
 				<pathelement location="${working.dir}/tmp_copy" />
@@ -120,7 +120,7 @@
 	</target>
 
 	<target name="closureCompiler/intern" if="isProdEnv">
-		<closureCompiler outputencoding="UTF-8" compilationlevel="simple" languagein="ECMASCRIPT5" warning="quiet" output="${working.dir}/${output.script.name}">
+		<closureCompiler encoding="UTF-8" outputencoding="UTF-8" compilationlevel="simple" languagein="ECMASCRIPT5" warning="quiet" output="${working.dir}/${output.script.name}">
 			<sources dir="${working.dir}">
 				<file name="${output.script.name}" />
 			</sources>
