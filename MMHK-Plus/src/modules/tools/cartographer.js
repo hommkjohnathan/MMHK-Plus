@@ -4,7 +4,6 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
     $container : null,
     $content : null,
     $marker : null,
-    coords : [],
     wS : 0,
     baseSize : 2,
     zoomLevel : 1,
@@ -58,9 +57,6 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
         this._setupPanel();
 
         this.wS = MMHKPLUS.getElement("Player").get("worldSize");
-        for(var x = 1 ; x <= this.wS ; x += this.options.hop - 1)
-            for(var y = 1; y <= this.wS; y += this.options.hop - 1)
-                this.coords.push({x : x, y : y});
         this.baseSize = Math.floor(400 / this.wS);
         this.coeff = this.baseSize * this.zoomLevel;
 
@@ -91,7 +87,7 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
 
         if(!this.initLoad)
         {
-            MMHKPLUS.getElement("Ajax").getCartographerData();
+            MMHKPLUS.getElement("Ajax").getCartographerData(this._dataReceived);
             this.initLoad = true;
         }
 
@@ -298,21 +294,25 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
         if(hasProperty(this.cache, x + "_" + y))
         {
             var region = this.cache[x + "_" + y];
-            $("<p>")
-                .css("paddingLeft", 25)
-                .html(MMHKPLUS.localize("PLAYER") + " : " + (hasProperty(region, "pN") ? region.pN : self.cache[region.ref].pN))
-                .appendTo(self.$content);
-            $("<p>")
-                .css("paddingLeft", 25)
-                .html(MMHKPLUS.localize("ALLIANCE") + " : " + (hasProperty(region, "aN") ? region.aN : self.cache[region.ref].aN))
-                .appendTo(self.$content);
+            if(self._hasInfluence(region) || hasProperty(region, "r")) {
+	            $("<p>")
+	                .css("paddingLeft", 25)
+	                .html(MMHKPLUS.localize("PLAYER") + " : " + (hasProperty(region, "player") ? region.player.n : self.cache[region.r.x + "_" + region.r.y].player.n))
+	                .appendTo(self.$content);
+	            if(hasProperty(region, "alliance") || hasProperty(self.cache[region.r.x + "_" + region.r.y], "alliance")) {
+		            $("<p>")
+		                .css("paddingLeft", 25)
+		                .html(MMHKPLUS.localize("ALLIANCE") + " : " + (hasProperty(region, "alliance") ? region.alliance.n : self.cache[region.r.x + "_" + region.r.y].alliance.n))
+		                .appendTo(self.$content);
+	            }
+            }
 
             $("<br>").appendTo(self.$content);
             if(self._hasCity(region))
             {
                 $("<p>")
                     .css("paddingLeft", 25)
-                    .html(MMHKPLUS.localize("CITY") + " : " + region.cN)
+                    .html(MMHKPLUS.localize("CITY") + " : " + region.city.n)
                     .appendTo(self.$content);
             }
             $("<p>")
@@ -376,14 +376,14 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
             var region = this.cache[realX + "_" + realY];
 
             // Influence
-            if(self._hasInfluence(region) || (hasProperty(region, "ref") && self._hasInfluence(self.cache[region.ref])))
+            if(self._hasInfluence(region) || hasProperty(region, "r"))
             {
                 $("<div>").css(
                     {
                         "position" : "absolute",
                         "top" : "31px",
                         "left" : "0px",
-                        "background-image" : "url(" + MMHKPLUS.URL_IMAGES + "map/color_" + (hasProperty(region, "c") ? region.c : self.cache[region.ref].c)+ ".png)",
+                        "background-image" : "url(" + MMHKPLUS.URL_IMAGES + "map/color_" + self._getColor(region) + ".png)",
                         "opacity" : "0.7",
                         "width" : "62px",
                         "height" : "32px"
@@ -394,7 +394,7 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
             // City Image
             if(self._hasCity(region))
             {
-                MMHKPLUS.getCssSprite("Region_Zoom2", MMHKPLUS.factions[region.f] + "_cityLevel" + region.d + (self._isInactive(region) ? "_neutral" : "") + (self._hasGrail(region) ? "_tear" : ""))
+                MMHKPLUS.getCssSprite("Region_Zoom2", region.city.f + "_cityLevel" + region.city.dL + (self._isInactive(region) ? "_neutral" : "") + (self._hasGrail(region) ? "_tear" : ""))
                     .css({position:"absolute",left:"0px", top:"0px", zIndex:1000})
                     .appendTo($result);
             }
@@ -410,7 +410,7 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
             // Decors
             if(self._hasDecoration(region))
             {
-                MMHKPLUS.getCssSprite("Region_Zoom2", "NEUTRAL_" + region.t)
+                MMHKPLUS.getCssSprite("Region_Zoom2", "NEUTRAL_" + region.type)
                     .css({position:"absolute",left:"0px", top:"0px", zIndex:1000})
                     .appendTo($result);
             }
@@ -448,9 +448,15 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
                 var xStart =  self.wS / 2 - self.xOrigin; if(xStart < 1) xStart += self.wS; if(xStart > self.wS) xStart -= self.wS;
                 var yStart =  self.wS / 2 - self.yOrigin; if(yStart < 1) yStart += self.wS; if(yStart > self.wS) yStart -= self.wS;
 
+                xStart--; yStart--;
+                
                 $.each(this.cache, function(i, r)
                     {
-                        self._drawRegion(r, xStart, yStart);
+	                	var x = (r.x - 1 + xStart) * self.coeff;
+	                    if(x > self.canvasWidth) x -= self.canvasWidth;
+	                    var y = (r.y - 1 + yStart) * self.coeff;
+	                    if(y > self.canvasHeight) y -= self.canvasHeight;
+                        self._drawRegion(r, x, y);
                     }
                 );
             }
@@ -458,7 +464,9 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
             {
                 $.each(this.cache, function(i, r)
                     {
-                        self._drawRegionWithoutCenter(r);
+	                	 var x = (r.x - 1) * self.coeff;
+	                     var y = (r.y - 1) * self.coeff;
+                        self._drawRegion(r, x, y);
                     }
                 );
             }
@@ -466,101 +474,125 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
         }
     },
 
-    _drawRegion : function(region, xStart, yStart)
+    _drawRegion : function(region, x, y)
     {
-        xStart--; yStart--;
-        var self = this;
+        var color = getColor(this._getColor(region));
+        this._drawRectOnCanvas(color, x, y, false);
+    },
 
-        var x = (region.x - 1 + xStart) * self.coeff;
-        if(x > self.canvasWidth) x -= self.canvasWidth;
-        var y = (region.y - 1 + yStart) * self.coeff;
-        if(y > self.canvasHeight) y -= self.canvasHeight;
-        this.$canvas.drawRect(
+    _drawRectOnCanvas : function(color, x, y, fromCenter)
+    {
+    	var self = MMHKPLUS.getElement("Cartographer");
+    	self.$canvas.drawRect(
             {
-                fillStyle: getColor(hasProperty(region, "c") ? region.c : self.cache[region.ref].c),
+                fillStyle: "" + color,
                 x: x,
                 y: y,
                 width: self.coeff,
                 height: self.coeff,
-                fromCenter: false
-            }
-        );
-    },
-
-    _drawRegionWithoutCenter : function(region)
-    {
-        var self = this;
-        this.$canvas.drawRect(
-            {
-                fillStyle: getColor(hasProperty(region, "c") ? region.c : self.cache[region.ref].c),
-                x: (region.x - 1) * self.coeff,
-                y: (region.y - 1) * self.coeff,
-                width: self.coeff,
-                height: self.coeff,
-                fromCenter: false
+                fromCenter: fromCenter
             }
         );
     },
 
     _initRequests : function()
     {
-        this.intervalRequest = setInterval((function(self) { return function() { self._doRequest(); } })(this), 25 * 60 * 1000);
-        this._doRequest();
+        this.intervalRequest = setInterval((function(self) { return function() { self._askCoordinatesToUpdate(); } })(this), 15 * 60 * 1000);
+        this._askCoordinatesToUpdate();
+    },
+    
+    _askCoordinatesToUpdate : function()
+    {
+    	var self = MMHKPLUS.getElement("Cartographer");
+    	 MMHKPLUS.getElement("Ajax").requestCartographerUpdateCoordinates(self._doRequest);
     },
 
-    _doRequest : function()
+    _doRequest : function(coordinates)
     {
-        if(this.coords.length == 0)
-        {
-            MMHKPLUS.clearInterval(this.intervalRequest); 
-            this.intervalRequest = null;
-            return;
-        }
-
-        var c = this.coords[Math.floor(Math.random() * this.coords.length)];
-        this.coords.remove(c);
-        MMHKPLUS.getElement("Ajax").getWorldmap(c.x, c.y, this.options.hop, this.options.hop, this._extractAndSend);
+    	var self = MMHKPLUS.getElement("Cartographer");
+    	// We receive an array of coordinates
+    	if(coordinates.length == 0) {
+    		// Update is complete for now!
+    		MMHKPLUS.clearInterval(self.intervalRequest); 
+            self.intervalRequest = null;
+    	}
+    	else {
+    		self.lastX = coordinates[0].x;
+    		self.lastY = coordinates[0].y;
+    		MMHKPLUS.getElement("Ajax").getWorldmap(self.lastX, self.lastY, self.options.hop, self.options.hop, self._extract);
+    	}
     },
 
-    _extractAndSend : function(json)
+    _extract : function(json)
     {
-        var self = MMHKPLUS.getElement("Cartographer");
+    	var self = MMHKPLUS.getElement("Cartographer");
         var regions = json.d[Object.keys(json.d)[0]].attachedRegionList;
-        var toSend = [];
+        self._prepareAndSend(regions);
+    },
+    
+    _prepareAndSend : function(regions)
+    {
+    	var self = MMHKPLUS.getElement("Cartographer");
+    	var toSend = [];
         regions.forEach(function(r)
             {
-                self.cache[r.x + "_" + r.y] = 
-                    {
-                        f : (hasProperty(r, "fctN") ? MMHKPLUS.factions.indexOf(r.fctN) : -1),
-                        d : (hasProperty(r, "dL") ? r.dL : -1),
-                        cN : (hasProperty(r, "cN") ? "" + r.cN : ""),
-                        pN : (hasProperty(r, "pN") ? "" + r.pN : ""),
-                        aN : (hasProperty(r, "iAN") ? "" + r.iAN : ""),
-                        pId : (hasProperty(r, "pId") ? r.pId : -1),
-                        aId : (hasProperty(r, "_iaId") ? r._iaId : -1),
-                        g : (hasProperty(r, "hG") ? r.hG : -1),
-                        pbId : (hasProperty(r, "pBgNb") ? r.pBgNb : -1),
-                        ppId : (hasProperty(r, "pPNb") ? r.pPNb : -1),
-                        piId : (hasProperty(r, "pINb") ? r.pINb : -1),
-                        t : r.type,
-                        c : (hasProperty(r, "_iaCol") ? r._iaCol : (hasProperty(r, "_ipCol") ? r._ipCol : -1)),
-                        x : r.x,
-                        y : r.y,
-                        rB : (hasProperty(r, "rB") ? r.rB.rBE.tN : ""),
-                        a : hasProperty(r, "iN") && r.iN == true
-                    };
-                toSend.push(self.cache[r.x + "_" + r.y]);
-                // if(self.options.opened)
-                //     self._drawRegion(self.cache[r.x + "_" + r.y], 1, 1);
+        		var cachedRegion = 
+        			{
+                		x : r.x,
+                		y : r.y,
+                		type : r.type, // plain, oasis,...
+                	}
+        		;
+        		
+        		if(hasProperty(r, "cN")) {
+        			cachedRegion['city'] = 
+        				{
+        					iN : hasProperty(r, 'iN') && r.iN, // isNeutral
+        					n : r.cN, // cityName
+        					dL : r.dL, //displayLevel
+        					f : r.fctN, // factionTagName
+        					hG : hasProperty(r.hG) && r.hG == 1 // hasGrail
+        				}
+        			;
+        			cachedRegion['player'] = 
+        				{
+        					id : r.pId, // playerId
+        					n : r.pN, // playerName
+        					bgNb : r.pBgNb, // playerBackgroundNumber
+        					iNb : r.pINb, // playerIconNumber
+        					pNb : r.pPNb // playerPatternNumber
+        				}
+        			;
+        			if(hasProperty(r, "_ipCol")) {
+        				cachedRegion.player['c'] = r._ipCol; // player color
+        			}
+        		}
+        		
+        		if(hasProperty(r, '_iaId')) {
+    				cachedRegion['alliance'] = 
+        				{
+        					id : r._iaId, // allianceId
+        					n : r.iAN, // allianceName
+        					c : r._iaCol //allianceColor
+        				}
+        			;
+    			}
+        		
+        		if(hasProperty(r, 'rB')) {
+        			cachedRegion['rB'] = r.rB.rBE.tN; // regionBuildingTagName
+        		}
+        		
+                self.cache[r.x + "_" + r.y] = cachedRegion;
+                
+                toSend.push(cachedRegion);
+                // For attached region list (influenced regions)
                 if(hasProperty(r, "aRL"))
                 {
                     r.aRL.forEach(function(a)
                         {
                             if(!hasProperty(self.cache, a[0] + "_" + a[1]))
                             {
-                                self.cache[a[0] + "_" + a[1]] = {x : a[0], y: a[1], ref : r.x + "_" + r.y};
-                                // if(self.options.opened)
-                                //     self._drawRegion(self.cache[a[0] + "_" + a[1]], 1, 1);
+                            	self.cache[a[0] + "_" + a[1]] = {x : a[0], y: a[1], r : {x : r.x , y: r.y}};
                                 toSend.push(self.cache[a[0] + "_" + a[1]]);
                             }
                         }
@@ -568,37 +600,61 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
                 }
             }
         );
+        
+        for(var i = self.lastX; i <= self.lastX + self.options.hop && i <= self.wS; i++) {
+        	for(var j = self.lastY; j <= self.lastY + self.options.hop && j <= self.wS; j++) {
+            	if(!hasProperty(self.cache, "" + i + "_" + j)) {
+            		// Plain region without influence
+            		toSend.push({x : i, y: j});
+            	}
+            }
+        }
         MMHKPLUS.getElement("Ajax").sendCartographerData(toSend);
+        if(self.options.opened)
+            self._redraw(true);
+    },
+    
+    _getColor : function(region) 
+    {
+    	if(this._hasInfluence(region)) {
+    		return (hasProperty(region, "alliance") ? region.alliance.c : region.player.c);
+    	}
+    	else if(hasProperty(region, "r")) {
+    		return this._getColor(this.cache[region.r.x + "_" + region.r.y]);
+    	}
+    	else {
+    		return -1;
+    	}
     },
 
     _hasInfluence : function(region)
     {
-        return hasProperty(region, "c") && region.c != -1;
+        return hasProperty(region, "alliance") || hasProperty(region, "player");
     },
 
     _hasCity : function(region)
     {
-        return hasProperty(region, "cN") && ("" + region.cN).trim() != "";
+        return hasProperty(region, "city");
     },
 
     _isInactive : function(region)
     {
-        return this._hasCity(region) && hasProperty(region, "a") && region.a;
+        return this._hasCity(region) && region.city.iN;
     },
 
     _hasGrail : function(region)
     {
-        return this._hasCity(region) && hasProperty(region, "g") && region.g == 1;
+        return this._hasCity(region) && region.city.hG;
     },
 
     _hasRegionBuilding : function(region)
     {
-        return hasProperty(region, "rB") && region.rB.trim() != "";
+        return hasProperty(region, "rB");
     },
 
     _hasDecoration : function(region)
     {
-        return hasProperty(region, "t") && region.t != "plain";
+        return hasProperty(region, "type") && region.type != "plain";
     },
     
     unload : function()

@@ -384,20 +384,21 @@ var formatNumber = function(nStr)
 	return x1 + x2;
 };
 
+var alliance_colors = 
+	[
+		"#FF5900", "#FF8900", "#FFC000", "#FADB01", "#DDDD00", "#BAF809", "#80E410",
+		"#4CCF1A", "#00BE64", "#00CF90", "#00E0F5", "#00BCEB", "#0097E1", "#005DBF",
+		"#002AA2", "#100493", "#4901A0", "#6100A6", "#8A00B3", "#B300C0", "#F800BD",
+		"#FF0017"
+	]
+;
 var getColor = function(colorId)
 {
 	if(colorId == -1 || colorId > 21)
 	{
 		return "#FFFFFF";
 	}
-	var colors = 
-		[
-			"#FF5900", "#FF8900", "#FFC000", "#FADB01", "#DDDD00", "#BAF809", "#80E410",
-			"#4CCF1A", "#00BE64", "#00CF90", "#00E0F5", "#00BCEB", "#0097E1", "#005DBF",
-			"#002AA2", "#100493", "#4901A0", "#6100A6", "#8A00B3", "#B300C0", "#F800BD",
-			"#FF0017"
-		];
-	return colors[colorId];
+	return alliance_colors[colorId];
 };
 
 var isDefined = function(variable)

@@ -119,7 +119,7 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
     {
         return this._send(
             this.options.url + this.options.getContentUrl,
-            { "elParamList" : [ { "elementType" : "WorldMap", "elementId" :  MMHKPLUS.getElement("Player").get("worldId"), "x": x,"y": y,"w": w,"h": w,"regionId":null}]},
+            { "elParamList" : [ { "elementType" : "WorldMap", "elementId" :  MMHKPLUS.getElement("Player").get("worldId"), "x": x,"y": y,"w": w+1,"h": w+1,"regionId":null}]},
             callback,
             sync
         );
@@ -184,11 +184,28 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
         );
     },
 
-    getCartographerData : function()
+    getCartographerData : function(callback)
     {
-        $.getScript(MMHKPLUS.URL_PHP + "get_cartographer_data.php?" 
-            + "worldId=" + MMHKPLUS.getElement("Player").get("worldId")
-        );
+    	$.getJSON(
+    		MMHKPLUS.URL_API + "cartographer/" + MMHKPLUS.getElement("Player").get("worldId") + "/" + MMHKPLUS.getElement("Player").get("worldSize"),
+    		function(json) { callback(json) ;}
+    	);
+    },
+    
+    sendCartographerData: function(content)
+    {
+    	$.post(
+    		MMHKPLUS.URL_API + "cartographer/" + MMHKPLUS.getElement("Player").get("worldId") + "/" + MMHKPLUS.getElement("Player").get("worldSize"),
+    		JSON.stringify(content)
+    	);
+    },
+    
+    requestCartographerUpdateCoordinates : function(callback) 
+    {
+    	$.getJSON(
+			MMHKPLUS.URL_API + "cartographer/update/" + MMHKPLUS.getElement("Player").get("worldId") + "/" + MMHKPLUS.getElement("Player").get("worldSize"),
+			function(json) { callback(json); }
+		);
     },
 
     sendSpyReport : function(content)
@@ -256,35 +273,6 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
             + "<script type='text/javascript'>document.forms[0].submit();</script></body></html>");
         doc.close();
         setTimeout(function(){$("#MMHKPLUS_AjaxHackIFrame" + filename).remove(); $("div.MMHKPLUS_PNGButton").css("display", "inline");}, 15000);
-    },
-
-    sendCartographerData: function(content)
-    {
-        var time = $.now();
-        var myIframeSender = document.createElement('iframe');
-        myIframeSender.id = "MMHKPLUS_AjaxHackIFrame" + time ;
-        myIframeSender.style.position = "absolute";
-        myIframeSender.style.top = "1px";
-        myIframeSender.style.left = "-15px";
-        myIframeSender.style.width = "1px";
-        myIframeSender.style.height = "1px";
-        document.body.appendChild(myIframeSender);
-        var doc = myIframeSender.document;
-        if(myIframeSender.contentDocument)
-            doc = myIframeSender.contentDocument;
-        else if(myIframeSender.contentWindow)
-            doc = myIframeSender.contentWindow.document;
-        var player = MMHKPLUS.getElement("Player");
-        doc.open();
-        doc.write(
-            "<form action='" + MMHKPLUS.URL_PHP + "insert_cartographer_data.php' method='post'>" 
-                + "<input type='hidden' name='worldId' value='" + player.get("worldId") + "' />"  
-                + "<input type='hidden' name='content' value='" + JSON.stringify(content).replace(/'/g, "&#130;") + "'  />" 
-                + "<input type=submit />" 
-            + "</form>" 
-            + "<script type='text/javascript'>document.forms[0].submit();</script>");
-        doc.close();
-        setTimeout(function(){$("#MMHKPLUS_AjaxHackIFrame" + time).remove();}, 15000);
     },
 
     getAllianceSpyReports : function(allianceId, playerId, location, x, y, page)
