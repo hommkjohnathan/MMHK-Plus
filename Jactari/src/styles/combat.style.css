@@ -169,9 +169,14 @@ html> /**/ body #situation ul.alliance li {
 	display: inline;
 }
 
-#situation div.guildes-specialisees,#situation div.competences-hereditaires,#situation div.competences-legendary,#situation div.voies
-	{
+#situation div.guildes-specialisees,#situation div.competences-hereditaires,#situation div.competences-legendary,#situation div.voies {
 	text-align: left;
+}
+
+#situation div.competences-hereditaire {
+    display: inline-block;
+    text-align: center;
+    padding: 2px;
 }
 
 #situation div.guildes-specialisees span {
