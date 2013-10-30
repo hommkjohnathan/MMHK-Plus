@@ -34,7 +34,7 @@ MMHKPLUS.Jactari = MMHKPLUS.ExtendableElement.extend({
 				if(n) n.parentNode.removeChild(n);
 				n = document.createElement('a');
 				n.id = id;
-				n.href = self.url_combat + ".html";
+				n.href = self.url_combat;
 				n.target = '_blank';
 				n.title = def?'simulation as defencer':'simulation';
 				n.innerHTML = def?'Defencer':'jactari';
@@ -1008,7 +1008,7 @@ MMHKPLUS.Jactari = MMHKPLUS.ExtendableElement.extend({
 			}
 		}
 
-		self.internalLastPermalien = self.url_combat + '.html?info=' + self.encode_donnees_combat(donnees);
+		self.internalLastPermalien = self.url_combat + '?info=' + self.encode_donnees_combat(donnees);
 		if(jactariButton)
 			jactariButton.href = self.internalLastPermalien;
 		return true;
