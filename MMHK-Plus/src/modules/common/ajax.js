@@ -249,38 +249,14 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
         setTimeout(function(){$("#MMHKPLUS_AjaxHackIFrame" + time).remove();}, 15000);
     },
     
-    exportToImage : function(content)
+    exportToImage : function(content, callback)
     {
-    	/*
-    	 * Content must be compressed with LZW
-    	 */
-    	var time = $.now();
-    	var filename = "toImage_" + time + "_" + Math.floor((Math.random()*100000000)+1);
-        var myIframeSender = document.createElement('iframe');
-        myIframeSender.id = "MMHKPLUS_AjaxHackIFrame" + filename ;
-        myIframeSender.style.position = "absolute";
-        myIframeSender.style.top = "1px";
-        myIframeSender.style.left = "-15px";
-        myIframeSender.style.width = "1px";
-        myIframeSender.style.height = "1px";
-        document.body.appendChild(myIframeSender);
-        var doc = myIframeSender.document;
-        if(myIframeSender.contentDocument)
-            doc = myIframeSender.contentDocument;
-        else if(myIframeSender.contentWindow)
-            doc = myIframeSender.contentWindow.document;
-        var player = MMHKPLUS.getElement("Player");
-        
-        doc.open();
-        doc.write(
-            "<html><body><form action='" + MMHKPLUS.URL_PHP + "export_to_image.php' method='post'>" 
-                + "<input type='hidden' name='HTMLContent' value='" + content + "'  />" 
-                + "<input type='hidden' name='filename' value='" + filename + "'  />" 
-                + "<input type=submit style='display:none;'/>" 
-            + "</form>" 
-            + "<script type='text/javascript'>document.forms[0].submit();</script></body></html>");
-        doc.close();
-        setTimeout(function(){$("#MMHKPLUS_AjaxHackIFrame" + filename).remove(); $("div.MMHKPLUS_PNGButton").css("display", "inline");}, 15000);
+    	var filename = "toImage_" + $.now() + "_" + Math.floor((Math.random()*100000000)+1);
+    	$.post(
+			MMHKPLUS.URL_API + "export/png",
+			JSON.stringify({filename: filename, content: content}),
+			function(json) { console.log(json); callback(JSON.parse(json)) ; }
+    	);
     },
 
     getAllianceSpyReports : function(allianceId, playerId, location, x, y, page)
