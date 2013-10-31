@@ -18,7 +18,6 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
              {x:-2,y:0}, {x:-1,y:1}, {x:0,y:2}, 
              {x:-2,y:1}, {x:-1,y:2}, 
              {x:-2,y:2}],
-    initLoad : false,
     intervalPos : null,
     xOrigin : 0,
     yOrigin : 0,
@@ -59,7 +58,9 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
         this.wS = MMHKPLUS.getElement("Player").get("worldSize");
         this.baseSize = Math.floor(400 / this.wS);
         this.coeff = this.baseSize * this.zoomLevel;
-
+       
+        MMHKPLUS.getElement("Ajax").getCartographerData(this._dataReceived);
+        
         var self = this;
         setTimeout((function(self) { return function() { self._initRequests(); }})(this), 1000);
         
@@ -84,12 +85,6 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
         this._createView();
         this.zoomLevel = 1;
         this._redraw(true);
-
-        if(!this.initLoad)
-        {
-            MMHKPLUS.getElement("Ajax").getCartographerData(this._dataReceived);
-            this.initLoad = true;
-        }
 
         this.intervalPos = setInterval((function(self) { return function() { self._updatePos(); }})(this), 1000);
         this._updatePos();

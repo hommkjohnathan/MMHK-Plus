@@ -85,6 +85,7 @@ MMHKPLUS.Lookout = MMHKPLUS.PanelElement.extend({
 	_createView : function()
 	{
 		var self = this;
+		var Cartographer = MMHKPLUS.getElement("Cartographer");
 		
 		this.$elem.find("table").remove();
 		
@@ -96,9 +97,10 @@ MMHKPLUS.Lookout = MMHKPLUS.PanelElement.extend({
 				return (!player.isInAlliance() 
 							|| (player.isInAlliance() && !filterAlliance) 
 							/*|| (player.isInAlliance() && filterAlliance && self._getPlayerInfo(item.masterHeroMove.playerId).allianceName != player.get("allianceName"))*/)
-						/*&& ((self._getPlayerInfo(item.masterHeroMove.playerId).playerName.toUpperCase().indexOf(filterText) != -1)
-								|| (self._getPlayerInfo(item.masterHeroMove.playerId).allianceName.toUpperCase().indexOf(filterText) != -1)
-								|| (filterText == ""))*/;
+						&& ((self._isMoveInCache(item.id) && ((self._getPlayerInfo(self.cacheMoves[item.id].playerId).playerName.toUpperCase().indexOf(filterText) != -1)
+								|| (self._getPlayerInfo(self.cacheMoves[item.id].playerId).allianceName.toUpperCase().indexOf(filterText) != -1)
+								|| (filterText == "")))
+							|| !self._isMoveInCache(item.id));
 			}
 		);
 		filterMoves.sort(function(m, n)
@@ -106,7 +108,6 @@ MMHKPLUS.Lookout = MMHKPLUS.PanelElement.extend({
 				return m.endDate - n.endDate;
 			}
 		);
-		
 		var movementsToCheck = $.grep(filterMoves, function(item, index)
 			{
 				return !hasProperty(self.cacheMoves, item.id) ||
@@ -135,10 +136,7 @@ MMHKPLUS.Lookout = MMHKPLUS.PanelElement.extend({
 		
 		filterMoves.forEach(function(move)
 			{
-				var playerId = -1.
-				if(hasProperty(self.cacheMoves, move.id)) {
-					playerId = self.cacheMoves[move.id].playerId || -1;
-				}
+				var playerId = self._isMoveInCache(move.id) ? self.cacheMoves[move.id].playerId : -1;
 				var startDate = move.startDate;
 				var endDate = new Date();
 				endDate.setTime(move.endDate * 1000);
@@ -153,6 +151,13 @@ MMHKPLUS.Lookout = MMHKPLUS.PanelElement.extend({
 					halt.y = parseInt(move.y2p);
 				}
 				
+				var fromName = (hasProperty(Cartographer.cache, from.x + "_" + from.y) && 
+									hasProperty(Cartographer.cache[from.x + "_" + from.y], "city")) ?
+											"<br/><i>" + Cartographer.cache[from.x + "_" + from.y].city.n + "</i>" : "";
+				var toName = (hasProperty(Cartographer.cache, to.x + "_" + to.y) && 
+									hasProperty(Cartographer.cache[to.x + "_" + to.y], "city")) ?
+											"<br/><i>" + Cartographer.cache[to.x + "_" + to.y].city.n + "</i>": "";
+
 				if(endDate.getTime() > $.now())
 				{
 					if(playerId != -1) {
@@ -174,12 +179,12 @@ MMHKPLUS.Lookout = MMHKPLUS.PanelElement.extend({
 						.appendTo($line);
 					$("<td>").addClass("MMHKPLUS_Cell MMHKPLUS_TextCenter clickable")
 						.addClass("MMHKPLUS_Lookout" + from.x + "_" + from.y)
-						.html("(" + from.x + "," + from.y + ")")
+						.html("(" + from.x + "," + from.y + ")" + fromName)
 						.click(function() {MMHKPLUS.centerOn(from.x, from.y);})
 						.appendTo($line);
 					$("<td>").addClass("MMHKPLUS_Cell MMHKPLUS_TextCenter clickable")
 						.addClass("MMHKPLUS_Lookout" + to.x + "_" + to.y)
-						.html("(" + to.x + "," + to.y + ")")
+						.html("(" + to.x + "," + to.y + ")" + toName)
 						.click(function() {MMHKPLUS.centerOn(to.x, to.y);})
 						.appendTo($line);
 					$("<td>").addClass("MMHKPLUS_Cell MMHKPLUS_TextCenter " + (hasHalt ? "clickable" : ""))
@@ -191,7 +196,6 @@ MMHKPLUS.Lookout = MMHKPLUS.PanelElement.extend({
 						.appendTo($line);
 					
 					 $("<td>").addClass("MMHKPLUS_Cell MMHKPLUS_TextCenter clickable")
-						// .css({width : "45px"})
 						.html(data ? move.masterHeroMove.heroId : "")
 						.click(function() {if(data) {MMHKPLUS.openDisplayable("AllianceHeroes");MMHKPLUS.getElement("AllianceHeroes",true)._loadHero(playerId,move.masterHeroMove.heroId); }})
 						.appendTo($line);
@@ -315,12 +319,8 @@ MMHKPLUS.Lookout = MMHKPLUS.PanelElement.extend({
 
                             if(move.endDate != move.endDate)
                             {
-                                // var startHalt = new Date() ; startHalt.setTime(move.startDate * 1000);
                                 var endHalt = new Date() ; endHalt.setTime(move.endDate * 1000);
                                 $("<br/>").appendTo($tip);
-                                // $("<p/>")
-                                //     .html(MMHKPLUS.localize("START_HALT") + " : "  + startHalt.toShortFrenchFormat())
-                                //     .appendTo($tip);
                                 $("<p/>")
                                     .html((move.x2p == move.x1p && move.y2p == move.y1p ? MMHKPLUS.localize("END_HALT") : MMHKPLUS.localize("START_HALT")) + " : "  + endHalt.toShortFrenchFormat())
                                     .appendTo($tip);
@@ -339,15 +339,6 @@ MMHKPLUS.Lookout = MMHKPLUS.PanelElement.extend({
 						}
 					);
 				}
-			}
-		);
-		MMHKPLUS.getElement("Player").getRegions().map(function(r)
-			{
-				if(r.content && r.content.x && r.content.y)
-				{
-					if(r.content.cN)
-						$(".MMHKPLUS_Lookout" + r.content.x + "_" + r.content.y).html("(" + r.content.x + "," + r.content.y + ")<br/><i>" + r.content.cN + "</i>");
-				} 
 			}
 		);
 	},
@@ -422,76 +413,79 @@ MMHKPLUS.Lookout = MMHKPLUS.PanelElement.extend({
 	
 	_findPlayerIdsFromMovements : function(movements) 
 	{
+		// All movements here are to check
 		var self = this;
-		var regionList = MMHKPLUS.HOMMK.worldMap.content.attachedRegionList;
 		
-		regionList.forEach(function(r) 
-			{
-				movements.forEach(function(m)
-					{
-						var movementCoordinates = 
-							[
-							 	{x: m.masterHeroMove.x1, y: m.masterHeroMove.y1},
-							 	{x: m.masterHeroMove.x2, y: m.masterHeroMove.y2}
-							]
-						;
-						
-						movementCoordinates.forEach(function(c)
-							{
-								if(r.isC && r.x == c.x && r.y == c.y) {
-									// Region match, check alliance/player color
-									if(hasProperty(r, "_iaCol")) {
-										var color = r._iaCol
-									}
-									else {
-										var color = r._ipCol;
-									}
-									if(color == m.color) {
-										// Put move and player in cache
-										self._putMoveInCache(m.id, undefined, undefined, r.pId);
-										self._getPlayerInfo(r.pId);
-									}
-								}
-								else if(!r.isC && r.x == c.x && r.y == c.y) {
-									// if region is not a city, do not check it again
-									// so we save this information in move cache
-									// and if the two coordinates in move cache are defined,
-									// it means that we do not need to check this move playerId
-									// (typically Black Elves movements)
-									self._putMoveInCache(m.id, c.x, c.y, undefined);
-								}
+		var Cartographer = MMHKPLUS.getElement("Cartographer");
+		movements.forEach(function(m)
+				{
+					var movementCoordinates = 
+						[
+						 	{x: m.masterHeroMove.x1, y: m.masterHeroMove.y1},
+						 	{x: m.masterHeroMove.x2, y: m.masterHeroMove.y2}
+						]
+					;
+					
+					var from = Cartographer.cache[movementCoordinates[0].x + "_" + movementCoordinates[0].y];
+					var to = Cartographer.cache[movementCoordinates[1].x + "_" + movementCoordinates[1].y];
+					
+					if(!(from == undefined && to == undefined)) {
+						// At least on must be defined to guess playerId
+						if(from == undefined || to == undefined) {
+							// if one is undefined, the other one contains playerId if it is a city
+							var notUndefined = from || to;
+							if(hasProperty(notUndefined, "city")) {
+								self._putMoveInCache(m.id, notUndefined.player.id);
+								self._getPlayerInfo(notUndefined.player.id);
 							}
-						);
+						}
+						else {
+							// Both are defined, we check if only one is a city
+							if((hasProperty(from, "city") && !hasProperty(to, "city")) ||
+									(!hasProperty(from, "city") && hasProperty(to, "city"))) {
+								// Movement is from or to a city, this is it
+								var isACity = hasProperty(from, "city") ? from : to;
+								self._putMoveInCache(m.id, isACity.player.id);
+								self._getPlayerInfo(isACity.player.id);
+							}
+							// If the two are cities
+							else if(hasProperty(from, "city") && hasProperty(to, "city")) {
+								if(from.player.id == to.player.id) {
+									// Cities belong to the same player, trivial
+									self._putMoveInCache(m.id, from.player.id);
+									self._getPlayerInfo(from.player.id);
+								}
+								else {
+									// Check movement colors
+									var fromColor = hasProperty(from, "alliance") ? from.alliance.c : from.player.c;
+									var toColor = hasProperty(to, "alliance") ? to.alliance.c : to.player.c;
+									// If same colors, we cannot guess
+									if(fromColor != toColor) {
+										var colorCity = fromColor == m.color ? from : to;
+										self._putMoveInCache(m.id, colorCity.player.id);
+										self._getPlayerInfo(colorCity.player.id);
+									}
+								}
+								
+							}
+						}
 					}
-				);
-			}
+				}
 		);
 	},
 	
-	_putMoveInCache : function(id, x, y, playerId) 
+	_putMoveInCache : function(id, playerId) 
 	{
-		var self = this;
-		if(!hasProperty(self.cacheMoves, id)) {
-			self.cacheMoves[id] =
-				{
-					coord1 : undefined,
-					coord2 : undefined,
-					playerId: playerId
-				}
-			;
-		}
-		if(x != undefined && y != undefined) {
-			var c = {x : x, y : y};
-			if(self.cacheMoves[id].coord1 == undefined) {
-				self.cacheMoves[id].coord1 = c;
+		this.cacheMoves[id] =
+			{
+				playerId: playerId
 			}
-			else {
-				self.cacheMoves[id].coord2 = c
-			}
-		}
-		if(playerId != undefined) {
-			self.cacheMoves[id].playerId = playerId;
-		}
+		;
+	},
+	
+	_isMoveInCache : function(id)
+	{
+		return hasProperty(this.cacheMoves, id);
 	},
 	
 	unload : function()
