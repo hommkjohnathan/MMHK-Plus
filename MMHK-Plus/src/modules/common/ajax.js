@@ -207,6 +207,14 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
 			function(json) { callback(json); }
 		);
     },
+    
+    getMMHKPLUSServerTime : function(callback)
+    {
+    	$.getJSON(
+			MMHKPLUS.URL_API + "time",
+			function(json) { callback(json); }
+		);
+    },
 
     sendSpyReport : function(content)
     {

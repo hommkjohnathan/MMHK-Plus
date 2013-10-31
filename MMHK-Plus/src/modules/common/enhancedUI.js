@@ -960,17 +960,38 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
     _setupClock : function()
     {
         var time = new Date(); time.setTime($.now());
-
-        var $clock = $("<div>").addClass("MMHKPLUS_Clock").css({position:"absolute", top:"35px", left:"140px", zIndex:1000}).appendTo($("#Container"));
+        var serverTime = new Date(); time.setTime($.now());
+        
+        var $clock = $("<div>").addClass("MMHKPLUS_Clock_local").css({position:"absolute", top:"35px", left:"146px", zIndex:1000}).appendTo($("#Container"));
+        var $serverClock = null;
         this.intervalClockUpdate = setInterval(function()
             {
                 time.setTime($.now());
-                $("div.MMHKPLUS_Clock").html(time.toHoursMinSecFormat());
+                $("div.MMHKPLUS_Clock_local").html("Local: " + time.toHoursMinSecFormat());
+                serverTime.setTime(serverTime.getTime() + 1000);
+                $("div.MMHKPLUS_Clock_server").html("Server: " + serverTime.toHoursMinSecFormat());
             },
             1000
         );
+        
+        var requestServerTime = function() {
+        	if($serverClock == null) {
+    			$serverClock = $("<div>").addClass("MMHKPLUS_Clock_server").css({position:"absolute", top:"50px", left:"140px", zIndex:1000}).appendTo($("#Container"));
+    		}
+    		
+        	var $startRequest = $.now();
+    		MMHKPLUS.getElement("Ajax").getMMHKPLUSServerTime(function(data)
+            	{
+    				var $endRequest = $.now();
+            		serverTime = new Date(data.t * 1000 + ($endRequest - $startRequest)/2 - 1000);
+            	}
+           );
+        }
+        
+        var serverClockInterval = setInterval(requestServerTime, 10 * 60 * 1000);
+        setTimeout(requestServerTime, 10000);// wait 10 second while game is loading
     },
-
+    
     _setupMarketPlaceFrame : function()
     {
         var onArtefactAuctionDisplay = function()
