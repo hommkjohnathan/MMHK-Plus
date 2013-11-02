@@ -529,6 +529,7 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
     {
     	var self = MMHKPLUS.getElement("Cartographer");
     	var toSend = [];
+    	var toSendObj = {};
         regions.forEach(function(r)
             {
         		var cachedRegion = 
@@ -580,6 +581,7 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
                 self.cache[r.x + "_" + r.y] = cachedRegion;
                 
                 toSend.push(cachedRegion);
+                toSendObj[r.x + "_" + r.y] = 1;
                 // For attached region list (influenced regions)
                 if(hasProperty(r, "aRL"))
                 {
@@ -589,6 +591,7 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
                             {
                             	self.cache[a[0] + "_" + a[1]] = {x : a[0], y: a[1], r : {x : r.x , y: r.y}};
                                 toSend.push(self.cache[a[0] + "_" + a[1]]);
+                                toSendObj[[a[0] + "_" + a[1]]] = 1;
                             }
                         }
                     );
@@ -598,12 +601,13 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
         
         for(var i = self.lastX; i <= self.lastX + self.options.hop && i <= self.wS; i++) {
         	for(var j = self.lastY; j <= self.lastY + self.options.hop && j <= self.wS; j++) {
-            	if(!hasProperty(self.cache, "" + i + "_" + j)) {
+            	if(!hasProperty(toSendObj, "" + i + "_" + j)) {
             		// Plain region without influence
             		toSend.push({x : i, y: j});
             	}
             }
         }
+        
         MMHKPLUS.getElement("Ajax").sendCartographerData(toSend);
         if(self.options.opened)
             self._redraw(true);
