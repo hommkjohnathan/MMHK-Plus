@@ -129,7 +129,7 @@
 
 	<target name="publish" depends="build, chromeExtension/intern">
 		<copy file="${output.script.file}" todir="${output.dir}" />
-		<copy file="${output.extension.file}" todir="${output.dir}" />
+		<copy file="${output.extension.file}" todir="${output.dir}/releases" />
 		<copy file="${output.version.file}" todir="${output.dir}" />
 	</target>
 
