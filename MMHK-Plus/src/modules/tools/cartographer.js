@@ -591,14 +591,14 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
                             {
                             	self.cache[a[0] + "_" + a[1]] = {x : a[0], y: a[1], r : {x : r.x , y: r.y}};
                                 toSend.push(self.cache[a[0] + "_" + a[1]]);
-                                toSendObj[[a[0] + "_" + a[1]]] = 1;
+                                toSendObj[a[0] + "_" + a[1]] = 1;
                             }
                         }
                     );
                 }
             }
         );
-        
+        /*
         for(var i = self.lastX; i <= self.lastX + self.options.hop && i <= self.wS; i++) {
         	for(var j = self.lastY; j <= self.lastY + self.options.hop && j <= self.wS; j++) {
             	if(!hasProperty(toSendObj, "" + i + "_" + j)) {
@@ -607,7 +607,7 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
             	}
             }
         }
-        
+        */
         MMHKPLUS.getElement("Ajax").sendCartographerData(toSend);
         if(self.options.opened)
             self._redraw(true);
