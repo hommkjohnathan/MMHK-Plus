@@ -105,7 +105,15 @@
 		<expandProperties path.refid="src.mmhk-plus.files" tofile="${output.script.file}" />
 		<expandProperties path.refid="src.footer.files" tofile="${output.script.file}" />
 		<antcall target="closureCompiler/intern" />
-		<echo file="${output.version.file}" message="${mmhk-plus.script.version}" />
+		<!-- 
+			Some magic trick required here
+			GreaseMonkey seems to ne support patch number, but userscript need a patch number
+			So in version.ini, add a patch number si not set yet
+		-->
+		<condition property="mmhk-plus.script.version.ini" value="${mmhk-plus.script.version}" else="${mmhk-plus.script.version}.0">
+			<matches pattern="[1-9]+\.[0-9]+\.[0-9]+" string="${mmhk-plus.script.version}"/>
+		</condition>
+		<echo file="${output.version.file}" message="${mmhk-plus.script.version.ini}" />
 		<copy file="${output.script.file}" tofile="${working.dir}/tmp_copy" />
 		<concat destfile="${output.script.file}" encoding="UTF-8" outputencoding="UTF-8">
 			<path>
