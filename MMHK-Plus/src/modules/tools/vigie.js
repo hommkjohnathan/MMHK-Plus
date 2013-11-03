@@ -443,10 +443,13 @@ MMHKPLUS.Lookout = MMHKPLUS.PanelElement.extend({
 							// Both are defined, we check if only one is a city
 							if((hasProperty(from, "city") && !hasProperty(to, "city")) ||
 									(!hasProperty(from, "city") && hasProperty(to, "city"))) {
-								// Movement is from or to a city, this is it
+								// Movement is from or to a city, this is it, if color is good!
 								var isACity = hasProperty(from, "city") ? from : to;
-								self._putMoveInCache(m.id, isACity.player.id);
-								self._getPlayerInfo(isACity.player.id);
+								var isACityColor = hasProperty(isACity, "alliance") ? isACity.alliance.c : isACity.player.c;
+								if(isACityColor == m.color) {
+									self._putMoveInCache(m.id, isACity.player.id);
+									self._getPlayerInfo(isACity.player.id);
+								}
 							}
 							// If the two are cities
 							else if(hasProperty(from, "city") && hasProperty(to, "city")) {
