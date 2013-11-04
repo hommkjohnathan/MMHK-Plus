@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+    Contact : aendawyn@gmail.com
+    Website : http://www.mmhk-plus.eu
+     ====================================================================== -->
+
+<project name="DeployOnServer" default="deploy">
+	<description>
+            Deploy new script and Jactari on server
+    </description>
+
+	<property name="workspace" location="../.."/>
+	
+	<import file="buildDefinition.xml"/>
+	<!-- Contains log/password to connect to the server -->
+
+	<extension-point name="deploy"/>
+
+	<target name="deployScript" extensionOf="deploy" unless="noscript">
+		<fail unless="mmhk-plus.script.deploy.property"/>
+		
+		<!-- Override it to know where files are -->
+		<local name="output.dir"/>
+		<property name="output.dir" location="output-mmhkplus#"/>
+		<ant antfile="${workspace}/MMHK-Plus-intern/build/build.xml" dir="${workspace}/MMHK-Plus-intern/build/">
+			<property name="output.dir" location="${output.dir}"/>
+			<property name="conf.name" value="dev"/>
+		</ant>
+
+		<scp todir="${mmhk-plus.script.deploy.property}">
+			<fileset dir="${output.dir}" includes="**/*"/>
+		</scp>
+	</target>
+	
+	<target name="deployJactari" extensionOf="deploy" unless="nojactari">
+		<fail unless="jactari.deploy.property"/>
+		
+		<!-- Override it to know where files are -->
+		<local name="output.dir"/>
+		<property name="output.dir" location="output-jactari#"/>
+		<ant antfile="${workspace}/Jactari-intern/build/build.xml" dir="${workspace}/Jactari-intern/build/">
+			<property name="output.dir" location="${output.dir}"/>
+		</ant>
+
+		<scp todir="${jactari.deploy.property}">
+			<fileset dir="${output.dir}" includes="**/*"/>
+		</scp>
+	</target>
+</project>
