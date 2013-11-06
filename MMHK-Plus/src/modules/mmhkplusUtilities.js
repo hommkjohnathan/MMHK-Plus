@@ -365,6 +365,7 @@ MMHKPLUS.init = function() {
 	MMHKPLUS.addElement(Object.create(MMHKPLUS.Jactari).init());
     MMHKPLUS.addElement(Object.create(MMHKPLUS.EnhancedUI).init());
     MMHKPLUS.addElement(Object.create(MMHKPLUS.Cartographer).init());
+    MMHKPLUS.addElement(Object.create(MMHKPLUS.MineFinder).init());
 	
 	var preferences = MMHKPLUS.getElement("Store").get("MMHKPLUS_PREFERENCES");
 	for(var i in preferences)

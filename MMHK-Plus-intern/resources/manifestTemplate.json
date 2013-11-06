@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
-	"name" : "MMHK-Plus",
-	"version": "${mmhk-plus.script.version}",
+	"name" : "MMHK-Plus (Wrapper for Chrome)",
+	"version": "${mmhk-plus.wrapper.version}",
 	"description": "${mmhk-plus.script.description}",
 	"icons": {
 		"16": "icons/icon16.png",
@@ -11,10 +11,15 @@
 	"content_scripts": 
 	[
 		{
-			"matches": ["http://mightandmagicheroeskingdoms.ubi.com/play*"],
+			"matches": 
+				[
+					"http://mightandmagicheroeskingdoms.ubi.com/play*",
+					"http://mightandmagicheroeskingdoms.ubi.com/play#*",
+					"http://mightandmagicheroeskingdoms.ubi.com/play"
+				],
 			"js": 
                 [
-                    "${output.script.name}"
+                    "${output.wrapper.script.name}"
                 ]
 		}
 	]

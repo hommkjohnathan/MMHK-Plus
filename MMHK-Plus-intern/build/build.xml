@@ -59,7 +59,9 @@
 		<property name="output.dir" location="output#" />
 		<property name="working.dir" location="working#" />
 		<property name="output.script.name" value="mmhk-plus.user.js" />
+		<property name="output.wrapper.script.name" value="mmhk-plus-wrapper.user.js" />
 		<property name="output.script.file" location="${working.dir}/${output.script.name}" />
+		<property name="output.wrapper.script.file" location="${working.dir}/${output.wrapper.script.name}" />
 		<property name="output.extension.file" location="${working.dir}/mmhk-plus-${mmhk-plus.script.version}.zip" />
 		<property name="output.version.file" location="${working.dir}/version.ini" />
 
@@ -82,6 +84,18 @@
 
 		<property name="loadProperties/intern" value="true" />
 	</target>
+	
+	<target name="wrapper/intern" depends="setEnv/intern, loadProperties/intern">
+		<concat destfile="${output.wrapper.script.file}" encoding="UTF-8" outputencoding="UTF-8">
+			<path>
+				<pathelement location="${mmhkplus.build.project.dir}/resources/userscriptHeader.js" />
+				<pathelement location="${mmhkplus.build.project.dir}/resources/wrapper.js" />
+			</path>
+			<filterchain>
+				<expandproperties />
+			</filterchain>
+		</concat>
+	</target>
 
 	<target name="manifest/intern" depends="setEnv/intern, loadProperties/intern">
 		<path id="manifest_template.path">
@@ -90,12 +104,16 @@
 		<expandProperties path.refid="manifest_template.path" tofile="${working.dir}/manifest.json" />
 	</target>
 
-	<target name="chromeExtension/intern" depends="manifest/intern">
+	<target name="chromeExtension/intern" depends="manifest/intern, wrapper/intern">
 		<copy todir="${working.dir}/icons">
 			<fileset dir="${mmhkplus.build.project.dir}/resources/icons" />
 		</copy>
 		<zip destfile="${output.extension.file}/">
-			<fileset dir="${working.dir}" includes="**/*" />
+			<fileset dir="${working.dir}">
+				<include name="${output.wrapper.script.name}"/>
+				<include name="icons/**/*"/>
+				<include name="manifest*"/>
+			</fileset>
 		</zip>
 	</target>
 

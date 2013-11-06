@@ -23,7 +23,7 @@ var JQuery = (function()
         );
     };
 
-    var fClosable = function(self)
+    var fClosable = function(self, $)
     {
         if (self.options.closable === true) 
         {
@@ -77,7 +77,7 @@ var JQuery = (function()
                 var self = this;
                 ui_tabs_create.apply(this, arguments);
                 
-                fClosable(self);
+                fClosable(self, jQuery);
             }
         });
         
@@ -88,7 +88,7 @@ var JQuery = (function()
                 var self = this;
                 ui_tabs_add.apply(this, arguments);
                 
-                fClosable(self);
+                fClosable(self, jQuery);
             }
         });
 		
@@ -99,7 +99,7 @@ var JQuery = (function()
                 var self = this;
                 ui_tabs_refresh.apply(this, arguments);
                 
-                fClosable(self);
+                fClosable(self, jQuery);
             }
         });
     })(jQuery);
@@ -248,3 +248,6 @@ var JQuery = (function()
         jquery : window.jQuery
     }
 })();
+
+realWindow.jQuery = JQuery.jquery;
+realWindow.jQuery.noConflict();

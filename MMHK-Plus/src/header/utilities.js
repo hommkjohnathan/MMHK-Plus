@@ -1,4 +1,3 @@
-realWindow.jQuery = JQuery.jquery;
 
 (function(window, $) {
 
