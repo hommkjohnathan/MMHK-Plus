@@ -215,6 +215,39 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
 			function(json) { callback(json); }
 		);
     },
+    
+    getMines : function(callback) 
+    {
+    	$.getJSON(
+    		MMHKPLUS.URL_API + "mineFinder/" + MMHKPLUS.getElement("Player").get("worldId"),
+    		function(json) { callback(json) ;}
+    	);
+    },
+    
+    getMinesCount : function(callback) 
+    {
+    	$.getJSON(
+    		MMHKPLUS.URL_API + "mineFinder/count/" + MMHKPLUS.getElement("Player").get("worldId"),
+    		function(json) { callback(json) ;}
+    	);
+    },
+    
+    searchMines : function(request, callback)
+    {
+    	$.post(
+    		MMHKPLUS.URL_API + "mineFinder/search/" + MMHKPLUS.getElement("Player").get("worldId"),
+    		JSON.stringify(request),
+    		function(json) { callback(json) ;}
+    	);
+    },
+    
+    sendMineFinderData : function(content)
+    {
+    	$.post(
+    		MMHKPLUS.URL_API + "mineFinder/" + MMHKPLUS.getElement("Player").get("worldId"),
+    		JSON.stringify(content)
+    	);
+    },
 
     sendSpyReport : function(content)
     {

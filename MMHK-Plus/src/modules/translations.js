@@ -64,7 +64,7 @@ MMHKPLUS.translations = {
     REGIONS :       {fr : "Régions", en : "Regions", ru : "Регионы"},
     ATTACKS_SIEGES :{fr : "Sièges", en : "Sieges", ru : "Осады"},
 	LOOKOUT : 		{fr : "Vigie", en : "Lookout", ru : "Передвижения"},
-	MAPFINDER : 	{fr : "MapFinder", en : "MapFinder", ru : "Поиск ресурсов"},
+	MINEFINDER : 	{fr : "MineFinder", en : "MineFinder", ru : "Поиск ресурсов"},
 	CARTO : 		{fr : "Cartographe", en : "Cartographer", ru : "Карта мира"},
 	DISTANCES : 	{fr : "Distances", en : "Distances", ru : "Расстояния"},
 	MARKS : 		{fr : "Repères", en : "Marks", ru : "Пометки"},
@@ -347,6 +347,12 @@ MMHKPLUS.translations = {
 	LOOKOUT_SPEED_4 :	{fr : "Lente (Armes de siège)", en : "Slow (Siege weapons)", ru : "Медленная (Герой идет с осадными орудиями)"},
     STARTED_SINCE : {fr : "Commencé depuis", en : "Started since", ru : "Вышел в"},
 	
+    // MineFinder
+    PROGRESS :		{fr : "Progression", en : "Progress", ru : "прогрессия"},
+    RANGE :			{fr : "Distance", en : "Range", ru : "дальность"},
+    MINES :			{fr : "Mines", en : "Mines", ru : "копи"},
+    TAKEN :			{fr : "Occupé", en : "Taken", ru : "взятый"},
+    
 	// Cartographer
 	CURSOR :		{fr : "Curseur", en : "Cursor", ru : "Курсор"},
 	ACTUAL :		{fr : "Actuel", en : "Actual", ru : "положение"},

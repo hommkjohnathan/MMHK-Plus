@@ -73,7 +73,6 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
     {
         this.options.showResources = !this.options.showResources;
         this.save("sR", this.options.showResources);
-        this._setupResources();
     },
 
     toggleGamePosition : function()
@@ -98,7 +97,6 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
         this._setupPanels();
         this._setupClearMessages();
         this._setupInfluence();
-        this._setupResources();
         this._setupBuildEndTime();
         this._setupAllianceReports();
         this._setupClock();
@@ -196,144 +194,6 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
             if(this.originalWorldmapTooltip)
                 MMHKPLUS.HOMMK.Region.prototype.getTooltipContent = this.originalWorldmapTooltip;
             this.originalWorldmapTooltip = null;
-        }
-    },
-
-    _setupResources : function()
-    {
-        var self = this;
-        var isRunning = false;
-
-        var ressourcesImages = [
-                MMHKPLUS.URL_IMAGES + "ressources/gold.png",
-                MMHKPLUS.URL_IMAGES + "ressources/wood.png",
-                MMHKPLUS.URL_IMAGES + "ressources/ore.png",
-                MMHKPLUS.URL_IMAGES + "ressources/mercury.png",
-                MMHKPLUS.URL_IMAGES + "ressources/crystal.png",
-                MMHKPLUS.URL_IMAGES + "ressources/sulfure.png",
-                MMHKPLUS.URL_IMAGES + "ressources/gem.png",
-            ];
-        
-        var getRessourcesAt = function(x, y)
-        {
-            var id = "MMHKPLUS_UiResourcePool_" + MMHKPLUS.getElement("Player").get("worldId");
-            if(!sessionStorage[id])
-                return null;
-            return JSON.parse(sessionStorage.getItem(id))[MMHKPLUS.getRegionId(x, y) + ''];
-        };
-
-        var putRessourcesInCache = function(regionId)
-        {
-            if(isRunning)
-                return;
-
-            isRunning = true;
-            console.log("Getting ressources for " + regionId);
-            var size = MMHKPLUS.getElement("Player").get("worldSize");
-            $.getScript(MMHKPLUS.URL_PHP + "map_ressources.php?worldId=" 
-                    + MMHKPLUS.getElement("Player").get("worldId")
-                    + "&regionId=" + regionId 
-                    + "&worldSize=" + size, 
-                function(e)
-                {
-                    isRunning = false;
-                    var currentX = MMHKPLUS.HOMMK.worldMap.getGoodPosition(MMHKPLUS.HOMMK.worldMap.x + MMHKPLUS.HOMMK.worldMap.lastTooltipX);
-                    var currentY = MMHKPLUS.HOMMK.worldMap.getGoodPosition(MMHKPLUS.HOMMK.worldMap.y + MMHKPLUS.HOMMK.worldMap.lastTooltipY);
-                    var rAt = getRessourcesAt(currentX, currentY);
-                    if(rAt == null)
-                    {
-                        askForSingleRegion(currentX, currentY);
-                    }
-                    var tip = $("#MMHKPLUS_UiResources");
-                    if(tip.length > 0)
-                    {
-                        tip.html(createRessourcesToolTip(currentX, currentY));
-                    }
-                }
-            );
-        };
-
-        var askForSingleRegion = function(x, y)
-        {
-            MMHKPLUS.getElement("Ajax").getRegionMapXY(x, y, function(json)
-                {
-                    var cases = json.d.RegionMap0.attachedZoneList;
-                    var result = []; 
-                    cases.forEach(function(c)
-                        {
-                            if(hasProperty(c, "attachedMine"))
-                            {
-                                (c.attachedMine.ressourceEntityTagName=="GOLD")?result.push(1):0;
-                                (c.attachedMine.ressourceEntityTagName=="WOOD")?result.push(2):0;
-                                (c.attachedMine.ressourceEntityTagName=="ORE")?result.push(3):0;
-                                (c.attachedMine.ressourceEntityTagName=="MERCURY")?result.push(4):0;
-                                (c.attachedMine.ressourceEntityTagName=="CRYSTAL")?result.push(5):0;
-                                (c.attachedMine.ressourceEntityTagName=="SULFUR")?result.push(6):0;
-                                (c.attachedMine.ressourceEntityTagName=="GEM")?result.push(7):0;
-                            }
-                        }
-                    );
-                    result = result.sort();
-                    var resources = JSON.parse(sessionStorage.getItem("MMHKPLUS_UiResourcePool_" + MMHKPLUS.getElement("Player").get("worldId")));
-                    resources[MMHKPLUS.getRegionId(x, y)] = result;
-                    sessionStorage.setItem("MMHKPLUS_UiResourcePool_" + MMHKPLUS.getElement("Player").get("worldId"), JSON.stringify(resources));
-                    var tip = $("#MMHKPLUS_UiResources");
-                    if(tip.length > 0)
-                    {
-                        var currentX = MMHKPLUS.HOMMK.worldMap.getGoodPosition(MMHKPLUS.HOMMK.worldMap.x + MMHKPLUS.HOMMK.worldMap.lastTooltipX);
-                        var currentY = MMHKPLUS.HOMMK.worldMap.getGoodPosition(MMHKPLUS.HOMMK.worldMap.y + MMHKPLUS.HOMMK.worldMap.lastTooltipY);
-                        if(currentX == x && currentY == y)
-                            tip.html(createRessourcesToolTip(x, y));
-                    }
-                }
-            );
-        };
-        
-        var createRessourcesToolTip = function(x, y)
-        {
-            var rAt = getRessourcesAt(x, y);
-            if(!rAt)
-            {
-                putRessourcesInCache(MMHKPLUS.getRegionId(x, y));
-                return "<i>" + MMHKPLUS.localize("IN_PROGRESS") + "</i>";
-            }
-            if(rAt.length == 0)
-            {
-                return MMHKPLUS.localize("NONE");
-            }
-            else
-            {
-                return "<img src='" + ressourcesImages[rAt[0]-1] + "' style='width:20px;height:20px'/>&nbsp;&nbsp;"
-                     + "<img src='" + ressourcesImages[rAt[1]-1] + "' style='width:20px;height:20px'/>&nbsp;&nbsp;"
-                     + "<img src='" + ressourcesImages[rAt[2]-1] + "' style='width:20px;height:20px'/>&nbsp;&nbsp;"
-                     + "<img src='" + ressourcesImages[rAt[3]-1] + "' style='width:20px;height:20px'/>";
-            }
-        };
-
-        var newToolTipContent = function()
-        {
-            var originalTip = self.originalTooltipContentFunction.apply(this,arguments);
-            if(originalTip && !originalTip.match(/id='MMHKPLUS_UiResources/))
-            {
-                var currentX = MMHKPLUS.HOMMK.worldMap.getGoodPosition(MMHKPLUS.HOMMK.worldMap.x + MMHKPLUS.HOMMK.worldMap.lastTooltipX);
-                var currentY = MMHKPLUS.HOMMK.worldMap.getGoodPosition(MMHKPLUS.HOMMK.worldMap.y + MMHKPLUS.HOMMK.worldMap.lastTooltipY);
-                
-                originalTip += "<div id='MMHKPLUS_UiResources'>" + createRessourcesToolTip(currentX, currentY) + "</div>"
-            }
-            return originalTip;
-        };
-
-        if(this.options.showResources)
-        {
-            this.originalTooltipContentFunction = MMHKPLUS.HOMMK.worldMap.tooltip.htmlContentFunction; 
-
-            MMHKPLUS.HOMMK.worldMap.tooltip.htmlContentFunction = newToolTipContent;
-        }
-        else
-        {
-            if(this.originalTooltipContentFunction)
-                MMHKPLUS.HOMMK.worldMap.tooltip.htmlContentFunction = this.originalTooltipContentFunction;
-            this.originalTooltipContentFunction = null;
         }
     },
 

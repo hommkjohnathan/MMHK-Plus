@@ -48,7 +48,7 @@ MMHKPLUS.Menu = MMHKPLUS.ExtendableElement.extend({
 				[
                     {t : MMHKPLUS.localize("ATTACKS_SIEGES"), ref : "AttacksSieges"},
 					{t : MMHKPLUS.localize("LOOKOUT"), ref : "Lookout"},
-					{t : MMHKPLUS.localize("MAPFINDER"), ref : "MapFinder"},
+					{t : MMHKPLUS.localize("MINEFINDER"), ref : "MineFinder"},
 					{t : MMHKPLUS.localize("CARTO"), ref : "Cartographer"},
 					{t : MMHKPLUS.localize("DISTANCES"), ref : "Distances"},
 					{t : MMHKPLUS.localize("MARKS"), ref : "Marks"},
