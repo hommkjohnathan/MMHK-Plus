@@ -295,7 +295,7 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
                         content = content.replace(new RegExp("(\\(\\s*([0-9]{1,3})\\s*\-\\s*([0-9]{1,3}\\s*)\\))", "gi"), "<span style='color:blue;cursor:pointer;' onClick='MMHKPLUS.centerOn($2, $3, false);'>$1</span>");
                         content = content.replace(new RegExp("(\\(\\s*([0-9]{1,3})\\s*\.\\s*([0-9]{1,3}\\s*)\\))", "gi"), "<span style='color:blue;cursor:pointer;' onClick='MMHKPLUS.centerOn($2, $3, false);'>$1</span>");
                         content = content.replace(new RegExp("(\\(\\s*([0-9]{1,3})\\s*:\\s*([0-9]{1,3}\\s*)\\))", "gi"), "<span style='color:blue;cursor:pointer;' onClick='MMHKPLUS.centerOn($2, $3, false);'>$1</span>");     
-                        content = content.replace(/MMHKPLUS_ScoutPL\(([0-9]+),([A-Za-z0-9_\-\s'"\?\!\w]+)\)/,"<span style='color:blue;cursor:pointer;' onClick='MMHKPLUS.getElement(\"Ajax\").getSpyReportContent($1);'>$2</span>");
+                        content = content.replace(/MMHKPLUS_ScoutPL\(([0-9a-zA-Z]+)\)/,"<span style='color:blue;cursor:pointer;' onClick='MMHKPLUS.getElement(\"Ajax\").getSpyReportContent(\"$1\", MMHKPLUS.getElement(\"AllianceSpys\", true)._openSpyReport);'>$2</span>");
                         content = content.replace(/MMHKPLUS_HeroPL\(([0-9]+),([0-9]+),([A-Za-z0-9_\-\s'"\?\!\w]+)\)/,"<span style='color:blue;cursor:pointer;' onClick='MMHKPLUS.openDisplayable(\"AllianceHeroes\");MMHKPLUS.getElement(\"AllianceHeroes\")._loadHero($1,$2);'>$3</span>");
                         result = result.replace(/<span class=\"chatsystemspeakcontent\">(.*)<\/span>/, "<span class=\"chatsystemspeakcontent\">" + content + "</span>");
                     }
@@ -507,7 +507,7 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
                 newContent = newContent.replace(new RegExp("(\\(\\s*([0-9]{1,3})\\s*\-\\s*([0-9]{1,3}\\s*)\\))", "gi"), "<span style='color:blue;cursor:pointer;' onClick='MMHKPLUS.centerOn($2, $3, false);'>$1</span>");
                 newContent = newContent.replace(new RegExp("(\\(\\s*([0-9]{1,3})\\s*\.\\s*([0-9]{1,3}\\s*)\\))", "gi"), "<span style='color:blue;cursor:pointer;' onClick='MMHKPLUS.centerOn($2, $3, false);'>$1</span>");
                 newContent = newContent.replace(new RegExp("(\\(\\s*([0-9]{1,3})\\s*:\\s*([0-9]{1,3}\\s*)\\))", "gi"), "<span style='color:blue;cursor:pointer;' onClick='MMHKPLUS.centerOn($2, $3, false);'>$1</span>");
-                newContent = newContent.replace(/MMHKPLUS_ScoutPL\(([0-9]+),([A-Za-z0-9_\-\s'"\?\!\w]+)\)/,"<span style='color:blue;cursor:pointer;' onClick='MMHKPLUS.getElement(\"Ajax\").getSpyReportContent($1);'>$2</span>");
+                newContent = newContent.replace(/MMHKPLUS_ScoutPL\(([0-9a-zA-Z]+),([A-Za-z0-9_\-\s'"\?\!\w]+)\)/,"<span style='color:blue;cursor:pointer;' onClick='MMHKPLUS.getElement(\"Ajax\").getSpyReportContent(\"$1\", MMHKPLUS.getElement(\"AllianceSpys\", true)._openSpyReport);'>$2</span>");
                 newContent = newContent.replace(/MMHKPLUS_HeroPL\(([0-9]+),([0-9]+),([A-Za-z0-9_\-\s'"\?\!\w]+)\)/,"<span style='color:blue;cursor:pointer;' onClick='MMHKPLUS.openDisplayable(\"AllianceHeroes\");MMHKPLUS.getElement(\"AllianceHeroes\")._loadHero($1,$2);'>$3</span>");
 
                 content.innerHTML = newContent;
@@ -706,6 +706,7 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
                     {
                         var content = $.extend(true, {}, message.content);
                         // Remove some unecessary values
+                        if(hasProperty(content, "id")) delete content.id;
                         if(hasProperty(content, "summaryContent")) delete content.summaryContent;
                         if(hasProperty(content, "exp_playerId")) delete content.exp_playerId;
                         if(hasProperty(content, "exp_playerName")) delete content.exp_playerName;
@@ -717,16 +718,25 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
                         if(hasProperty(content, "exp_allianceName")) delete content.exp_allianceName;
                         if(hasProperty(content, "recptPlayerNameList")) delete content.recptPlayerNameList;
                         if(hasProperty(content, "isRead")) delete content.isRead;
+                        if(hasProperty(content, "isTrashed")) delete content.isTrashed;
                         if(hasProperty(content, "isArchived")) delete content.isArchived;
                         if(hasProperty(content, "isAllianceChiefMessage")) delete content.isAllianceChiefMessage;
                         if(hasProperty(content, "subject")) delete content.subject;
                         if(hasProperty(content, "isArchived")) delete content.isArchived;
                         if(hasProperty(content, "patrol_heroId")) delete content.patrol_heroId;
                         if(hasProperty(content, "XPGainedStr")) delete content.XPGainedStr;
+                        if(hasProperty(content, "linked_messageId")) delete content.linked_messageId;
 
                         if(hasProperty(content, "contentJSON"))
                         {
+                        	if(hasProperty(content.contentJSON, "hero")) delete content.contentJSON.hero;
                             if(hasProperty(content.contentJSON, "message")) delete content.contentJSON.message;
+                            if(hasProperty(content.contentJSON, "ScoutingLevelStr")) {
+                            	var pos = content.contentJSON.ScoutingLevelStr.indexOf(".");
+                            	content.contentJSON.ScoutingLevelStr = content.contentJSON.ScoutingLevelStr.slice(pos+2, content.contentJSON.ScoutingLevelStr.length);
+                            }
+                            if(hasProperty(content.contentJSON, "XPGainedStr")) delete content.contentJSON.XPGainedStr;
+                            if(hasProperty(content.contentJSON, "cityFortificationName")) delete content.contentJSON.cityFortificationName;
 
                             if(hasProperty(content.contentJSON, "defenseUnitStackList"))
                             {
@@ -734,6 +744,7 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
                                     {
                                         delete content.contentJSON.defenseUnitStackList[di].id;
                                         delete content.contentJSON.defenseUnitStackList[di].unitEntityName;
+                                        delete content.contentJSON.defenseUnitStackList[di].unitEntityTagName;
                                         delete content.contentJSON.defenseUnitStackList[di].unitEntityTypeName;
                                     }
                                 );
@@ -743,9 +754,10 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
                             {
                                 content.contentJSON.regionUnitStackList.forEach(function(d, di)
                                     {
-                                        delete content.contentJSON.regionUnitStackList[di].id;
-                                        delete content.contentJSON.regionUnitStackList[di].unitEntityName;
-                                        delete content.contentJSON.regionUnitStackList[di].unitEntityTypeName;
+	                                	delete content.contentJSON.regionUnitStackList[di].id;
+	                                    delete content.contentJSON.regionUnitStackList[di].unitEntityName;
+	                                    delete content.contentJSON.regionUnitStackList[di].unitEntityTagName;
+	                                    delete content.contentJSON.regionUnitStackList[di].unitEntityTypeName;
                                         delete content.contentJSON.regionUnitStackList[di].powerPosition;
                                     }
                                 );
@@ -755,12 +767,16 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
                             {
                                 content.contentJSON.heroList.forEach(function(h, hi)
                                     {
+                                		if(hasProperty(h, "heroTrainingEntityName")) delete content.contentJSON.heroList[hi].heroTrainingEntityName;
+                                		
                                         if(hasProperty(h, "attachedUnitStackList"))
                                         {
                                             h.attachedUnitStackList.forEach(function(u, ui)
                                                 {
-                                                    delete content.contentJSON.heroList[hi].attachedUnitStackList[ui].id;
-                                                    delete content.contentJSON.heroList[hi].attachedUnitStackList[ui].unitEntityName;
+	                                            	delete content.contentJSON.heroList[hi].attachedUnitStackList[ui].id;
+	        	                                    delete content.contentJSON.heroList[hi].attachedUnitStackList[ui].unitEntityName;
+	        	                                    delete content.contentJSON.heroList[hi].attachedUnitStackList[ui].unitEntityTagName;
+	        	                                    delete content.contentJSON.heroList[hi].attachedUnitStackList[ui].unitEntityTypeName;
                                                     delete content.contentJSON.heroList[hi].attachedUnitStackList[ui].powerPosition;
                                                 }
                                             );
@@ -774,6 +790,7 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
                                                     delete content.contentJSON.heroList[hi].artefactList[ai].heroId;
                                                     delete content.contentJSON.heroList[hi].artefactList[ai].binded;
                                                     delete content.contentJSON.heroList[hi].artefactList[ai].associated;
+                                                    delete content.contentJSON.heroList[hi].artefactList[ai].bodyPartLoc;
                                                     delete a.position
 
                                                     delete content.contentJSON.heroList[hi].artefactList[ai].artefactEntity.isSellable;
@@ -805,14 +822,60 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
                                 );
                             }
                         }
+                        
+                        // add somes properties
+                        	// playerId/name & allianceId/name
+                        content.playerId = MMHKPLUS.getElement("Player").get("playerId");
+                        content.playerName = MMHKPLUS.getElement("Player").get("playerName");
+                        content.allianceId = MMHKPLUS.getElement("Player").get("allianceId"); //exists
+                        content.allianceName = MMHKPLUS.getElement("Player").get("allianceName"); //exists
+                        	// x and y, and location type
+                        if(hasProperty(content, "contentJSON")) {
+                        	if(hasProperty(content.contentJSON, "targetedHaltX")) {
+                        		content['x'] = content.contentJSON.targetedHaltX;
+                        		content['y'] = content.contentJSON.targetedHaltY;
+                        		content['locationTagName'] = "HALT";
+                        	}
+                        	else if(hasProperty(content.contentJSON, "siegedRegionX")) {
+                        		content['x'] = content.contentJSON.siegedRegionX;
+                        		content['y'] = content.contentJSON.siegedRegionY;
+                        		content['locationTagName'] = "SIEGE";
+                        	}
+                        	else if(hasProperty(content.contentJSON, "targetedRegionId")) {
+                        		var wS = MMHKPLUS.getElement("Player").get("worldSize");
+                        		var rN = content.contentJSON.targetedRegionNumber;
+                        		content['x'] = rN % wS;
+                        		content['y'] = ((rN - content.x) / wS) +1;
+                        		content['locationTagName'] = "CITY";
+                        	}
+                        	else {
+                        		var match = content.contentJSON.ScoutingLevelStr.match('<location:([0-9]+),([0-9]+)>');
+                        		if(match != null) {
+                        			content['x'] = parseInt(match[1]);
+                            		content['y'] = parseInt(match[2]);
+                            		content['locationTagName'] = "RUIN";
+                        		}
+                        	}
+                        }
 
-                        MMHKPLUS.getElement("Ajax").sendSpyReport(content);
+                        if(content.contentJSON.scoutingLevel >= 2 || content.locationTagName == 'SIEGE') {
+                        	MMHKPLUS.getElement("Ajax").sendScoutingReport(content);
+                        }
                         lastMessage = message.content.id;
                     }
                 }
             };
+            
+            var getSpyReportsForSelectedRegion = function() 
+            {
+            	MMHKPLUS.getElement("Ajax").getSpyReportsForSelectedRegion(function(reports)
+            		{
+            			MMHKPLUS.getElement('AllianceRegionReports', true).displayReports(reports);
+            		}
+            	);
+            };
 
-            MMHKPLUS.HOMMK.WorldMap.prototype.selectRegion = injectAfter(MMHKPLUS.HOMMK.WorldMap.prototype.selectRegion, MMHKPLUS.getElement("Ajax").getSpyReportsForSelectedRegion);
+            MMHKPLUS.HOMMK.WorldMap.prototype.selectRegion = injectAfter(MMHKPLUS.HOMMK.WorldMap.prototype.selectRegion,getSpyReportsForSelectedRegion);
             MMHKPLUS.HOMMK.MessageBoxFrame.prototype.displayMessage = injectAfter(MMHKPLUS.HOMMK.MessageBoxFrame.prototype.displayMessage, checkScoutingMessage);   
         }
     },

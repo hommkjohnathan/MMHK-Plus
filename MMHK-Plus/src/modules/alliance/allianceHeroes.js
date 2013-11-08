@@ -97,123 +97,97 @@ MMHKPLUS.AllianceHeroes = MMHKPLUS.PanelElement.extend({
 
     _getAlliances : function()
     {
-        var $selectAlliances = this.$elem.find("select").eq(0);
-        $selectAlliances.empty();
+        MMHKPLUS.getElement("Ajax").getAlliances(function(alliances)
+        	{
+        		var self = MMHKPLUS.getElement("AllianceHeroes");
+        		var $table = self.$elem.find("table");
+                $table.empty();
+	        	var $selectAlliances = self.$elem.find("select").eq(0);
+	            $selectAlliances.empty();
+	        	$selectAlliances.append(
+                    $("<option>")
+                        .attr("value", -2)
+                        .html(""));
+	        	$selectAlliances.append(
+                    $("<option>")
+                        .attr("value", -1)
+                        .html(MMHKPLUS.localize("NONE")));
 
-        sessionStorage.removeItem("MMHKPLUS_Alliances");
-        MMHKPLUS.getElement("Ajax").getAlliances();
-        MMHKPLUS.wait(function()
-            {
-                return sessionStorage.getItem("MMHKPLUS_Alliances") != null;   
-            },
-            function()
-            {
-                var alliances = JSON.parse(sessionStorage.getItem("MMHKPLUS_Alliances")) || [];
-                sessionStorage.removeItem("MMHKPLUS_Alliances");
-
-                $selectAlliances.append(
-                            $("<option>")
-                                .attr("value", "%")
-                                .html(""));
-                $selectAlliances.append(
-                            $("<option>")
-                                .attr("value", -1)
-                                .html(MMHKPLUS.localize("NONE")));
-
-                alliances.forEach(function(a)
-                    {
-                        $selectAlliances.append(
-                            $("<option>")
-                                .attr("value", a[1])
-                                .html(a[0]));
-                    }
-                );
-            },
-            8
-        );  
+	        	alliances.forEach(function(a)
+		            {
+	        			if(a.allianceId == null) {
+	        				return;
+	        			}
+		                $selectAlliances.append(
+		                    $("<option>")
+		                        .attr("value", a.allianceId)
+		                        .html(a.allianceName));
+		            }
+		        );
+        	}
+        );
     },
 
     _getPlayers : function()
     {
-        var $selectPlayers = this.$elem.find("select").eq(1);
+    	var $selectPlayers = this.$elem.find("select").eq(1);
         $selectPlayers.empty();
-        var filterAlliance = this.$elem.find("select").eq(0).val() || "%";
+        var filterAlliance = this.$elem.find("select").eq(0).val() || -2;
 
-        if(filterAlliance == "%")
+        if(filterAlliance == -2)
             return;
 
-        sessionStorage.removeItem("MMHKPLUS_Players");
-        MMHKPLUS.getElement("Ajax").getPlayers(filterAlliance);
-        MMHKPLUS.wait(function()
-            {
-                return sessionStorage.getItem("MMHKPLUS_Players") != null;   
-            },
-            function()
-            {
-                var players = JSON.parse(sessionStorage.getItem("MMHKPLUS_Players")) || [];
-                sessionStorage.removeItem("MMHKPLUS_Players");
-
-                $selectPlayers.append(
-                    $("<option>")
-                        .attr("value", "%")
-                        .html(""));
-
-                players.forEach(function(p)
-                    {
-                        $selectPlayers.append(
-                            $("<option>")
-                                .attr("value", p[1])
-                                .html(p[0]));
-                    }
-                );
-            },
-            8
+        MMHKPLUS.getElement("Ajax").getPlayers(filterAlliance, function(players)
+        	{
+	            $selectPlayers.append(
+	                $("<option>")
+	                    .attr("value", -2)
+	                    .html(""));
+	
+	            players.forEach(function(p)
+	                {
+	                    $selectPlayers.append(
+	                        $("<option>")
+	                            .attr("value", p.playerId)
+	                            .html(p.playerName));
+	                }
+	            );
+        	}
         );
     },
 
     _getHeroes : function()
     {
-        var self = this;
-        var $table = this.$elem.find("table");
+        var self = MMHKPLUS.getElement("AllianceHeroes");
+        var $table = self.$elem.find("table");
         $table.empty();
-        var playerId = this.$elem.find("select").eq(1).val() || null;
-        if(playerId)
+        var targetedPlayerId = self.$elem.find("select").eq(1).val() || null;
+        if(targetedPlayerId)
         {
-            sessionStorage.removeItem("MMHKPLUS_Heroes");
-            MMHKPLUS.getElement("Ajax").getHeroes(playerId);
-            MMHKPLUS.wait(
-                function()
-                {  
-                    return sessionStorage.getItem("MMHKPLUS_Heroes") != null;
-                },
-                function()
-                {
-                    var heroes = JSON.parse(sessionStorage.getItem("MMHKPLUS_Heroes")) || [];
-                    sessionStorage.removeItem("MMHKPLUS_Heroes");
-
-                    heroes.forEach(function(h)
+            MMHKPLUS.getElement("Ajax").getHeroes(targetedPlayerId, function(heroes)
+            	{
+            		heroes.forEach(function(h)
                         {
                             $table.append(
                                 $("<tr>").addClass("MMHKPLUS_100Width MMHKPLUS_AllianceSpysHover")
                                     .css("cursor", "pointer")
                                     .append(
                                         $("<td>").addClass("MMHKPLUS_TextCenter")
-                                            .html(h[2]))
+                                            .html(h.name))
                                     .append(
                                         $("<td>").addClass("MMHKPLUS_TextCenter")
-                                            .html(MMHKPLUS.localize("LEVEL") + " " + h[3]))
+                                            .html(MMHKPLUS.localize("LEVEL") + " " + (h._level || "?")))
                                     .append(
                                         $("<td>").addClass("MMHKPLUS_TextCenter")
-                                            .html((h[4].trim() == "" ? "" : MMHKPLUS.localizeText(h[4]))))
+                                            .html((hasProperty(h, 'heroTrainingEntityTagName') ? MMHKPLUS.localize(h.heroTrainingEntityTagName) : "?")))
                                     .click(function()
                                         {
-                                            self._loadHero(h[0], h[1]);
+                                            self._loadHero(targetedPlayerId, h.id);
                                         }));
                         }
                     );
                     $table.find("tr:odd").css({backgroundColor:"rgba(0,191,255,0.2)"});
-                },
-                8
+            	}
             );
         }
     },
@@ -221,27 +195,17 @@ MMHKPLUS.AllianceHeroes = MMHKPLUS.PanelElement.extend({
     _loadHero : function(playerId, heroId)
     {
         var self = MMHKPLUS.getElement("AllianceHeroes");
-        sessionStorage.removeItem("MMHKPLUS_Hero");
-        MMHKPLUS.getElement("Ajax").getSpyHeroContent(playerId, heroId);
-        MMHKPLUS.wait(
-            function()
-            {  
-                return sessionStorage.getItem("MMHKPLUS_Hero") != null;
-            },
-            function()
-            {
-                var hero = JSON.parse(sessionStorage.getItem("MMHKPLUS_Hero"));
-                sessionStorage.removeItem("MMHKPLUS_Hero");
-                if(!hero)
-                {
-                    MMHKPLUS.alert(MMHKPLUS.localize("NOT_FOUND_AH_TITLE"), MMHKPLUS.localize("NOT_FOUND_AH_TEXT"));
-                    self.$elem.dialog("close");
-                    return;
-                }
-
-                self._createHeroContent(playerId, hero);
-            },
-            8
+        MMHKPLUS.getElement("Ajax").getSpyHeroContent(playerId, heroId, function(hero)
+        	{
+	        	if(!hero)
+	            {
+	                MMHKPLUS.alert(MMHKPLUS.localize("NOT_FOUND_AH_TITLE"), MMHKPLUS.localize("NOT_FOUND_AH_TEXT"));
+	                self.$elem.dialog("close");
+	                return;
+	            }
+	        	
+	        	self._createHeroContent(playerId, hero);
+        	}
         );
     },
 
@@ -269,7 +233,7 @@ MMHKPLUS.AllianceHeroes = MMHKPLUS.PanelElement.extend({
         var $heroContent = self.$elem.find("div.MMHKPLUS_AllianceHeroesHero");
         $heroContent.empty();
             
-        var heroImage = self._getHeroBackgroundImage(hero[2], hero[3]).css(
+        var heroImage = self._getHeroBackgroundImage(hero.factionEntityTagName, hero.picture).css(
             {
                 "position" : "relative",
                 "float" : "left",
@@ -313,18 +277,18 @@ MMHKPLUS.AllianceHeroes = MMHKPLUS.PanelElement.extend({
                 "font-weight" : "bold",
                 "padding-left" : "10px"
             }
-        ).html(hero[1].toUpperCase()).appendTo($heroContent);
+        ).html(hero.name.toUpperCase()).appendTo($heroContent);
         
-        $("<p style='font-weight:bold;'/>").html(MMHKPLUS.localize("LEVEL") + " : " + hero[4]).appendTo(divSummary);
-        $("<p style='font-weight:bold;'/>").html((hero[5].trim() == "" ? "" : MMHKPLUS.localizeText(hero[5]))).appendTo(divSummary);
+        $("<p style='font-weight:bold;'/>").html(MMHKPLUS.localize("LEVEL") + " : " + (hero._level || "?")).appendTo(divSummary);
+        $("<p style='font-weight:bold;'/>").html(hasProperty(hero, 'heroTrainingEntityTagName' ? MMHKPLUS.localize(hero.heroTrainingEntityTagName) : "?")).appendTo(divSummary);
         
         var statsSummary = $("<div/>").css({"margin-top" : "10px"}).appendTo(divSummary);
         $("<img/>").attr("src", MMHKPLUS.URL_IMAGES + "kingdom/heroAttack.png").css({"padding-right" : "10px"}).appendTo(statsSummary);
-        $("<span/>").css({"font-weight":"bold", "font-size":"135%", "margin-right" : "20px"}).html(hero[6]).appendTo(statsSummary);
+        $("<span/>").css({"font-weight":"bold", "font-size":"135%", "margin-right" : "20px"}).html((parseInt(hero.attack) || "?")).appendTo(statsSummary);
         $("<img/>").attr("src", MMHKPLUS.URL_IMAGES + "kingdom/heroDefense.png").css({"padding-right" : "10px"}).appendTo(statsSummary);
-        $("<span/>").css({"font-weight":"bold", "font-size":"135%", "margin-right" : "20px"}).html(hero[7]).appendTo(statsSummary);
+        $("<span/>").css({"font-weight":"bold", "font-size":"135%", "margin-right" : "20px"}).html((parseInt(hero.defense) || "?")).appendTo(statsSummary);
         $("<img/>").attr("src", MMHKPLUS.URL_IMAGES + "kingdom/heroMagic.png").css({"padding-right" : "10px"}).appendTo(statsSummary);
-        $("<span/>").css({"font-weight":"bold", "font-size":"135%"}).html(hero[8]).appendTo(statsSummary);
+        $("<span/>").css({"font-weight":"bold", "font-size":"135%"}).html((parseInt(hero.magic) || "?")).appendTo(statsSummary);
         
         $("<div/>").addClass("MMHKPLUS_AllianceHeroesHeroContent MMHKPLUS_TextCenter").css(
             {
@@ -337,7 +301,7 @@ MMHKPLUS.AllianceHeroes = MMHKPLUS.PanelElement.extend({
             }
         ).append(
             $("<label>").html(MMHKPLUS.localize("IG_PERMALINK")))
-        .append($("<input readonly>").css({width: "220px", marginLeft:"15px"}).val("MMHKPLUS_HeroPL(" + playerId + "," + hero[0] + "," + removeDiacritics(hero[1])+ ")").click(function() {this.select();}))
+        .append($("<input readonly>").css({width: "220px", marginLeft:"15px"}).val("MMHKPLUS_HeroPL(" + playerId + "," + hero.id + "," + removeDiacritics(hero.name)+ ")").click(function() {this.select();}))
         .appendTo($heroContent);
 
         var divDetailContent = $("<div/>").addClass("MMHKPLUS_AllianceHeroesHeroContent").css(
@@ -353,12 +317,12 @@ MMHKPLUS.AllianceHeroes = MMHKPLUS.PanelElement.extend({
                 "padding-left" : "10px"
             }
         ).appendTo($heroContent);
-        MMHKPLUS.getElement("SpyReport", true)._createClassesContent(hero[9]).css(
+        MMHKPLUS.getElement("SpyReport", true)._createClassesContent(hasProperty(hero, 'heroClassList') ? hero.heroClassList : []).css(
             {
                 "margin-left" : "40px"
             }
         ).appendTo(divDetailContent);
-        MMHKPLUS.getElement("SpyReport", true)._createSpellsContent(hero[10]).css(
+        MMHKPLUS.getElement("SpyReport", true)._createSpellsContent(hasProperty(hero, 'spellStackList') ? hero.spellStackList : []).css(
             {
                 "position" : "relative",
                 "top" : "-60px",
@@ -366,7 +330,7 @@ MMHKPLUS.AllianceHeroes = MMHKPLUS.PanelElement.extend({
                 "left" : "250px"
             }
         ).appendTo(divDetailContent);
-        MMHKPLUS.getElement("SpyReport", true)._createArtefactsContent(hero[11]).css(
+        MMHKPLUS.getElement("SpyReport", true)._createArtefactsContent(hasProperty(hero, 'artefactList') ? hero.artefactList : []).css(
             {
                 "position" : "relative",
                 "top" : "-50px",
@@ -375,7 +339,7 @@ MMHKPLUS.AllianceHeroes = MMHKPLUS.PanelElement.extend({
         ).appendTo(divDetailContent);
         
         
-        $("<div/>").html("<p style='height:17px;line-height:17px;'><img src='" + MMHKPLUS.URL_JACTARI + "images/icone-combat.png' style='margin-right:10px;'/><span style='position:relative;margin-top:-5px;top:-4px;padding-right:7px;'>" + MMHKPLUS.localize("ATTACKER") + "</span></p>").css(
+        $("<div/>").html("<p style='height:17px;line-height:17px;'><img src='" + MMHKPLUS.URL_JACTARI + "/images/icone-combat.png' style='margin-right:10px;'/><span style='position:relative;margin-top:-5px;top:-4px;padding-right:7px;'>" + MMHKPLUS.localize("ATTACKER") + "</span></p>").css(
             {
                 "position" : "absolute",
                 "top" : "10px",
@@ -392,19 +356,19 @@ MMHKPLUS.AllianceHeroes = MMHKPLUS.PanelElement.extend({
             {
                 var heroJac =
                     {
-                        defense : hero[7],
-                        attack : hero[6],
-                        magic : hero[8],
-                        factionEntityTagName : hero[2],
-                        id : hero[0],
-                        name : hero[1],
-                        _level : hero[4],
-                        heroTrainingEntityTagName : MMHKPLUS.getElement("SpyReport", true)._stringToArchetype(hero[5]),
+                        defense : hero.defense,
+                        attack : hero.attack,
+                        magic : hero.magic,
+                        factionEntityTagName : hero.factionEntityTagName,
+                        id : hero.id,
+                        name : hero.name,
+                        _level : hero._level,
+                        heroTrainingEntityTagName : hero.heroTrainingEntityTagName || "",
                         bonus : 
                             {
-                                artefacts : hero[11],
-                                skills : [],
-                                spells : []
+                                artefacts : hero.artefactList || [],
+                                skills : hero.heroClassList || [],
+                                spells : hero.spellStackList || []
                             }
                     };
                 MMHKPLUS.getElement("Jactari").permalien(null, heroJac, {});
@@ -429,19 +393,19 @@ MMHKPLUS.AllianceHeroes = MMHKPLUS.PanelElement.extend({
             {
                 var heroJac =
                     {
-                        defense : hero[7],
-                        attack : hero[6],
-                        magic : hero[8],
-                        factionEntityTagName : hero[2],
-                        id : hero[0],
-                        name : hero[1],
-                        _level : hero[4],
-                        heroTrainingEntityTagName : MMHKPLUS.getElement("SpyReport", true)._stringToArchetype(hero[5]),
+                        defense : hero.defense,
+                        attack : hero.attack,
+                        magic : hero.magic,
+                        factionEntityTagName : hero.factionEntityTagName,
+                        id : hero.id,
+                        name : hero.name,
+                        _level : hero._level,
+                        heroTrainingEntityTagName : hero.heroTrainingEntityTagName || "",
                         bonus : 
                             {
-                                artefacts : hero[11],
-                                skills : [],
-                                spells : []
+	                        	artefacts : hero.artefactList || [],
+	                            skills : hero.heroClassList || [],
+	                            spells : hero.spellStackList || []
                             }
                     };
                 heroJac.artefactList = heroJac.bonus.artefacts;

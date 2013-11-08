@@ -144,44 +144,65 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
 			sync
 		);
 	},
+	
+	sendScoutingReport : function(report) 
+	{
+		$.post(
+    		MMHKPLUS.URL_API + "scouting/" + MMHKPLUS.getElement("Player").get("worldId"),
+    		JSON.stringify(report)
+    	);
+	},
 
-    getSpyReportsForSelectedRegion : function()
+    getSpyReportsForSelectedRegion : function(callback)
     {
-        $.getScript(MMHKPLUS.URL_PHP + "get_spy_report.php?" 
-            + "worldId=" + MMHKPLUS.getElement("Player").get("worldId")
-            + "&allianceId=" + MMHKPLUS.getElement("Player").get("allianceId")
-            + "&curX=" + MMHKPLUS.HOMMK.worldMap.selectedRegion.content.x
-            + "&curY=" + MMHKPLUS.HOMMK.worldMap.selectedRegion.content.y
-            + "&referenceId=" + MMHKPLUS.HOMMK.worldMap.selectedRegion.content.id
-        );
+    	$.post(
+    		MMHKPLUS.URL_API + "scouting/region/" + MMHKPLUS.getElement("Player").get("worldId"),
+    		JSON.stringify(
+    			{
+    				allianceId : MMHKPLUS.getElement("Player").get("allianceId"),
+    				x : MMHKPLUS.HOMMK.worldMap.selectedRegion.content.x,
+    				y : MMHKPLUS.HOMMK.worldMap.selectedRegion.content.y
+    			}
+    		),
+    		function(json) { callback(JSON.parse(json));}
+    	);
     },
 
-    getSpyReportContent : function(reportId)
+    getSpyReportContent : function(hash, callback)
     {
-        $.getScript(MMHKPLUS.URL_PHP + "get_spy_report.php?" 
-            + "worldId=" + MMHKPLUS.getElement("Player").get("worldId")
-            + "&allianceId=" + MMHKPLUS.getElement("Player").get("allianceId")
-            + "&reportId=" + reportId
-        );
+    	$.getJSON(
+    		MMHKPLUS.URL_API + "scouting/" + MMHKPLUS.getElement("Player").get("worldId") + "/" + hash,
+    		function(json) { callback(json) ;}
+    	);
     },
 
-    getHeroes : function(targetedPlayerId)
+    getHeroes : function(targetedPlayerId, callback)
     {
-        $.getScript(MMHKPLUS.URL_PHP + "heroes.php?" 
-            + "worldId=" + MMHKPLUS.getElement("Player").get("worldId")
-            + "&allianceId=" + MMHKPLUS.getElement("Player").get("allianceId")
-            + "&playerId=" + targetedPlayerId
-        );
+    	$.post(
+    		MMHKPLUS.URL_API + "heroes/list/" + MMHKPLUS.getElement("Player").get("worldId"),
+    		JSON.stringify(
+    			{
+    				allianceId : MMHKPLUS.getElement("Player").get("allianceId"),
+    				targetedPlayerId : targetedPlayerId
+    			}
+    		),
+    		function(json) { callback(JSON.parse(json)); }
+    	);
     },
 
-    getSpyHeroContent : function(targetedPlayerId, heroId)
+    getSpyHeroContent : function(targetedPlayerId, heroId, callback)
     {
-        $.getScript(MMHKPLUS.URL_PHP + "heroes.php?" 
-            + "worldId=" + MMHKPLUS.getElement("Player").get("worldId")
-            + "&allianceId=" + MMHKPLUS.getElement("Player").get("allianceId")
-            + "&targetedPlayerId=" + targetedPlayerId
-            + "&heroId=" + heroId
-        );
+    	$.post(
+    		MMHKPLUS.URL_API + "heroes/" + MMHKPLUS.getElement("Player").get("worldId"),
+    		JSON.stringify(
+    			{
+    				allianceId : MMHKPLUS.getElement("Player").get("allianceId"),
+    				targetedPlayerId : targetedPlayerId,
+    				heroId : heroId
+    			}
+    		),
+    		function(json) { callback(JSON.parse(json)); }
+    	);
     },
 
     getCartographerData : function(callback)
@@ -248,39 +269,6 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
     		JSON.stringify(content)
     	);
     },
-
-    sendSpyReport : function(content)
-    {
-        var time = $.now();
-        var myIframeSender = document.createElement('iframe');
-        myIframeSender.id = "MMHKPLUS_AjaxHackIFrame" + time ;
-        myIframeSender.style.position = "absolute";
-        myIframeSender.style.top = "1px";
-        myIframeSender.style.left = "-15px";
-        myIframeSender.style.width = "1px";
-        myIframeSender.style.height = "1px";
-        document.body.appendChild(myIframeSender);
-        var doc = myIframeSender.document;
-        if(myIframeSender.contentDocument)
-            doc = myIframeSender.contentDocument;
-        else if(myIframeSender.contentWindow)
-            doc = myIframeSender.contentWindow.document;
-        var player = MMHKPLUS.getElement("Player");
-        doc.open();
-        doc.write(
-            "<form action='" + MMHKPLUS.URL_PHP + "insert_spy_report.php' method='post'>" 
-                + "<input type='hidden' name='worldId' value='" + player.get("worldId") + "' />" 
-                + "<input type='hidden' name='allianceId' value='" + player.get("allianceId") + "' />" 
-                + "<input type='hidden' name='allianceName' value='" + player.get("allianceName") + "' />" 
-                + "<input type='hidden' name='worldSize' value='" + player.get("worldSize") + "'  />" 
-                + "<input type='hidden' name='content' value='" + JSON.stringify(content).replace(/'/g, "&#130;") + "'  />" 
-                + "<input type='hidden' name='onlySpy' value='true'  />" 
-                + "<input type=submit />" 
-            + "</form>" 
-            + "<script type='text/javascript'>document.forms[0].submit();</script>");
-        doc.close();
-        setTimeout(function(){$("#MMHKPLUS_AjaxHackIFrame" + time).remove();}, 15000);
-    },
     
     exportToImage : function(content, callback)
     {
@@ -288,38 +276,43 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
     	$.post(
 			MMHKPLUS.URL_API + "export/png",
 			JSON.stringify({filename: filename, content: content}),
-			function(json) { console.log(json); callback(JSON.parse(json)) ; }
+			function(json) { callback(JSON.parse(json)) ; }
     	);
     },
 
-    getAllianceSpyReports : function(allianceId, playerId, location, x, y, page)
+    getAllianceSpyReports : function(allianceId, playerId, location, x, y, page, callback)
     {
-        $.getScript(MMHKPLUS.URL_PHP + "spy_archives.php?" 
-            + "worldId=" + MMHKPLUS.getElement("Player").get("worldId")
-            + "&allianceId=" + MMHKPLUS.getElement("Player").get("allianceId")
-            + "&allianceName=" + allianceId
-            + "&playerName=" + playerId
-            + "&location=" + location
-            + "&x=" + x
-            + "&y=" + y
-            + "&page=" + page
-        );
+        $.post(
+    		MMHKPLUS.URL_API + "scouting/list/" + MMHKPLUS.getElement("Player").get("worldId"),
+    		JSON.stringify(
+    			{
+    				allianceId : MMHKPLUS.getElement("Player").get("allianceId"),
+    				targetedAllianceId : allianceId,
+    				targetedPlayerId : playerId,
+    				location : location,
+    				x : x,
+    				y : y,
+    				page : page
+    			}
+    		),
+    		function(json) { callback(JSON.parse(json)) ;}
+    	);
     },
 
-    getAlliances : function()
+    getAlliances : function(callback)
     {
-        $.getScript(MMHKPLUS.URL_PHP + "get_alliances.php?" 
-            + "worldId=" + MMHKPLUS.getElement("Player").get("worldId")
-            + "&allianceId=" + MMHKPLUS.getElement("Player").get("allianceId")
-        );
+    	$.getJSON(
+    		MMHKPLUS.URL_API + "alliances/" + MMHKPLUS.getElement("Player").get("worldId"),
+    		function(json) { callback(json) ;}
+    	);
     },
 
-    getPlayers : function(allianceId)
+    getPlayers : function(allianceId, callback)
     {
-        $.getScript(MMHKPLUS.URL_PHP + "get_players.php?" 
-            + "worldId=" + MMHKPLUS.getElement("Player").get("worldId")
-            + "&allianceId=" + allianceId
-        );
+    	$.getJSON(
+    		MMHKPLUS.URL_API + "players/" + MMHKPLUS.getElement("Player").get("worldId") + "/" + allianceId,
+    		function(json) { callback(json) ;}
+    	);
     },
 	
 	_send : function(url, json, callback, sync)

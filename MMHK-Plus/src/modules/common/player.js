@@ -55,6 +55,9 @@ MMHKPLUS.Player = MMHKPLUS.RefreshableElement.extend({
 	
 	getActions : function()
 	{
+		if(!MMHKPLUS.HOMMK.elementPool.obj.MasterAction) {
+			return [];
+		}
 		return  MMHKPLUS.HOMMK.elementPool.obj.MasterAction.values().sort(function(a, b)
 			{
 				return a.content.endDate - b.content.endDate;

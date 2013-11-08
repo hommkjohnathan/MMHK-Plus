@@ -243,6 +243,7 @@ MMHKPLUS.translations = {
     PREVIOUS :      {fr : "Précédent", en : "Previous", ru : "Назад"},
     NEXT :          {fr : "Suivant", en : "Next", ru : "Вперед"},
     BEGIN :         {fr : "Début", en : "Begin", ru : "В начало"},
+    DATE :         	{fr : "Date", en : "Date", ru : "дата"},
 
     // AllianceHeroes
     NOT_FOUND_AH_TITLE : {fr : "Héros non trouvé", en : "Hero not found", ru : "Герой не найден"},
@@ -322,6 +323,7 @@ MMHKPLUS.translations = {
     // AttacksSieges
     ATTACKS :       {fr : "Attaques", en : "Attacks", ru : "Нападения"},
     SIEGES :        {fr : "Sièges", en : "Sieges", ru : "Осады"},
+    SIEGE :        	{fr : "Siège", en : "Siege", ru : "Осада"},
     COORDINATES:    {fr : "Coordonnées", en : "Coordinates", ru : "Координаты"},
 
     // Lookout

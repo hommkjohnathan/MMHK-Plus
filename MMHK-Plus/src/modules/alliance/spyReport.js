@@ -303,7 +303,7 @@ MMHKPLUS.SpyReport = MMHKPLUS.ArmiesPanelElement.extend({
             .append(
                 $("<input readonly>")
                     .css("width", "250px")
-                    .val("MMHKPLUS_ScoutPL(" + (hasProperty(self.currentReport, "linked_messageId") ? self.currentReport.linked_messageId : self.currentReport.id) + "," + removeDiacritics(self.currentReport.contentJSON.targetedPlayerName) + ")")
+                    .val("MMHKPLUS_ScoutPL(" + self.currentReport.hash + "," + removeDiacritics(self.currentReport.contentJSON.targetedPlayerName) + ")")
                     .click(function() { this.select();}))
             .appendTo($header);
     },
@@ -799,31 +799,17 @@ MMHKPLUS.SpyReport = MMHKPLUS.ArmiesPanelElement.extend({
             };
         ennemyHero.bonus = ennBonus;
         ennemyHero.artefactList = ennemyHero.bonus.artefacts;
-        sessionStorage.removeItem("MMHKPLUS_Hero");
-        MMHKPLUS.getElement("Ajax").getSpyHeroContent(self.currentReport.contentJSON.targetedPlayerId, ennemyId);
-        MMHKPLUS.wait(
-            function()
-            {  
-                return sessionStorage.getItem("MMHKPLUS_Hero") != null;
-            },
-            function()
-            {
-                var received = JSON.parse(sessionStorage.getItem("MMHKPLUS_Hero"));
-                sessionStorage.removeItem("MMHKPLUS_Hero");
-                if(received && received.length > 0)
-                {
-                    ennemyHero.bonus.artefacts = received[11];
-                    ennemyHero.bonus.spells = received[10];
-                    ennemyHero.bonus.skills = received[9];
+        MMHKPLUS.getElement("Ajax").getSpyHeroContent(self.currentReport.contentJSON.targetedPlayerId, ennemyId, function(hero)
+        	{
+        		if(hero) {
+        			ennemyHero.bonus.artefacts = hero.artefactList || [];
+                    ennemyHero.bonus.spells = hero.spellStackList || [];
+                    ennemyHero.bonus.skills = hero.heroClassList || [];
                     ennemyHero.artefactList = ennemyHero.bonus.artefacts;
-                    ennemyHero._level = received[4];
-
-                    var archetype = received[5];
-                    ennemyHero.heroTrainingEntityTagName = self._stringToArchetype(archetype);
-
-                    sessionStorage.removeItem("MMHKPLUS_Hero");
-                }
-                if(isAtt)
+                    ennemyHero._level = hero._level || 1;;
+                    ennemyHero.heroTrainingEntityTagName = hero.heroTrainingEntityTagName || "";
+        		}
+        		if(isAtt)
                 {
                     MMHKPLUS.getElement("Jactari").permalien(null,myHero,ennemyHero, fortif);
                 }
@@ -836,9 +822,8 @@ MMHKPLUS.SpyReport = MMHKPLUS.ArmiesPanelElement.extend({
                 ennemyHero.attachedUnitStackList = originalStackList;
                 myHero = null;
                 ennemyHero = null;  
-            },
-            7
-        );      
+        	}
+        );
     },
 
     _getHero : function(list, id)
@@ -887,7 +872,6 @@ MMHKPLUS.SpyReport = MMHKPLUS.ArmiesPanelElement.extend({
                 }
             );
         }
-        console.log(result);
         return result;
     },
 

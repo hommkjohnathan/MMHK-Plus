@@ -32,21 +32,25 @@ MMHKPLUS.AllianceRegionReports = MMHKPLUS.ExtendableElement.extend({
                 var $list = $("<ul>").appendTo(this.$elem);
                 data.forEach(function(r)
                     {
-                        var d = new Date(); d.setTime(r.date * 1000);
+                        var d = new Date(); d.setTime(r.creationDate * 1000);
                         var type = "";
-                        if(r.referenceType <= 1)
+                        if(r.type == "TROOP_SCOUTING" && r.locationTagName == "CITY")
                             type = "T"
-                        if(r.referenceType == 2)
+                        if(r.type == "CITY_SCOUTING")
                             type = "C"
-                        if(r.referenceType == 3)
+                        if(r.type == "REGION_SCOUTING")
                             type = "R"
-                        if(r.referenceType == 4)
+                        if(r.locationTagName == 'SIEGE')
                             type = "S"
                         var $li = $("<li style='font-size:90%; cursor:pointer;'>")
                             .html("<a>" + d.toShortFrenchFormat() + " (" + type + ")</a>")
                             .click(function()
                                 {
-                                    MMHKPLUS.getElement("Ajax").getSpyReportContent(r.reportId);
+                                    MMHKPLUS.getElement("Ajax").getSpyReportContent(r.hash, function(report)
+                                    	{
+                                    		MMHKPLUS.getElement("AllianceRegionReports", true).openSpyReport(report);
+                                    	}
+                                    );
                                 })
                             .appendTo(self.$elem);
 

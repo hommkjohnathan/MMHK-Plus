@@ -168,42 +168,84 @@ MMHKPLUS.AllianceSpys = MMHKPLUS.PanelElement.extend({
         this.$btnNext.button("disable")
         this.$btnBegin.button("disable");
 
-        var filterAlliance = this.$elem.find("select").eq(0).val() || "%";
-        var filterPlayer = this.$elem.find("select").eq(1).val() || "%";
-        var filterLocation = this.$elem.find("input").eq(0).val() || "%";
-        var filterX = parseInt(this.$elem.find("input").eq(1).val()) || "%";
-        var filterY = parseInt(this.$elem.find("input").eq(2).val()) || "%";
+        var filterAlliance = this.$elem.find("select").eq(0).val() || -2;
+        var filterPlayer = this.$elem.find("select").eq(1).val() || -2;
+        var filterLocation = this.$elem.find("input").eq(0).val() || ".*";
+        var filterX = parseInt(this.$elem.find("input").eq(1).val()) || -2;
+        var filterY = parseInt(this.$elem.find("input").eq(2).val()) || -2;
 
-        if(filterLocation != "%")
-            filterLocation = "%" + filterLocation + "%";
+        if(filterLocation != ".*") {
+        	if(filterLocation.toLowerCase() == MMHKPLUS.localize("HALT").toLowerCase()) {
+        		filterLocation = "HALT";
+        	}
+        	else if(filterLocation.toLowerCase() == MMHKPLUS.localize("RUIN").toLowerCase()) {
+        		filterLocation = "RUIN";
+        	}
+        	else if(filterLocation.toLowerCase() == MMHKPLUS.localize("SIEGE").toLowerCase()) {
+        		filterLocation = "SIEGE";
+        	}
+        	else {
+        		// city
+        		filterLocation = ".*" + filterLocation + ".*";
+        	}
+        }
 
-        MMHKPLUS.getElement("Ajax").getAllianceSpyReports(filterAlliance, filterPlayer, filterLocation, filterX, filterY, this.currentPage);
+        MMHKPLUS.getElement("Ajax").getAllianceSpyReports(filterAlliance, filterPlayer, filterLocation, filterX, filterY, this.currentPage, this._setContent);
     },
 
-    _setContent : function(count, data)
+    _setContent : function(data)
     {
-        var $table = this.$elem.find("table");
-
-        data.forEach(function(r)
+    	var self = MMHKPLUS.getElement("AllianceSpys");
+        var $table = self.$elem.find("table");
+        var reports = data.reports;
+        var count = data.count;
+        
+        $("<tr>").addClass("MMHKPLUS_100Width")
+        	.append(
+        		$("<th>").addClass("MMHKPLUS_CellHeader MMHKPLUS_TextCenter").html(MMHKPLUS.localize("PLAYER")))
+        	.append(
+        		$("<th>").addClass("MMHKPLUS_CellHeader MMHKPLUS_TextCenter").html(MMHKPLUS.localize("ALLIANCE")))
+        	.append(
+        		$("<th>").addClass("MMHKPLUS_CellHeader MMHKPLUS_TextCenter").html(MMHKPLUS.localize("LOCATION")))
+        	.append(
+        		$("<th>").addClass("MMHKPLUS_CellHeader MMHKPLUS_TextCenter").html(MMHKPLUS.localize("COORDINATES")))
+        	.append(
+        		$("<th>").addClass("MMHKPLUS_CellHeader MMHKPLUS_TextCenter").html(MMHKPLUS.localize("DATE")))
+        	.appendTo($table);
+        
+        reports.forEach(function(r)
             {
-                var d = new Date(); d.setTime(r[8] * 1000);
+                var d = new Date(); d.setTime(r.creationDate * 1000);
+                var location = "";
+                if(r.locationtagName == "HALT") {
+                	location = MMHKPLUS.localize("HALT");
+                }
+                else if(r.locationtagName == "SIEGE") {
+                	location = MMHKPLUS.localize("SIEGE");
+                }
+                else if(r.locationtagName == "RUIN") {
+                	location = MMHKPLUS.localize("RUIN");
+                }
+                else {
+                	location = r.contentJSON.cityName;
+                }
                 $("<tr>").addClass("MMHKPLUS_100Width MMHKPLUS_AllianceSpysHover")
                     .append(
                         $("<td>").addClass("MMHKPLUS_TextCenter")
                             .css("width", "230px")
-                            .html(r[4]))
+                            .html(r.contentJSON.targetedPlayerName))
                     .append(
                         $("<td>").addClass("MMHKPLUS_TextCenter")
                             .css("width", "150px")
-                            .html(r[3]))
+                            .html((hasProperty(r, 'contentJSON') && hasProperty(r.contentJSON, 'targetedPlayerAlliance')) ? r.contentJSON.targetedPlayerAlliance : ""))
                     .append(
                         $("<td>").addClass("MMHKPLUS_TextCenter")
                             .css("width", "120px")
-                            .html((r[7] == "Halte" ? MMHKPLUS.localize("HALT") : (r[7] == "Ruine" ? MMHKPLUS.localize("RUIN") : r[7]))))
+                            .html(location))
                     .append(
                         $("<td>").addClass("MMHKPLUS_TextCenter")
                             .css("width", "80px")
-                            .html("(" + r[5] + "," + r[6] + ")"))
+                            .html("(" + r.x + "," + r.y + ")"))
                     .append(
                         $("<td>").addClass("MMHKPLUS_TextCenter")
                             .css("width", "150px")
@@ -211,99 +253,87 @@ MMHKPLUS.AllianceSpys = MMHKPLUS.PanelElement.extend({
                     .css("cursor", "pointer")
                     .click(function()
                         {
-                            MMHKPLUS.getElement("Ajax").getSpyReportContent(r[0]);
+                            MMHKPLUS.getElement("Ajax").getSpyReportContent(r.hash, self._openSpyReport);
                         })
                     .appendTo($table);
             }
         );
 
-        if(this.currentPage > 1)
+        if(self.currentPage > 1)
         {
-            this.$btnPrevious.button("enable");
-            this.$btnBegin.button("enable");
+        	self.$btnPrevious.button("enable");
+        	self.$btnBegin.button("enable");
         }
 
-        if(this.currentPage * 20 < count)
+        if(self.currentPage * 20 < count)
         {
-            this.$btnNext.button("enable");
+        	self.$btnNext.button("enable");
         }
 
         $table.find("tr:odd").css({backgroundColor:"rgba(0,191,255,0.2)"});
     },
+    
+    _openSpyReport : function(report) 
+    {
+    	MMHKPLUS.getElement("AllianceRegionReports", true).openSpyReport(report);
+    },
 
     _getAlliances : function()
     {
-        var $selectAlliances = this.$elem.find("select").eq(0);
-        $selectAlliances.empty();
+        MMHKPLUS.getElement("Ajax").getAlliances(function(alliances)
+        	{
+        		var self = MMHKPLUS.getElement("AllianceSpys");
+	        	var $selectAlliances = self.$elem.find("select").eq(0);
+	            $selectAlliances.empty();
+	        	$selectAlliances.append(
+                    $("<option>")
+                        .attr("value", -2)
+                        .html(""));
+	        	$selectAlliances.append(
+                    $("<option>")
+                        .attr("value", -1)
+                        .html(MMHKPLUS.localize("NONE")));
 
-        sessionStorage.removeItem("MMHKPLUS_Alliances");
-        MMHKPLUS.getElement("Ajax").getAlliances();
-        MMHKPLUS.wait(function()
-            {
-                return sessionStorage.getItem("MMHKPLUS_Alliances") != null;   
-            },
-            function()
-            {
-                var alliances = JSON.parse(sessionStorage.getItem("MMHKPLUS_Alliances")) || [];
-                sessionStorage.removeItem("MMHKPLUS_Alliances");
-
-                $selectAlliances.append(
-                            $("<option>")
-                                .attr("value", "%")
-                                .html(""));
-                $selectAlliances.append(
-                            $("<option>")
-                                .attr("value", -1)
-                                .html(MMHKPLUS.localize("NONE")));
-
-                alliances.forEach(function(a)
-                    {
-                        $selectAlliances.append(
-                            $("<option>")
-                                .attr("value", a[1])
-                                .html(a[0]));
-                    }
-                );
-            },
-            8
-        );  
+	        	alliances.forEach(function(a)
+		            {
+	        			if(a.allianceId == null) {
+	        				return;
+	        			}
+		                $selectAlliances.append(
+		                    $("<option>")
+		                        .attr("value", a.allianceId)
+		                        .html(a.allianceName));
+		            }
+		        );
+        	}
+        );
     },
 
     _getPlayers : function()
     {
         var $selectPlayers = this.$elem.find("select").eq(1);
         $selectPlayers.empty();
-        var filterAlliance = this.$elem.find("select").eq(0).val() || "%";
+        var filterAlliance = this.$elem.find("select").eq(0).val() || -2;
 
-        if(filterAlliance == "%")
+        if(filterAlliance == -2)
             return;
 
-        sessionStorage.removeItem("MMHKPLUS_Players");
-        MMHKPLUS.getElement("Ajax").getPlayers(filterAlliance);
-        MMHKPLUS.wait(function()
-            {
-                return sessionStorage.getItem("MMHKPLUS_Players") != null;   
-            },
-            function()
-            {
-                var players = JSON.parse(sessionStorage.getItem("MMHKPLUS_Players")) || [];
-                sessionStorage.removeItem("MMHKPLUS_Players");
-
-                $selectPlayers.append(
-                    $("<option>")
-                        .attr("value", "%")
-                        .html(""));
-
-                players.forEach(function(p)
-                    {
-                        $selectPlayers.append(
-                            $("<option>")
-                                .attr("value", p[1])
-                                .html(p[0]));
-                    }
-                );
-            },
-            8
+        MMHKPLUS.getElement("Ajax").getPlayers(filterAlliance, function(players)
+        	{
+	            $selectPlayers.append(
+	                $("<option>")
+	                    .attr("value", -2)
+	                    .html(""));
+	
+	            players.forEach(function(p)
+	                {
+	                    $selectPlayers.append(
+	                        $("<option>")
+	                            .attr("value", p.playerId)
+	                            .html(p.playerName));
+	                }
+	            );
+        	}
         );
     },
 
