@@ -62,7 +62,7 @@
 		<property name="output.wrapper.script.name" value="mmhk-plus-wrapper.user.js" />
 		<property name="output.script.file" location="${working.dir}/${output.script.name}" />
 		<property name="output.wrapper.script.file" location="${working.dir}/${output.wrapper.script.name}" />
-		<property name="output.extension.file" location="${working.dir}/mmhk-plus-${mmhk-plus.script.version}.zip" />
+		<property name="output.extension.file" location="${working.dir}/mmhk-plus-wrapper-${mmhk-plus.wrapper.version}.zip" />
 		<property name="output.version.file" location="${working.dir}/version.ini" />
 
 		<delete dir="${output.dir}" />
@@ -155,8 +155,11 @@
 
 	<target name="publish" depends="build, chromeExtension/intern">
 		<copy file="${output.script.file}" todir="${output.dir}" />
-		<copy file="${output.extension.file}" todir="${output.dir}/releases" />
+		<copy file="${output.extension.file}" todir="${output.dir}" />
 		<copy file="${output.version.file}" todir="${output.dir}" />
+		<zip destfile="${output.dir}/releases/mmhk-plus-${mmhk-plus.script.version}.zip">
+			<fileset dir="${output.dir}" includes="**/*"/>
+		</zip>
 	</target>
 
 </project>
