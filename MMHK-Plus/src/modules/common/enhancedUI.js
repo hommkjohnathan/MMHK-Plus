@@ -1049,6 +1049,8 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
     	var addExportButtonsBattle = function() 
     	{
     		var self = this;
+    		// Remove all existing buttons (only one at a time)
+    		$("div.MMHKPLUS_PNGButton").remove();
     		$(this.allyResultTextElement).append(
     			$("<div/>")
     				.html("PNG")
@@ -1069,6 +1071,8 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
     	var addExportButtonsSpys = function() 
     	{
     		var self = this;
+    		// Remove all existing buttons (only one at a time)
+    		$("div.MMHKPLUS_PNGButton").remove();
     		$("#" + self.elementType + self.elementId + "Description").append(
     			$("<div/>")
     				.html("PNG")
