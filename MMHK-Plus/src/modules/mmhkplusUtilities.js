@@ -12,7 +12,7 @@ MMHKPLUS.exportToImage = function($selector) {
 	htmlContent += $selector[0].outerHTML;
 	htmlContent += "</body></html>";
 	
-	MMHKPLUS.getElement("Ajax").exportToImage(htmlContent, function(json) { console.log(json);  MMHKPLUS.openURL(json.url)});
+	MMHKPLUS.getElement("Ajax").exportToImage(htmlContent, function(json) { MMHKPLUS.openURL(json.url)});
 };
 
 MMHKPLUS.clearInterval = function(interval) {

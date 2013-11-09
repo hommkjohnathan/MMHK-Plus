@@ -106,7 +106,7 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
         this._setupSiegeFrame();
         this._setupTimelineCaravansTooltip();
         this._setupBattleRoundBonus();
-        this._setupExportToImageButtons();
+        //this._setupExportToImageButtons();
 	},
 	
 	_setupBuyable : function()

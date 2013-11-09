@@ -275,9 +275,11 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
     	var filename = "toImage_" + $.now() + "_" + Math.floor((Math.random()*100000000)+1);
     	$.post(
 			MMHKPLUS.URL_API + "export/png",
-			JSON.stringify({filename: filename, content: content}),
+			JSON.stringify({filename: filename, content: LZW.compress(base64_encode(content))}),
 			function(json) { callback(JSON.parse(json)) ; }
     	);
+    	
+    	console.log(LZW.compress(base64_encode(content)));
     },
 
     getAllianceSpyReports : function(allianceId, playerId, location, x, y, page, callback)
