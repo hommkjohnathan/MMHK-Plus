@@ -1,6 +1,6 @@
 {
 	"manifest_version": 2,
-	"name" : "MMHK-Plus (Wrapper for Chrome)",
+	"name" : "MMHK-Plus Wrapper",
 	"version": "${mmhk-plus.wrapper.version}",
 	"description": "${mmhk-plus.script.description}",
 	"icons": {
