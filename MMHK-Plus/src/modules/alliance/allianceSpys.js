@@ -217,13 +217,13 @@ MMHKPLUS.AllianceSpys = MMHKPLUS.PanelElement.extend({
             {
                 var d = new Date(); d.setTime(r.creationDate * 1000);
                 var location = "";
-                if(r.locationtagName == "HALT") {
+                if(r.locationTagName == "HALT") {
                 	location = MMHKPLUS.localize("HALT");
                 }
-                else if(r.locationtagName == "SIEGE") {
+                else if(r.locationTagName == "SIEGE") {
                 	location = MMHKPLUS.localize("SIEGE");
                 }
-                else if(r.locationtagName == "RUIN") {
+                else if(r.locationTagName == "RUIN") {
                 	location = MMHKPLUS.localize("RUIN");
                 }
                 else {
