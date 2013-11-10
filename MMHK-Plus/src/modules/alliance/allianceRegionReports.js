@@ -27,9 +27,12 @@ MMHKPLUS.AllianceRegionReports = MMHKPLUS.ExtendableElement.extend({
             if(regionView && regionView.content.id == MMHKPLUS.HOMMK.worldMap.selectedRegion.content.id)
             {
                 var $box = $("#WorldMap" + MMHKPLUS.getElement("Player").get("worldId") + "PlayerName").parent();
-                $box.append(this.$elem);
+                $box.append(self.$elem);
                 $("<br>").appendTo(self.$elem);
-                var $list = $("<ul>").appendTo(this.$elem);
+                if($box.find("div.worldMapPlayerAllianceName").html() == "") {
+                	 $("<br>").appendTo(self.$elem);
+                }
+                var $list = $("<ul>").appendTo(self.$elem);
                 data.forEach(function(r)
                     {
                         var d = new Date(); d.setTime(r.creationDate * 1000);
@@ -52,7 +55,7 @@ MMHKPLUS.AllianceRegionReports = MMHKPLUS.ExtendableElement.extend({
                                     	}
                                     );
                                 })
-                            .appendTo(self.$elem);
+                            .appendTo($list);
 
                         if($.now() - d.getTime() >= self.options.fiveDays)
                             $li.css("color", "red");
