@@ -1,6 +1,8 @@
 MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
 	elementType : "Ajax",
     jsonHandler : null,
+    $ajaxLoaderImage : null, 
+    pendingRequests : [],
 	
 	options : {
 		url : "http://" + window.location.host, 
@@ -11,7 +13,45 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
 	{
 		this.options = $.extend({}, this.options, options);
         this.jsonHandler = new MMHKPLUS.HOMMK.JsonRequestHandler(MMHKPLUS.HOMMK.JSON_GETCONTENT_URL, {});
+        
+        this.$ajaxLoaderImage = $("<img>")
+        	.attr("src", MMHKPLUS.URL_IMAGES + "ajax-loader.gif")
+        	.css({position: 'absolute', top : '25px', right : '5px'});
+        this.$ajaxLoaderImage.addClass("hidden"); // no request to begin
+        
+        $("div.sidebarTopContainer").first().append(this.$ajaxLoaderImage);
+        
+        var $tooltip = MMHKPLUS.getElement("Tooltip", true).setContent(this.$ajaxLoaderImage, function($container, $tip)
+        	{
+        		var self = MMHKPLUS.getElement("Ajax");
+        		self.pendingRequests.forEach(function(r)
+        			{
+        				$tip.append($("<p>").html(r.type));
+        			}
+        		);
+        	}
+        );
+        
 		return this;
+	},
+	
+	_createPendingRequest : function(type)
+	{
+		var request = { id : $.now(), type : type };
+		
+		this.pendingRequests.push(request);
+		this.$ajaxLoaderImage.removeClass("hidden"); // at least one request!
+		
+		return request;
+	},
+	
+	_deletePendingRequest : function(request)
+	{
+		var self = MMHKPLUS.getElement("Ajax");
+		self.pendingRequests.remove(request);
+		if(self.pendingRequests.length == 0) {
+			self.$ajaxLoaderImage.addClass("hidden");
+		}
 	},
 	
 	getProfileFrame :  function(id, callback, sync)
@@ -147,14 +187,16 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
 	
 	sendScoutingReport : function(report) 
 	{
+		var request = this._createPendingRequest("Sending scouting report");
 		$.post(
     		MMHKPLUS.URL_API + "scouting/" + MMHKPLUS.getElement("Player").get("worldId"),
     		JSON.stringify(report)
-    	);
+    	).complete(function() { MMHKPLUS.getElement("Ajax")._deletePendingRequest(request); delete request; });
 	},
 
     getSpyReportsForSelectedRegion : function(callback)
     {
+    	var request = this._createPendingRequest("Getting scouting reports for selected region");
     	$.post(
     		MMHKPLUS.URL_API + "scouting/region/" + MMHKPLUS.getElement("Player").get("worldId"),
     		JSON.stringify(
@@ -165,19 +207,21 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
     			}
     		),
     		function(json) { callback(JSON.parse(json));}
-    	);
+    	).complete(function() { MMHKPLUS.getElement("Ajax")._deletePendingRequest(request); delete request; });
     },
 
     getSpyReportContent : function(hash, callback)
     {
+    	var request = this._createPendingRequest("Scouting report " + hash);
     	$.getJSON(
     		MMHKPLUS.URL_API + "scouting/" + MMHKPLUS.getElement("Player").get("worldId") + "/" + hash,
     		function(json) { callback(json) ;}
-    	);
+    	).complete(function() { MMHKPLUS.getElement("Ajax")._deletePendingRequest(request); delete request; });
     },
 
     getHeroes : function(targetedPlayerId, callback)
     {
+    	var request = this._createPendingRequest("Heroes for player " + targetedPlayerId);
     	$.post(
     		MMHKPLUS.URL_API + "heroes/list/" + MMHKPLUS.getElement("Player").get("worldId"),
     		JSON.stringify(
@@ -186,12 +230,14 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
     				targetedPlayerId : targetedPlayerId
     			}
     		),
-    		function(json) { callback(JSON.parse(json)); }
-    	);
+    		function(json) { callback(json); },
+    		"json"
+    	).complete(function() { MMHKPLUS.getElement("Ajax")._deletePendingRequest(request); delete request; });
     },
 
     getSpyHeroContent : function(targetedPlayerId, heroId, callback)
     {
+    	var request = this._createPendingRequest("Hero " + heroId + " for player " + targetedPlayerId);
     	$.post(
     		MMHKPLUS.URL_API + "heroes/" + MMHKPLUS.getElement("Player").get("worldId"),
     		JSON.stringify(
@@ -201,89 +247,99 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
     				heroId : heroId
     			}
     		),
-    		function(json) { callback(JSON.parse(json)); }
-    	);
+    		function(json) { callback(json); },
+    		"json"
+    	).complete(function() { MMHKPLUS.getElement("Ajax")._deletePendingRequest(request); delete request; });
     },
 
     getCartographerData : function(callback)
     {
+    	var request = this._createPendingRequest("Get Cartographer data");
     	$.getJSON(
     		MMHKPLUS.URL_API + "cartographer/" + MMHKPLUS.getElement("Player").get("worldId") + "/" + MMHKPLUS.getElement("Player").get("worldSize"),
     		function(json) { callback(json) ;}
-    	);
+    	).complete(function() { MMHKPLUS.getElement("Ajax")._deletePendingRequest(request); delete request; });
     },
     
     sendCartographerData: function(content)
     {
+    	var request = this._createPendingRequest("Send data for Cartographer");
     	$.post(
     		MMHKPLUS.URL_API + "cartographer/" + MMHKPLUS.getElement("Player").get("worldId") + "/" + MMHKPLUS.getElement("Player").get("worldSize"),
     		JSON.stringify(content)
-    	);
+    	).complete(function() { MMHKPLUS.getElement("Ajax")._deletePendingRequest(request); delete request; });
     },
     
     requestCartographerUpdateCoordinates : function(callback) 
     {
+    	var request = this._createPendingRequest("Get Cartographer coordinates to update");
     	$.getJSON(
 			MMHKPLUS.URL_API + "cartographer/update/" + MMHKPLUS.getElement("Player").get("worldId") + "/" + MMHKPLUS.getElement("Player").get("worldSize"),
 			function(json) { callback(json); }
-		);
+		).complete(function() { MMHKPLUS.getElement("Ajax")._deletePendingRequest(request); delete request; });
     },
     
     getMMHKPLUSServerTime : function(callback)
     {
+    	var request = this._createPendingRequest("Get server time");
     	$.getJSON(
 			MMHKPLUS.URL_API + "time",
 			function(json) { callback(json); }
-		);
+		).complete(function() { MMHKPLUS.getElement("Ajax")._deletePendingRequest(request); delete request; });
     },
     
     getMines : function(callback) 
     {
+    	var request = this._createPendingRequest("Get world mines for MineFinder");
     	$.getJSON(
     		MMHKPLUS.URL_API + "mineFinder/" + MMHKPLUS.getElement("Player").get("worldId"),
     		function(json) { callback(json) ;}
-    	);
+    	).complete(function() { MMHKPLUS.getElement("Ajax")._deletePendingRequest(request); delete request; });
     },
     
     getMinesCount : function(callback) 
     {
+    	var request = this._createPendingRequest("Get discovered region count for MineFinder");
     	$.getJSON(
     		MMHKPLUS.URL_API + "mineFinder/count/" + MMHKPLUS.getElement("Player").get("worldId"),
     		function(json) { callback(json) ;}
-    	);
+    	).complete(function() { MMHKPLUS.getElement("Ajax")._deletePendingRequest(request); delete request; });
     },
     
     searchMines : function(request, callback)
     {
+    	var request = this._createPendingRequest("MineFinder search");
     	$.post(
     		MMHKPLUS.URL_API + "mineFinder/search/" + MMHKPLUS.getElement("Player").get("worldId"),
     		JSON.stringify(request),
     		function(json) { callback(json) ;}
-    	);
+    	).complete(function() { MMHKPLUS.getElement("Ajax")._deletePendingRequest(request); delete request; });
     },
     
     sendMineFinderData : function(content)
     {
+    	var request = this._createPendingRequest("Sending data for MineFinder");
     	$.post(
     		MMHKPLUS.URL_API + "mineFinder/" + MMHKPLUS.getElement("Player").get("worldId"),
     		JSON.stringify(content)
-    	);
+    	).complete(function() { MMHKPLUS.getElement("Ajax")._deletePendingRequest(request); delete request; });
     },
     
     exportToImage : function(content, callback)
     {
+    	var request = this._createPendingRequest("Exporting to PNG");
     	var filename = "toImage_" + $.now() + "_" + Math.floor((Math.random()*100000000)+1);
     	$.post(
 			MMHKPLUS.URL_API + "export/png",
 			JSON.stringify({filename: filename, content: LZW.compress(base64_encode(content))}),
-			function(json) { callback(JSON.parse(json)) ; }
-    	);
-    	
-    	console.log(LZW.compress(base64_encode(content)));
+			function(json) { callback(json) ; },
+			"json"
+    	).complete(function() { MMHKPLUS.getElement("Ajax")._deletePendingRequest(request); delete request; });
     },
 
     getAllianceSpyReports : function(allianceId, playerId, location, x, y, page, callback)
     {
+    	var request = this._createPendingRequest("Getting reports for current alliance");
         $.post(
     		MMHKPLUS.URL_API + "scouting/list/" + MMHKPLUS.getElement("Player").get("worldId"),
     		JSON.stringify(
@@ -297,34 +353,40 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
     				page : page
     			}
     		),
-    		function(json) { callback(JSON.parse(json)) ;}
-    	);
+    		function(json) { callback(json) ;},
+    		"json"
+    	).complete(function() { MMHKPLUS.getElement("Ajax")._deletePendingRequest(request); delete request; });
     },
 
     getAlliances : function(callback)
     {
+    	var request = this._createPendingRequest("Getting alliance list");
     	$.getJSON(
     		MMHKPLUS.URL_API + "alliances/" + MMHKPLUS.getElement("Player").get("worldId"),
     		function(json) { callback(json) ;}
-    	);
+    	).complete(function() { MMHKPLUS.getElement("Ajax")._deletePendingRequest(request); delete request; });
     },
 
     getPlayers : function(allianceId, callback)
     {
+    	var request = this._createPendingRequest("Getting player list");
     	$.getJSON(
     		MMHKPLUS.URL_API + "players/" + MMHKPLUS.getElement("Player").get("worldId") + "/" + allianceId,
     		function(json) { callback(json) ;}
-    	);
+    	).complete(function() { MMHKPLUS.getElement("Ajax")._deletePendingRequest(request); delete request; });
     },
 	
 	_send : function(url, json, callback, sync)
 	{
 		var self = this;
+		var request = this._createPendingRequest("Asking data to Ubisoft");
 
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.open("POST", url, !(isDefined(sync) && sync));
         xmlhttp.onreadystatechange=function() 
         {
+        	MMHKPLUS.getElement("Ajax")._deletePendingRequest(request);
+        	delete request;
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) 
             {
                 var result = JSON.parse(xmlhttp.responseText);
