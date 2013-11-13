@@ -37,7 +37,7 @@ MMHKPLUS.Jactari = MMHKPLUS.ExtendableElement.extend({
 				n.href = self.url_combat;
 				n.target = '_blank';
 				n.title = def?'simulation as defencer':'simulation';
-				n.innerHTML = def?'Defencer':'jactari';
+				n.innerHTML = def?'Defender':'Attacker';
 				n.addEventListener('click', function(E) { return self.permalien(frame,def); }, true);
 				if(left) n.style.left=left+'px';
 				if(top) n.style.top=top+'px';
