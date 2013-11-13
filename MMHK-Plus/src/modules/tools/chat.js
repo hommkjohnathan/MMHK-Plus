@@ -353,7 +353,8 @@ MMHKPLUS.Chat = MMHKPLUS.PanelElement.extend({
 			.append(
 				$("<p>")
 					.css({wordWrap : "break-word", marginTop:"5px", marginBottom:"5px", paddingLeft: "50px"})
-					.html(messageContent));
+					.html(messageContent)
+					.css('color', (message.from_playerName == MMHKPLUS.getElement("Player").get("playerName") ? "#990033" : "#000000")));
 		return $content;
 	},
 
