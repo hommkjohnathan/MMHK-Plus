@@ -167,25 +167,72 @@ MMHKPLUS.SpyReport = MMHKPLUS.ArmiesPanelElement.extend({
         this._createReportHeader(false);
         var content = this.currentReport.contentJSON;
 
-        var $table = $("<table>").addClass("MMHKPLUS_100Width").appendTo(this.$elem);
-        var $header = $("<tr>").addClass("MMHKPLUS_100Width").appendTo($table);
-        var $line = $("<tr>").addClass("MMHKPLUS_100Width").appendTo($table);
+        this.$elem.css('height', '550px');
         
-        var mines = (hasProperty(content, "minesList") ? content.minesList : []);
-        mines.forEach(function(m)
-            {
-                if(hasProperty(m, "mineEntityTagName"))
-                    $header.append($("<td style='width:25%;'>").addClass("center").append(MMHKPLUS.getCssSprite("Zone_NEUTRAL", m.mineEntityTagName).addClass("MMHKPLUS_AutoCenter")));
-                var $block = $("<td style='width:25%;'>").addClass("center").appendTo($line);
-                if(hasProperty(m, "name"))
-                    $block.append($("<p>").html(MMHKPLUS.localizeText(m.name)));
-                if(hasProperty(m, "upgradeLevel"))
-                    $block.append($("<p>").html(MMHKPLUS.localize("LEVEL") + " " + m.upgradeLevel));
-                if(hasProperty(m, "improveLevel"))
-                    $block.append($("<p>").html(m.improveLevel + " " + MMHKPLUS.localize("IMPROVEMENTS")));
-                if(hasProperty(m, "amountProtected"))
-                    $block.append($("<p>").html(MMHKPLUS.localize("PROTECTED") + " : " + m.amountProtected + "%"));
-            }
+        var $region = $("<div>")
+        	.css({'background-repeat' : 'no-repeat', 'background-image' : 'url(' + MMHKPLUS.URL_IMAGES + "spy/background_region.jpg)", height : '405px', width: '660px'})
+        	.addClass("MMHKPLUS_AutoCenter")
+        	.appendTo(this.$elem);
+        
+        content.zoneBuildingZoneList.forEach(function(zone)
+        	{
+        		var relx = zone.x- 3;
+    			var rely = zone.y - 3;
+    			
+    			if(hasProperty(zone, "attachedZoneBuilding")) {
+    				var type = -1;
+    				switch(zone.attachedZoneBuilding.zoneBuildingEntity.buildingTypeEntityTagName) {
+    				case "RECRUITMENT":
+    					type = 1;
+    					break;
+    				default: 
+    					type = 0;
+    					break;
+    				}
+    				
+    				var $building = MMHKPLUS.getCssSprite("ZoneBuilding", zone.attachedZoneBuilding.zoneBuildingEntityTagName + (type == 1? "_" + zone.attachedZoneBuilding.factionEntityTagName : ""));
+    				var $tooltip = MMHKPLUS.getElement("Tooltip", true).setContent($building, function($container, $tip)
+        				{
+    						var b = zone.attachedZoneBuilding.zoneBuildingEntity;
+        					$("<p>").addClass("MMHKPLUS_CellHeader").html(b.name).appendTo($tip);
+        					$("<br>").appendTo($tip);
+        					for(var i = 1; i <= 5; i++) {
+        						if(hasProperty(b, 'effect' + i)) {
+        							$("<p>").addClass("MMHKPLUS_TextCenter").html(b['effect' + i].desc).css('width', '250px').appendTo($tip);
+        						}
+        					}
+        				}
+        			);
+    			}
+    			
+    			if(hasProperty(zone, "attachedMine")) {
+        			var $building = MMHKPLUS.getCssSprite("Zone_NEUTRAL", zone.attachedMine.mineEntityTagName);
+        			var $tooltip = MMHKPLUS.getElement("Tooltip", true).setContent($building, function($container, $tip)
+        				{
+        					$("<p>").addClass("MMHKPLUS_CellHeader").html(zone.attachedMine.name).appendTo($tip);
+        					$("<br>").appendTo($tip);
+        					$("<p>").addClass("MMHKPLUS_TextCenter").html(MMHKPLUS.localize("LEVEL") + " " + zone.attachedMine.upgradeLevel).appendTo($tip);
+        					if(hasProperty(zone.attachedMine, 'improveLevel')) {
+        						$("<p>").addClass("MMHKPLUS_TextCenter").html(zone.attachedMine.improveLevel + " " + MMHKPLUS.localize("IMPROVEMENTS")).appendTo($tip);
+        					}
+        					if(hasProperty(zone.attachedMine, "amountProtected")) {
+        						$("<p>").addClass("MMHKPLUS_TextCenter").html(MMHKPLUS.localize("PROTECTED") + " : " + zone.attachedMine.amountProtected + "%").appendTo($tip);
+        					}
+        				}
+        			);
+    			}
+    			
+    			if($building) {
+    				$building.css(
+        				{
+        					position: 'absolute',
+        					top:  220 - 32*relx + rely*32 + "px",
+        					left: 285 + relx*64 + rely*64 + "px"
+        				}
+        			).appendTo($region);
+    			}
+    			
+        	}
         );
     },
 
