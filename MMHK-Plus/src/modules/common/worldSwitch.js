@@ -1,5 +1,6 @@
 MMHKPLUS.WorldSwitch = MMHKPLUS.ExtendableElement.extend({
     elementType : "WorldSwitch",
+    isMouseOver : false,
     
     options : {
 
@@ -113,14 +114,22 @@ MMHKPLUS.WorldSwitch = MMHKPLUS.ExtendableElement.extend({
                 }
                 else
                 {
-                    if($cb.val() != document.referrer)
+                    if($cb.val() != document.referrer && MMHKPLUS.getElement("WorldSwitch").isMouseOver)
                         document.location.href = $cb.val();
                     else
                         $cb[0].selectedIndex = -1;
                 }
                 
             }
-        );
+        ).mouseenter(function()
+        	{
+        		MMHKPLUS.getElement("WorldSwitch").isMouseOver = true;
+        	}
+        ).mouseleave(function()
+            	{
+    		MMHKPLUS.getElement("WorldSwitch").isMouseOver = false;
+    	}
+    );
         $cb[0].selectedIndex = -1;
     },
 
