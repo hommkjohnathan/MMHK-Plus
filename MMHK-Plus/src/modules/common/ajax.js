@@ -306,12 +306,12 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
     	).complete(function() { MMHKPLUS.getElement("Ajax")._deletePendingRequest(request); delete request; });
     },
     
-    searchMines : function(request, callback)
+    searchMines : function(req, callback)
     {
     	var request = this._createPendingRequest("MineFinder search");
     	$.post(
     		MMHKPLUS.URL_API + "mineFinder/search/" + MMHKPLUS.getElement("Player").get("worldId"),
-    		JSON.stringify(request),
+    		JSON.stringify(req),
     		function(json) { callback(json) ;}
     	).complete(function() { MMHKPLUS.getElement("Ajax")._deletePendingRequest(request); delete request; });
     },
