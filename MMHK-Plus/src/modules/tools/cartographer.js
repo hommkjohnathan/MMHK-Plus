@@ -289,16 +289,21 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
         if(hasProperty(this.cache, x + "_" + y))
         {
             var region = this.cache[x + "_" + y];
-            if(self._hasInfluence(region) || hasProperty(region, "r")) {
-	            $("<p>")
-	                .css("paddingLeft", 25)
-	                .html(MMHKPLUS.localize("PLAYER") + " : " + (hasProperty(region, "player") ? region.player.n : self.cache[region.r.x + "_" + region.r.y].player.n))
-	                .appendTo(self.$content);
-	            if(hasProperty(region, "alliance") || hasProperty(self.cache[region.r.x + "_" + region.r.y], "alliance")) {
+        	if(self._hasInfluence(region) || hasProperty(region, "r")) {
+        		if(hasProperty(region, "player") || hasProperty(region, "r") && hasProperty(self.cache[region.r.x + "_" + region.r.y], "player")) {
+    	            $("<p>")
+    	                .css("paddingLeft", 25)
+    	                .html(MMHKPLUS.localize("PLAYER") + " : " + (hasProperty(region, "player") ? region.player.n : self.cache[region.r.x + "_" + region.r.y].player.n))
+    	                .appendTo(self.$content);
+        		}
+	            if(hasProperty(region, "alliance") || hasProperty(region, "r") && hasProperty(self.cache[region.r.x + "_" + region.r.y], "alliance")) {
 		            $("<p>")
 		                .css("paddingLeft", 25)
 		                .html(MMHKPLUS.localize("ALLIANCE") + " : " + (hasProperty(region, "alliance") ? region.alliance.n : self.cache[region.r.x + "_" + region.r.y].alliance.n))
 		                .appendTo(self.$content);
+		            if(region.alliance.n == undefined) {
+		            	console.log(region);
+		            }
 	            }
             }
 
