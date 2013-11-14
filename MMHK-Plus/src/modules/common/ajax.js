@@ -3,6 +3,7 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
     jsonHandler : null,
     $ajaxLoaderImage : null, 
     pendingRequests : [],
+    intervalTimeoutRequest : null,
 	
 	options : {
 		url : "http://" + window.location.host, 
@@ -30,6 +31,30 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
         			}
         		);
         	}
+        );
+        
+        this.intervalTimeoutRequest = setInterval(function()
+        	{
+        		var self = MMHKPLUS.getElement("Ajax");
+        		var timeout = $.now() - (30 * 1000);
+        		var toRemove = [];
+        		self.pendingRequests.forEach(function(r)
+        			{
+        				if(r.id < timeout) {
+        					toRemove.push(r);
+        				}
+        			}
+        		);
+        		if(toRemove.length > 0) {
+        			toRemove.forEach(function(r)
+        				{
+        					self._deletePendingRequest(r);
+        				}
+        			);
+        			toRemove = null;
+        		}
+        	},
+        	30000
         );
         
 		return this;
@@ -515,5 +540,7 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
     {
         delete this.jsonHandler ;
         this.jsonHandler = null;
+        clearInterval(this.intervalTimeoutRequest);
+        this.intervalTimeoutRequest = null;
     }
 });
