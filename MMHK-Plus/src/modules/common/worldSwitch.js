@@ -49,7 +49,7 @@ MMHKPLUS.WorldSwitch = MMHKPLUS.ExtendableElement.extend({
             }
         );
         $("<option>").attr("value", "").html("-----------------").appendTo($cb);
-        $("<option>").attr("value", "reset").html("Reset").appendTo($cb);
+        $("<option>").attr("value", "reset").html(MMHKPLUS.localize("RESET")).appendTo($cb);
 
         $cb.bind("change", function(e)
             {

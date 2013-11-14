@@ -84,7 +84,7 @@ MMHKPLUS.KingdomHeroesSpells = MMHKPLUS.PanelElement.extend({
 							<th class='MMHKPLUS_CellHeader' style='width:55px;'></th>\
 							<th class='MMHKPLUS_CellHeader'>" + MMHKPLUS.localize("SPELL") + "</th>\
 							<th class='MMHKPLUS_CellHeader' style='width:100px;'>" + MMHKPLUS.localize("READY_IN") + "</th>\
-							<th class='MMHKPLUS_CellHeader' style='width:100px;'>" + MMHKPLUS.localize("READY") + "</th>\
+							<th class='MMHKPLUS_CellHeader' style='width:100px;'>" + MMHKPLUS.localize("IS_READY") + "</th>\
 						</tr>"
 					).appendTo($iTable);
 					

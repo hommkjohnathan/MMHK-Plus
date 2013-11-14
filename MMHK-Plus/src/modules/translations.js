@@ -38,6 +38,7 @@ MMHKPLUS.translations = {
 								Если проблема сохранилась, почистите кэш браузера"},
 
     // WorldSwitch
+	RESET : 		{fr : "Réinitialiser", en : "Reset", ru : "Очистить"},
     CONFIRM :       {fr : "Confirmer", en : "Confirm", ru : "Подтвердите"},
     CONFIRM_TEXT :  {fr : "Confirmez-vous la remise à zéro?", en : "Do you confirm reset?", ru : "Очистить список?"},
     OK :            {fr : "Ok", en : "Ok", ru : "Да"},
@@ -299,11 +300,12 @@ MMHKPLUS.translations = {
 	// KingdomActions
 	ACTION :		{fr : "Action", en : "Action", ru : "Действие"},
 	END_DATE :		{fr : "Fin le", en : "End date", ru : "Время заверешения"},
-	END_IN :		{fr : "Fin dans", en : "End in", ru : "Завершится через"},
+	END_IN :		{fr : "Fin dans", en : "End in", ru : "Придет через"},
 	
 	// KingdomHeroesSpells
 	SPELL :			{fr : "Sort", en : "Spell", ru : "Заклинание"},
-	READY :			{fr : "Prêt", en : "Ready", ru : "Будет готово в"},
+	IS_READY :		{fr : "Prêt", en : "Ready", ru : "Время готовности"},
+	READY :			{fr : "Prêt", en : "Ready", ru : "Готово"},
 	READY_IN :		{fr : "Prêt dans", en : "Ready in", ru : "Будет готово через"},
 
     // KingdomCityBuildings
