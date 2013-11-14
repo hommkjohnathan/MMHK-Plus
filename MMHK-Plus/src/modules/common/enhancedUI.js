@@ -91,6 +91,7 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
 	
 	_enhanceUi : function()
 	{
+		this._setupQuestBox();
 		this._setupCenterOn();
 		this._setupBuyable();
 		this._setupChat();
@@ -107,6 +108,11 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
         this._setupTimelineCaravansTooltip();
         this._setupBattleRoundBonus();
         //this._setupExportToImageButtons();
+	},
+	
+	_setupQuestBox : function()
+	{
+		MMHKPLUS.HOMMK.getElement("QuestBox").toggleQuestBox();
 	},
 	
 	_setupBuyable : function()
