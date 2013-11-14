@@ -107,7 +107,99 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
         this._setupSiegeFrame();
         this._setupTimelineCaravansTooltip();
         this._setupBattleRoundBonus();
+        this._setupRegionCity();
         //this._setupExportToImageButtons();
+	},
+	
+	_setupRegionCity : function()
+	{
+		/*
+		 * 0 : North
+		 * 1 : North-East
+		 * 2 : East
+		 * 3 : South-East
+		 * 4 : South
+		 * 5 : South-West
+		 * 6 : West
+		 * 7 : North-West
+		 * -1 : None
+		 */ 
+		
+		var currentX, currentY;
+		
+		var direction = function(x1, y1, x2, y2) 
+		{
+			if(x1 == x2 && y1 == y2) {
+				return -1;
+			}
+			
+			if(x2 == x1 && y2 < y1) return 0;
+			if(x2 > x1 && y2 < y1) return 1;
+			if(x2 > x1 && y2 == y1) return 2;
+			if(x2 > x1 && y2 > y1) return 3;
+			if(x2 == x1 && y2 > y1) return 4;
+			if(x2 < x1 && y2 > y1) return 5;
+			if(x2 < x1 && y2 == y1) return 6;
+			if(x2 < x1 && y2 < y1) return 7;
+		};
+		
+		var distanceToCity = function(city) 
+		{
+			var result =
+				{
+					"cityName" : city.content.cityName,
+					"x" : city.content.x,
+					"y" : city.content.y,
+					"distance" : MMHKPLUS.distance(currentX, currentY, city.content.x, city.content.y),
+					"direction" : direction(currentX, currentY, city.content.x, city.content.y) - 1
+				};
+			return result; 
+		};
+		
+		var updateDistanceToCities = function(city)
+		{
+			currentX = MMHKPLUS.getElement("Player").getCurrentViewX();
+			currentY = MMHKPLUS.getElement("Player").getCurrentViewY();
+			
+			var distance = distanceToCity(city);
+			if(distance.direction == -2) {
+				$("#" + city.completeViewNameElement.id).html(distance.cityName);
+				$("#" + city.summaryViewNameElement.id).html(distance.cityName);
+			}
+			else {
+				var $elem = $("<div>");
+				$elem
+					.append(
+						$("<span>").html(distance.cityName + "&nbsp;&nbsp"))
+					.append(
+						$("<img>")
+							.attr("src", MMHKPLUS.URL_IMAGES + 'arrow_region_city.png')
+							.css(
+								{
+									width: 12,
+									height: 12,
+									'-webkit-transform' : 'rotate(' + distance.direction * 45 + 'deg)',
+									'-moz-transform' : 'rotate(' + distance.direction * 45 + 'deg)',
+									'-o-transform' : 'rotate(' + distance.direction * 45 + 'deg)',
+									'transform' : 'rotate(' + distance.direction * 45 + 'deg)'
+								}))
+					.append(
+						$("<span>").css('font-size', '65%').html(distance.distance.toFixed(1)));
+				$("#" + city.completeViewNameElement.id).html("").append($elem);
+				$("#" + city.summaryViewNameElement.id).html("").append($elem.clone());
+			}
+		};
+		
+		var updateRegionView = function() 
+		{
+			MMHKPLUS.HOMMK.elementPool.get("RegionCity").each(updateDistanceToCities);
+		};
+		
+		MMHKPLUS.HOMMK.setCurrentView = injectAfter(MMHKPLUS.HOMMK.setCurrentView, updateRegionView);
+		MMHKPLUS.HOMMK.worldMap.move = injectAfter(MMHKPLUS.HOMMK.worldMap.move, updateRegionView);
+		MMHKPLUS.HOMMK.worldMap.center = injectAfter(MMHKPLUS.HOMMK.worldMap.center, updateRegionView);
+		
+		updateRegionView();
 	},
 	
 	_setupQuestBox : function()
@@ -968,7 +1060,7 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
     		var newResult = result;
     		if(this.content.type == "CARAVAN_DELIVERY") 
 			{
-    			var $content = $(newResult);
+    			var $content = $("<div>");
     			for(var i = 1; i <=7; i++)
     			{
     				$content
@@ -979,8 +1071,7 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
     							.html(formatNumber(parseInt(this.content.paramList[i])))
     							.css("padding-left", "4px").css("top", "-4px").css("position", "relative"));
     			}
-    			newResult = $content.append("<br/>").html();
-    			var $content = $(newResult);
+    			newResult = result + $content.append("<br/>").html();
 			}
     		return newResult;
     	};
