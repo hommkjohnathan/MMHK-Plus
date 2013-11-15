@@ -25,6 +25,10 @@ MMHKPLUS.translations = {
     CHECK :         {fr : "Cocher", en : "Check", ru : "Проверка"},
     FROM_MSG :      {fr : "De", en : "From", ru : "Из"},
     TO_MSG :        {fr : "À", en : "To", ru : "В"},
+    SCOUT : 		{fr : "Reco", en : "Scout", ru : "[en]Scout"},
+    DECOY : 		{fr : "Leurre", en : "Decoy", ru : "манок"},
+    FRIDGE : 		{fr : "Frigo", en : "Fridge", ru : "холодильник"},
+    ATTACK : 		{fr : "Attaque", en : "Attack", ru : "атака"},
 	
 	// Store
 	QUOTA_REACHED :		{fr : "Quota de stockage atteint", en : "Storage quota reached", ru : "Заполнено место хранения данных"},

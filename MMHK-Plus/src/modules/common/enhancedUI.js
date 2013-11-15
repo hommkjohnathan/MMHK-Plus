@@ -108,7 +108,68 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
         this._setupTimelineCaravansTooltip();
         this._setupBattleRoundBonus();
         this._setupRegionCity();
+        this._setupColoredAlerts();
         //this._setupExportToImageButtons();
+	},
+	
+	_setupColoredAlerts : function()
+	{
+		var customizeAlertDisplay = function()
+		{
+			var self = this;
+			var classes = 
+				[
+				 	"MMHKPLUS_ColoredAlerts_Attaque", 
+				 	"MMHKPLUS_ColoredAlerts_Siege", 
+				 	"MMHKPLUS_ColoredAlerts_Reco", 
+				 	"MMHKPLUS_ColoredAlerts_Leurre", 
+				 	"MMHKPLUS_ColoredAlerts_Frigo"
+				 ]
+			;
+			
+			if(hasProperty(this, "content") && hasProperty(this.content, "message")) {
+				var clazz = "";
+				
+				classes.forEach(function(c) { $(self.imageElement).removeClass(c);});
+				
+				if(/attaque/gi.test(this.content.message)) clazz = classes[0];
+				if(/siege/gi.test(this.content.message)) clazz = classes[1];
+				if(/reco/gi.test(this.content.message)) clazz = classes[2];
+				if(/leurre/gi.test(this.content.message)) clazz = classes[3];
+				if(/frigo/gi.test(this.content.message)) clazz = classes[4];
+				
+				$(self.imageElement).addClass(clazz);
+			}
+		};
+		
+		MMHKPLUS.HOMMK.WorldMapAlert.prototype.initializeDisplay = injectAfter(MMHKPLUS.HOMMK.WorldMapAlert.prototype.initializeDisplay, customizeAlertDisplay);
+		MMHKPLUS.HOMMK.WorldMapAlert.prototype.display = injectAfter(MMHKPLUS.HOMMK.WorldMapAlert.prototype.display, customizeAlertDisplay);
+		MMHKPLUS.HOMMK.elementPool.get("WorldMapAlert").each(function(a) {a.initializeDisplay();});
+		
+		var customizeAlertFrameDisplay = function()
+		{
+			$("#MMHKPLUS_ColoredAlert_Type").remove();
+			var self = this;
+			$(this.mainElement).find("div.createMapAlertBg").find("div.boldFont").append(
+				$("<select>")
+					.attr("id", "MMHKPLUS_ColoredAlert_Type")
+					.css({float: 'right', 'margin-right' : '35px'})
+					.append($("<option>").attr("value", "").html("Basic"))
+					.append($("<option>").attr("value", "attaque").html(MMHKPLUS.localize("ATTACK")))
+					.append($("<option>").attr("value", "siege").html(MMHKPLUS.localize("SIEGE")))
+					.append($("<option>").attr("value", "reco").html(MMHKPLUS.localize("SCOUT")))
+					.append($("<option>").attr("value", "leurre").html(MMHKPLUS.localize("DECOY")))
+					.append($("<option>").attr("value", "frigo").html(MMHKPLUS.localize("FRIDGE")))
+					.change(function()
+						{
+							$("#" + self.messageField.id).val($("#MMHKPLUS_ColoredAlert_Type").val());
+						}
+					)
+			);
+			$("#MMHKPLUS_ColoredAlert_Type")[0].selectedIndex = -1;
+		};
+		
+		MMHKPLUS.HOMMK.EditWorldMapAlertFrame.prototype.display = injectAfter(MMHKPLUS.HOMMK.EditWorldMapAlertFrame.prototype.display, customizeAlertFrameDisplay);
 	},
 	
 	_setupRegionCity : function()
