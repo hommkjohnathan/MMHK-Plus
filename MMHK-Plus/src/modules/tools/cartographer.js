@@ -296,14 +296,11 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
     	                .html(MMHKPLUS.localize("PLAYER") + " : " + (hasProperty(region, "player") ? region.player.n : self.cache[region.r.x + "_" + region.r.y].player.n))
     	                .appendTo(self.$content);
         		}
-	            if(hasProperty(region, "alliance") || hasProperty(region, "r") && hasProperty(self.cache[region.r.x + "_" + region.r.y], "alliance")) {
+	            if(hasProperty(region, "alliance") && hasProperty(region.alliance, "n") || hasProperty(region, "r") && hasProperty(self.cache[region.r.x + "_" + region.r.y], "alliance")) {
 		            $("<p>")
 		                .css("paddingLeft", 25)
 		                .html(MMHKPLUS.localize("ALLIANCE") + " : " + (hasProperty(region, "alliance") ? region.alliance.n : self.cache[region.r.x + "_" + region.r.y].alliance.n))
 		                .appendTo(self.$content);
-		            if(region.alliance.n == undefined) {
-		            	console.log(region);
-		            }
 	            }
             }
 
