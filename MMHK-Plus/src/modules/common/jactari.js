@@ -71,7 +71,7 @@ MMHKPLUS.Jactari = MMHKPLUS.ExtendableElement.extend({
 		MMHKPLUS.HOMMK.HeroFrame.prototype.show = injectAfter(MMHKPLUS.HOMMK.HeroFrame.prototype.show, ajout_bouton);
 		if(MMHKPLUS.HOMMK.ZoneBuildingDungeonUpgradeFrame) // saison < 3
 			MMHKPLUS.HOMMK.ZoneBuildingDungeonUpgradeFrame.prototype.show = injectAfter(MMHKPLUS.HOMMK.ZoneBuildingDungeonUpgradeFrame.prototype.show, ajout_bouton);
-		if ( MMHKPLUS.HOMMK.isPveWorld )
+		if ( MMHKPLUS.getElement("Player").isPVEWorld() )
 			MMHKPLUS.HOMMK.HaltFrame.prototype.show = injectAfter(MMHKPLUS.HOMMK.HaltFrame.prototype.show, ajout_bouton);
 			
 		return this;
@@ -794,7 +794,7 @@ MMHKPLUS.Jactari = MMHKPLUS.ExtendableElement.extend({
 		}
 		
 		var troupes = [];
-		if ( MMHKPLUS.HOMMK.isPveWorld && frame.mainElementId.substring(0,8) == "HaltFrame".substring(0,8) ) 
+		if ( MMHKPLUS.getElement("Player").isPVEWorld() && frame.mainElementId.substring(0,8) == "HaltFrame".substring(0,8) ) 
 		{
 			var heroMoveId = frame.haltList.options[frame.haltList.options.selectedIndex].value;
 			var worldMoveId = 0;

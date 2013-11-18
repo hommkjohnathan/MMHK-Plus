@@ -18,6 +18,11 @@ MMHKPLUS.Player = MMHKPLUS.RefreshableElement.extend({
 		return (isDefined(this.allianceId) && this.allianceId != -1);
 	},
 	
+	isPVEWorld : function()
+	{
+		return MMHKPLUS.HOMMK.isPveWorld;
+	},
+	
 	getCities : function()
 	{
 		return MMHKPLUS.HOMMK.elementPool.obj.RegionCity.values().sort(function(a,b)
