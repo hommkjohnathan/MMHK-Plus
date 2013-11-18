@@ -25,8 +25,8 @@ MMHKPLUS.Menu = MMHKPLUS.ExtendableElement.extend({
 			{i : "alliance.png", t : MMHKPLUS.localize("ALLIANCE"), ra : true, s :
 				[
                     {t : MMHKPLUS.localize("ONLINE_MEMBERS"), ref : "AllianceOnlineMembers"},
-					{t : MMHKPLUS.localize("ALLIANCE_SPYS"), ref : "AllianceSpys"},
-					{t : MMHKPLUS.localize("ALLIANCE_HEROES"), ref : "AllianceHeroes"},
+					{t : MMHKPLUS.localize("ALLIANCE_SPYS"), ref : "AllianceSpys", v : !MMHKPLUS.getElement("Player").isPVEWorld()},
+					{t : MMHKPLUS.localize("ALLIANCE_HEROES"), ref : "AllianceHeroes", v : !MMHKPLUS.getElement("Player").isPVEWorld()},
                     {t : MMHKPLUS.SpyReport.elementType, ref : "SpyReport", v : false}
 				]
 			},

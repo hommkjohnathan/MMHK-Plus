@@ -850,7 +850,7 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
 
     _setupAllianceReports : function()
     {
-        if(MMHKPLUS.getElement("Player").isInAlliance())
+        if(!MMHKPLUS.getElement("Player").isPVEWorld() && MMHKPLUS.getElement("Player").isInAlliance())
         {
             var lastMessage = -1; 
 
