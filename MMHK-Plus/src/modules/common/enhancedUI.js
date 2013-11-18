@@ -245,7 +245,7 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
 									'transform' : 'rotate(' + distance.direction * 45 + 'deg)'
 								}))
 					.append(
-						$("<span>").css('font-size', '65%').html(distance.distance.toFixed(1)));
+						$("<span>").css('font-size', '75%').html(distance.distance.toFixed(1)));
 				$("#" + city.completeViewNameElement.id).html("").append($elem);
 				$("#" + city.summaryViewNameElement.id).html("").append($elem.clone());
 			}
