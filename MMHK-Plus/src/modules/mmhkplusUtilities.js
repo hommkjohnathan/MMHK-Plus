@@ -85,6 +85,33 @@ MMHKPLUS.alert = function(title, message) {
 		);
 };
 
+MMHKPLUS.dialog = function(title, message, onOk, onCancel) {
+	$("<div>")
+    .attr({title: title, "class": "MMHKPLUS_dialog"})
+    .addClass("MMHKPLUS_TextCenter")
+    .html(message)
+    .dialog(
+    	{
+    		draggable: false,
+			modal: true,
+			resizable: false,
+			width: "auto", height : "auto",
+			zIndex : 1000000,
+			close: function(){$(this).remove();},
+		    buttons: {
+		        "Ok": function() {
+		            onOk();
+		        },
+		        "Cancel": function() {
+		            onCancel();
+		        }
+		    }
+    	}
+    );
+};
+
+
+
 MMHKPLUS.getCssSprite = function (l, c) {
 	var d = $("<div>");
     try {

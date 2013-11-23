@@ -47,6 +47,7 @@ MMHKPLUS.translations = {
     CONFIRM_TEXT :  {fr : "Confirmez-vous la remise à zéro?", en : "Do you confirm reset?", ru : "Очистить список?"},
     OK :            {fr : "Ok", en : "Ok", ru : "Да"},
     CANCEL :        {fr : "Annuler", en : "Cancel", ru : "Нет"},
+    WS_MESSAGE : 	{fr : "Voulez-vous changer de monde?", en: "Do you want to switch world?", ru:"[en] Do you want to switch world?"},
 
 	// Menu
 	ALLIANCE : 		{fr : "Alliance", en : "Alliance", ru : "Альянс"},
