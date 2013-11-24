@@ -63,7 +63,7 @@ MMHKPLUS.MineFinder = MMHKPLUS.PanelElement.extend({
 					self.elementsToSend.splice(0, self.elementsToSend.length);
 				}
 			},
-			60000
+			4*60000
 		);
 		
 		this.resyncWithServer = setInterval(function()
