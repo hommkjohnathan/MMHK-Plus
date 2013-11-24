@@ -148,28 +148,37 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
 		
 		var customizeAlertFrameDisplay = function()
 		{
-			$("#MMHKPLUS_ColoredAlert_Type").remove();
 			var self = this;
-			$(this.mainElement).find("div.createMapAlertBg").find("div.boldFont").append(
-				$("<select>")
-					.attr("id", "MMHKPLUS_ColoredAlert_Type")
-					.css({float: 'right', 'margin-right' : '35px'})
-					.append($("<option>").attr("value", "").html("Basic"))
-					.append($("<option>").attr("value", "attaque").html(MMHKPLUS.localize("ATTACK")))
-					.append($("<option>").attr("value", "siege").html(MMHKPLUS.localize("SIEGE")))
-					.append($("<option>").attr("value", "reco").html(MMHKPLUS.localize("SCOUT")))
-					.append($("<option>").attr("value", "leurre").html(MMHKPLUS.localize("DECOY")))
-					.append($("<option>").attr("value", "frigo").html(MMHKPLUS.localize("FRIDGE")))
-					.change(function()
-						{
-							$("#" + self.messageField.id).val($("#MMHKPLUS_ColoredAlert_Type").val());
-						}
-					)
-			);
+			$("#MMHKPLUS_ColoredAlert_Type").remove();
+			var $select = $("<select>")
+				.attr("id", "MMHKPLUS_ColoredAlert_Type")
+				.css({float: 'right', 'margin-right' : '35px'})
+				.append($("<option>").attr("value", "").html("Basic"))
+				.append($("<option>").attr("value", "attaque").html(MMHKPLUS.localize("ATTACK")))
+				.append($("<option>").attr("value", "siege").html(MMHKPLUS.localize("SIEGE")))
+				.append($("<option>").attr("value", "reco").html(MMHKPLUS.localize("SCOUT")))
+				.append($("<option>").attr("value", "leurre").html(MMHKPLUS.localize("DECOY")))
+				.append($("<option>").attr("value", "frigo").html(MMHKPLUS.localize("FRIDGE")))
+				.change(function()
+					{
+						$("#" + self.messageField.id).val($("#MMHKPLUS_ColoredAlert_Type").val());
+					}
+				)
+			;
+			
+			var $el = $(this.mainElement).find("div.createMapAlertBg").find("div.boldFont");
+			if($el.length == 0) {
+				$el = $(this.mainElement).find("div.createMapAlertBg");
+				$el.prepend($select);
+			}
+			else {
+				$el.append($select);
+			}
 			$("#MMHKPLUS_ColoredAlert_Type")[0].selectedIndex = -1;
 		};
 		
 		MMHKPLUS.HOMMK.EditWorldMapAlertFrame.prototype.display = injectAfter(MMHKPLUS.HOMMK.EditWorldMapAlertFrame.prototype.display, customizeAlertFrameDisplay);
+		MMHKPLUS.HOMMK.CreateWorldMapAlertFrame.prototype.display = injectAfter(MMHKPLUS.HOMMK.CreateWorldMapAlertFrame.prototype.display, customizeAlertFrameDisplay);
 	},
 	
 	_setupRegionCity : function()
