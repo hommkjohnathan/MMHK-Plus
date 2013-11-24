@@ -589,7 +589,7 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
                 {
                     r.aRL.forEach(function(a)
                         {
-                            if(!hasProperty(self.cache, a[0] + "_" + a[1]))
+                           if(r.x != a[0] && r.y != a[1])
                             {
                             	self.cache[a[0] + "_" + a[1]] = {x : a[0], y: a[1], r : {x : r.x , y: r.y}};
                                 toSend.push(self.cache[a[0] + "_" + a[1]]);
@@ -600,16 +600,6 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
                 }
             }
         );
-        /*
-        for(var i = self.lastX; i <= self.lastX + self.options.hop && i <= self.wS; i++) {
-        	for(var j = self.lastY; j <= self.lastY + self.options.hop && j <= self.wS; j++) {
-            	if(!hasProperty(toSendObj, "" + i + "_" + j)) {
-            		// Plain region without influence
-            		toSend.push({x : i, y: j});
-            	}
-            }
-        }
-        */
         MMHKPLUS.getElement("Ajax").sendCartographerData(toSend);
         if(self.options.opened)
             self._redraw(true);
