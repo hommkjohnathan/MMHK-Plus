@@ -658,7 +658,16 @@ MMHKPLUS.Jactari = MMHKPLUS.ExtendableElement.extend({
 			playerHero.bonus_ecole = self.bonus.data.ecoles;
 		else 
 		{
-			if ( spy_attaquer.bonus )
+			var playerHeroes = MMHKPLUS.getElement("Player").getHeroes();
+			var isMyHero = false;
+			var tmpAttacker = spy_attaquer.hero || spy_attaquer;
+			playerHeroes.forEach(function(h)
+				{
+					if(tmpAttacker.id == h.content.id)
+						isMyHero = true;
+				}
+			);
+			if ( spy_attaquer.bonus && isMyHero)
 				donnees.a.bonus_ecole = self.bonus.data.ecoles;
 			else
 				donnees.d.bonus_ecole = self.bonus.data.ecoles;
