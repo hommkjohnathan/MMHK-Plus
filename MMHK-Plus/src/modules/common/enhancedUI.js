@@ -144,7 +144,10 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
 		
 		MMHKPLUS.HOMMK.WorldMapAlert.prototype.initializeDisplay = injectAfter(MMHKPLUS.HOMMK.WorldMapAlert.prototype.initializeDisplay, customizeAlertDisplay);
 		MMHKPLUS.HOMMK.WorldMapAlert.prototype.display = injectAfter(MMHKPLUS.HOMMK.WorldMapAlert.prototype.display, customizeAlertDisplay);
-		MMHKPLUS.HOMMK.elementPool.get("WorldMapAlert").each(function(a) {a.initializeDisplay();});
+		var allWMAlerts = MMHKPLUS.HOMMK.elementPool.get("WorldMapAlert");
+		if(allWMAlerts) {
+			MMHKPLUS.HOMMK.elementPool.get("WorldMapAlert").each(function(a) {a.initializeDisplay();});
+		}
 		
 		var customizeAlertFrameDisplay = function()
 		{
