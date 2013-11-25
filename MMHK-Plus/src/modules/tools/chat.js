@@ -33,6 +33,8 @@ MMHKPLUS.Chat = MMHKPLUS.PanelElement.extend({
 		this.chatRequest = new MMHKPLUS.HOMMK.JsonRequestHandler(MMHKPLUS.HOMMK.CHAT_URL,{});
 
 		this._setupPanel();
+		
+		console.log("chat", self.options.opened);
 
         this.originalShowLatest = MMHKPLUS.HOMMK.Chat.prototype.showLatest;
         MMHKPLUS.HOMMK.Chat.prototype.showLatest = injectAfter(MMHKPLUS.HOMMK.Chat.prototype.showLatest, function()
@@ -354,7 +356,7 @@ MMHKPLUS.Chat = MMHKPLUS.PanelElement.extend({
 				$("<p>")
 					.css({wordWrap : "break-word", marginTop:"5px", marginBottom:"5px", paddingLeft: "50px"})
 					.html(messageContent)
-					.css('color', (message.from_playerName == MMHKPLUS.getElement("Player").get("playerName") ? "#990033" : "#000000")));
+					.css('color', (message.from_playerName == MMHKPLUS.getElement("Player").get("playerName") && MMHKPLUS.getElement("EnhancedUI").options.usePlayerChatColor ? "#990033" : "#000000")));
 		return $content;
 	},
 

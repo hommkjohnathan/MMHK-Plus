@@ -15,49 +15,64 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
 		this.options = $.extend({}, this.options, options);
         this.jsonHandler = new MMHKPLUS.HOMMK.JsonRequestHandler(MMHKPLUS.HOMMK.JSON_GETCONTENT_URL, {});
         
-        this.$ajaxLoaderImage = $("<img>")
-        	.attr("src", MMHKPLUS.URL_IMAGES + "ajax-loader.gif")
-        	.css({position: 'absolute', top : '25px', right : '5px'});
-        this.$ajaxLoaderImage.addClass("hidden"); // no request to begin
-        
-        $("div.sidebarTopContainer").first().append(this.$ajaxLoaderImage);
-        
-        var $tooltip = MMHKPLUS.getElement("Tooltip", true).setContent(this.$ajaxLoaderImage, function($container, $tip)
-        	{
-        		var self = MMHKPLUS.getElement("Ajax");
-        		self.pendingRequests.forEach(function(r)
-        			{
-        				$tip.append($("<p>").html(r.type));
-        			}
-        		);
-        	}
-        );
-        
-        this.intervalTimeoutRequest = setInterval(function()
-        	{
-        		var self = MMHKPLUS.getElement("Ajax");
-        		var timeout = $.now() - (30 * 1000);
-        		var toRemove = [];
-        		self.pendingRequests.forEach(function(r)
-        			{
-        				if(r.id < timeout) {
-        					toRemove.push(r);
-        				}
-        			}
-        		);
-        		if(toRemove.length > 0) {
-        			toRemove.forEach(function(r)
-        				{
-        					self._deletePendingRequest(r);
-        				}
-        			);
-        			toRemove = null;
-        		}
-        	},
-        	30000
-        );
+        this.setupRequestIndicator();
         
 		return this;
+	},
+	
+	setupRequestIndicator : function()
+	{
+		if(MMHKPLUS.getElement("EnhancedUI", true).options.showRequestIndicator) {
+			this.$ajaxLoaderImage = $("<img>")
+				.attr("id", "MMHKPLUS_Ajax_RequestIndicator")
+		    	.attr("src", MMHKPLUS.URL_IMAGES + "ajax-loader.gif")
+		    	.css({position: 'absolute', top : '25px', right : '5px'});
+		    this.$ajaxLoaderImage.addClass("hidden"); // no request to begin
+		    
+		    $("div.sidebarTopContainer").first().append(this.$ajaxLoaderImage);
+		    
+		    var $tooltip = MMHKPLUS.getElement("Tooltip", true).setContent(this.$ajaxLoaderImage, function($container, $tip)
+		    	{
+		    		var self = MMHKPLUS.getElement("Ajax");
+		    		self.pendingRequests.forEach(function(r)
+		    			{
+		    				$tip.append($("<p>").html(r.type));
+		    			}
+		    		);
+		    	}
+		    );
+		    
+		    this.intervalTimeoutRequest = setInterval(function()
+		    	{
+		    		var self = MMHKPLUS.getElement("Ajax");
+		    		var timeout = $.now() - (30 * 1000);
+		    		var toRemove = [];
+		    		self.pendingRequests.forEach(function(r)
+		    			{
+		    				if(r.id < timeout) {
+		    					toRemove.push(r);
+		    				}
+		    			}
+		    		);
+		    		if(toRemove.length > 0) {
+		    			toRemove.forEach(function(r)
+		    				{
+		    					self._deletePendingRequest(r);
+		    				}
+		    			);
+		    			toRemove = null;
+		    		}
+		    	},
+		    	30000
+		    );
+		}
+		else {
+			$("#MMHKPLUS_Ajax_RequestIndicator").remove();
+			if(this.intervalTimeoutRequest) {
+				clearInterval(this.intervalTimeoutRequest);
+			}
+			this.pendingRequests = [];
+		}
 	},
 	
 	_createPendingRequest : function(type)
@@ -540,7 +555,10 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
     {
         delete this.jsonHandler ;
         this.jsonHandler = null;
-        clearInterval(this.intervalTimeoutRequest);
-        this.intervalTimeoutRequest = null;
+        if(this.intervalTimeoutRequest) {
+	        clearInterval(this.intervalTimeoutRequest);
+	        this.intervalTimeoutRequest = null;
+        }
+        
     }
 });

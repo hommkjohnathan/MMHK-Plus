@@ -17,7 +17,7 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
         showResources : true,
         showMovements : true,
         gameToleft : false,
-        showDistance : true,
+        showDistances : true,
         showRequestIndicator : true,
         usePlayerChatColor : true,
 		chatType : 2 // 0 : normal, 1 : amélioré, 2 : MMHK+ Chat
@@ -25,6 +25,7 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
 	
 	init : function(options)
 	{
+		var self = this;
 		this.options = $.extend({}, this.options, options);
 		
 		this.options.showBuyable = this.load("sB") || this.options.showBuyable;
@@ -33,14 +34,11 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
         this.options.showResources = this.load("sR") || this.options.showResources;
         this.options.showMovements = (this.load("sM") != null ? this.load("sM") : this.options.showMovements);
         this.options.gameToleft = (this.load("gP") != null ? this.load("gP") : this.options.gameToleft);
-        this.options.showDistance = (this.load("sD") != null ? this.load("sD") : this.options.showDistance);
+        this.options.showDistances = (this.load("sD") != null ? this.load("sD") : this.options.showDistances);
         this.options.showRequestIndicator = (this.load("sRI") != null ? this.load("sRI") : this.options.showRequestIndicator);
         this.options.usePlayerChatColor = (this.load("uPC") != null ? this.load("uPC") : this.options.usePlayerChatColor);
 
 		this.options.chatType = (this.load("cT") != null ? this.load("cT") : this.options.chatType);
-		
-		this._enhanceUi();
-		
 		return this;
 	},
 	
@@ -79,6 +77,7 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
     {
         this.options.showResources = !this.options.showResources;
         this.save("sR", this.options.showResources);
+        MMHKPLUS.getElement("MineFinder", true).setupToolipContent();
     },
 
     toggleGamePosition : function()
@@ -94,8 +93,28 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
         this.save("sM", this.options.showMovements);
         this._setupMovements();
     },
+    
+    toggleDistances : function()
+    {
+        this.options.showDistances = !this.options.showDistances;
+        this.save("sD", this.options.showDistances);
+        this._setupRegionCity();
+    },
+    
+    toggleRequestIndicator : function()
+    {
+        this.options.showRequestIndicator = !this.options.showRequestIndicator;
+        this.save("sRI", this.options.showRequestIndicator);
+        MMHKPLUS.getElement("Ajax", true).setupRequestIndicator();
+    },
+    
+    togglePlayerChatColor : function()
+    {
+        this.options.usePlayerChatColor = !this.options.usePlayerChatColor;
+        this.save("uPC", this.options.usePlayerChatColor);
+    },
 	
-	_enhanceUi : function()
+	enhanceUi : function()
 	{
 		this._setupQuestBox();
 		this._setupCenterOn();
@@ -198,6 +217,7 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
 	
 	_setupRegionCity : function()
 	{
+		var self = this;
 		/*
 		 * 0 : North
 		 * 1 : North-East
@@ -258,6 +278,7 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
 						$("<span>").html(distance.cityName + "&nbsp;&nbsp"))
 					.append(
 						$("<img>")
+							.addClass("MMHKPLUS_EnhancedUI_RegionCity")
 							.attr("src", MMHKPLUS.URL_IMAGES + 'arrow_region_city.png')
 							.css(
 								{
@@ -269,21 +290,31 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
 									'transform' : 'rotate(' + distance.direction * 45 + 'deg)'
 								}))
 					.append(
-						$("<span>").css('font-size', '75%').html(distance.distance.toFixed(1)));
+						$("<span>").addClass("MMHKPLUS_EnhancedUI_RegionCity").css('font-size', '75%').html(distance.distance.toFixed(1)));
 				$("#" + city.completeViewNameElement.id).html("").append($elem);
 				$("#" + city.summaryViewNameElement.id).html("").append($elem.clone());
 			}
 		};
 		
+		var needToRemoveDistances = true;
+		
 		var updateRegionView = function() 
 		{
-			MMHKPLUS.HOMMK.elementPool.get("RegionCity").each(updateDistanceToCities);
+			if(self.options.showDistances) {
+				MMHKPLUS.HOMMK.elementPool.get("RegionCity").each(updateDistanceToCities);
+				needToRemoveDistances = true;
+			}
+			else {
+				if(needToRemoveDistances) {
+					$(".MMHKPLUS_EnhancedUI_RegionCity").remove();
+					needToRemoveDistances = false;
+				}
+			}
 		};
 		
 		MMHKPLUS.HOMMK.setCurrentView = injectAfter(MMHKPLUS.HOMMK.setCurrentView, updateRegionView);
 		MMHKPLUS.HOMMK.worldMap.move = injectAfter(MMHKPLUS.HOMMK.worldMap.move, updateRegionView);
 		MMHKPLUS.HOMMK.worldMap.center = injectAfter(MMHKPLUS.HOMMK.worldMap.center, updateRegionView);
-		
 		updateRegionView();
 	},
 	
@@ -501,6 +532,13 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
 						MMHKPLUS.openDisplayable("Chat");
 					})
 				.appendTo($("div.toolbarBg").children());
+			
+			if(MMHKPLUS.getElement("Chat", true).options.opened) {
+				this.$elemChat.addClass("hidden");
+			}
+			else {
+				this.$elemChat.removeClass("hidden");
+			}
 			
 			$(".chatsystemmincontainer").addClass("hidden");
             $(".chatsystem").addClass("hidden");

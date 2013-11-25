@@ -384,13 +384,13 @@ MMHKPLUS.init = function() {
 	MMHKPLUS.locale = (MMHKPLUS.HOMMK.getLanguage() == "fr" ? "fr" : (MMHKPLUS.HOMMK.getLanguage() == "ru" ? "ru" : "en")) || "en";
 	$("<style/>").attr("type", "text/css").html(MMHKPLUS.css.join("")).appendTo($("head"));
 	
-	MMHKPLUS.addElement(Object.create(MMHKPLUS.Ajax).init());
 	MMHKPLUS.addElement(Object.create(MMHKPLUS.Store).init());
+	MMHKPLUS.addElement(Object.create(MMHKPLUS.Ajax).init());
 	MMHKPLUS.addElement(Object.create(MMHKPLUS.Player).init());
 	MMHKPLUS.addElement(Object.create(MMHKPLUS.Menu).init());
     MMHKPLUS.addElement(Object.create(MMHKPLUS.WorldSwitch).init());
 	MMHKPLUS.addElement(Object.create(MMHKPLUS.Jactari).init());
-    MMHKPLUS.addElement(Object.create(MMHKPLUS.EnhancedUI).init());
+    //MMHKPLUS.addElement(Object.create(MMHKPLUS.EnhancedUI).init());   // is called by Ajax during is init
     MMHKPLUS.addElement(Object.create(MMHKPLUS.Cartographer).init());
     MMHKPLUS.addElement(Object.create(MMHKPLUS.MineFinder).init());
 	
@@ -407,6 +407,9 @@ MMHKPLUS.init = function() {
     MMHKPLUS.checkUpdate();
 
     MMHKPLUS.HOMMK.JsonRequestHandler.prototype.onOKResponse = injectAfter(MMHKPLUS.HOMMK.JsonRequestHandler.prototype.onOKResponse, function(a, b, c) { console.log(arguments);});
+    
+    // When init is complete, enhance UI
+    MMHKPLUS.getElement("EnhancedUI").enhanceUi();
 };
 
 MMHKPLUS.unload = function() {

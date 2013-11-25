@@ -74,8 +74,9 @@ MMHKPLUS.MineFinder = MMHKPLUS.PanelElement.extend({
 		);
 		
 		MMHKPLUS.getElement("Ajax").getMines(this._putRegionInCacheFromServer);
+		
 		this.originalTooltipHTMLContentFunction = MMHKPLUS.HOMMK.worldMap.tooltip.htmlContentFunction; 
-		MMHKPLUS.HOMMK.worldMap.tooltip.htmlContentFunction = this._tooltipHTMLContentFunction;
+		this.setupToolipContent();
 		
 		return this;
 	},
@@ -107,6 +108,16 @@ MMHKPLUS.MineFinder = MMHKPLUS.PanelElement.extend({
 	{
 		clearInterval(this.intervalUpdateCurrentPos);
 		this.intervalUpdateCurrentPos = null;
+	},
+	
+	setupToolipContent : function()
+	{
+		if(MMHKPLUS.getElement("EnhancedUI", true).options.showResources) {
+			MMHKPLUS.HOMMK.worldMap.tooltip.htmlContentFunction = this._tooltipHTMLContentFunction;
+		}
+		else {
+			MMHKPLUS.HOMMK.worldMap.tooltip.htmlContentFunction = this.originalTooltipHTMLContentFunction;
+		}
 	},
 	
 	_createView : function()
