@@ -17,6 +17,9 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
         showResources : true,
         showMovements : true,
         gameToleft : false,
+        showDistance : true,
+        showRequestIndicator : true,
+        usePlayerChatColor : true,
 		chatType : 2 // 0 : normal, 1 : amélioré, 2 : MMHK+ Chat
 	},
 	
@@ -30,6 +33,9 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
         this.options.showResources = this.load("sR") || this.options.showResources;
         this.options.showMovements = (this.load("sM") != null ? this.load("sM") : this.options.showMovements);
         this.options.gameToleft = (this.load("gP") != null ? this.load("gP") : this.options.gameToleft);
+        this.options.showDistance = (this.load("sD") != null ? this.load("sD") : this.options.showDistance);
+        this.options.showRequestIndicator = (this.load("sRI") != null ? this.load("sRI") : this.options.showRequestIndicator);
+        this.options.usePlayerChatColor = (this.load("uPC") != null ? this.load("uPC") : this.options.usePlayerChatColor);
 
 		this.options.chatType = (this.load("cT") != null ? this.load("cT") : this.options.chatType);
 		
@@ -123,7 +129,9 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
 				 	"MMHKPLUS_ColoredAlerts_Siege", 
 				 	"MMHKPLUS_ColoredAlerts_Reco", 
 				 	"MMHKPLUS_ColoredAlerts_Leurre", 
-				 	"MMHKPLUS_ColoredAlerts_Frigo"
+				 	"MMHKPLUS_ColoredAlerts_Frigo",
+				 	"MMHKPLUS_ColoredAlerts_Pillage",
+				 	"MMHKPLUS_ColoredAlerts_Coloniser"
 				 ]
 			;
 			
@@ -137,6 +145,8 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
 				if(/reco/gi.test(this.content.message)) clazz = classes[2];
 				if(/leurre/gi.test(this.content.message)) clazz = classes[3];
 				if(/frigo/gi.test(this.content.message)) clazz = classes[4];
+				if(/pillage/gi.test(this.content.message)) clazz = classes[5];
+				if(/coloniser/gi.test(this.content.message)) clazz = classes[6];
 				
 				$(self.imageElement).addClass(clazz);
 			}
@@ -158,10 +168,12 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
 				.css({float: 'right', 'margin-right' : '35px'})
 				.append($("<option>").attr("value", "").html("Basic"))
 				.append($("<option>").attr("value", "attaque").html(MMHKPLUS.localize("ATTACK")))
+				.append($("<option>").attr("value", "pillage").html(MMHKPLUS.localize("PILLAGE")))
 				.append($("<option>").attr("value", "siege").html(MMHKPLUS.localize("SIEGE")))
 				.append($("<option>").attr("value", "reco").html(MMHKPLUS.localize("SCOUT")))
 				.append($("<option>").attr("value", "leurre").html(MMHKPLUS.localize("DECOY")))
 				.append($("<option>").attr("value", "frigo").html(MMHKPLUS.localize("FRIDGE")))
+				.append($("<option>").attr("value", "coloniser").html(MMHKPLUS.localize("SETTLE")))
 				.change(function()
 					{
 						$("#" + self.messageField.id).val($("#MMHKPLUS_ColoredAlert_Type").val());

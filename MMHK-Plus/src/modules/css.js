@@ -40,11 +40,15 @@ MMHKPLUS.css = [
     ".worldMapAlertImage_zoom2.MMHKPLUS_ColoredAlerts_Leurre { background-image:url(" + MMHKPLUS.URL_IMAGES + "alerts/leurre.png) }",
     ".worldMapAlertImage_zoom2.MMHKPLUS_ColoredAlerts_Reco { background-image:url(" + MMHKPLUS.URL_IMAGES + "alerts/reco.png) }",
     ".worldMapAlertImage_zoom2.MMHKPLUS_ColoredAlerts_Frigo { background-image:url(" + MMHKPLUS.URL_IMAGES + "alerts/frigo.png) }",
+    ".worldMapAlertImage_zoom2.MMHKPLUS_ColoredAlerts_Pillage { background-image:url(" + MMHKPLUS.URL_IMAGES + "alerts/pillage.png) }",
+    ".worldMapAlertImage_zoom2.MMHKPLUS_ColoredAlerts_Coloniser { background-image:url(" + MMHKPLUS.URL_IMAGES + "alerts/coloniser.png) }",
     ".worldMapAlertImage_zoom1.MMHKPLUS_ColoredAlerts_Attaque { background-image:url(" + MMHKPLUS.URL_IMAGES + "alerts/rouge.png) }",
     ".worldMapAlertImage_zoom1.MMHKPLUS_ColoredAlerts_Siege { background-image:url(" + MMHKPLUS.URL_IMAGES + "alerts/rouge.png) }",
     ".worldMapAlertImage_zoom1.MMHKPLUS_ColoredAlerts_Leurre { background-image:url(" + MMHKPLUS.URL_IMAGES + "alerts/magenta.png) }",
     ".worldMapAlertImage_zoom1.MMHKPLUS_ColoredAlerts_Reco { background-image:url(" + MMHKPLUS.URL_IMAGES + "alerts/vert.png) }",
     ".worldMapAlertImage_zoom1.MMHKPLUS_ColoredAlerts_Frigo { background-image:url(" + MMHKPLUS.URL_IMAGES + "alerts/bleu.png) }",
+    ".worldMapAlertImage_zoom1.MMHKPLUS_ColoredAlerts_Pillage { background-image:url(" + MMHKPLUS.URL_IMAGES + "alerts/rouge.png) }",
+    ".worldMapAlertImage_zoom1.MMHKPLUS_ColoredAlerts_Coloniser { background-image:url(" + MMHKPLUS.URL_IMAGES + "alerts/orange.png) }",
 	
 	// Tooltip
 	".MMHKPLUS_Tooltip { position : absolute; z-index : 100000; padding : 10px; border : 1px solid #FFFFFF; border-radius : 10px; background-color : rgba(0, 0, 0, 0.85); color : #FFFFFF; }",
