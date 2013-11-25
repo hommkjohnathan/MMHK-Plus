@@ -12,7 +12,7 @@ MMHKPLUS.translations = {
     NO:             {fr : "Non", en : "No", ru : "Нет"},
     CLOSE:          {fr : "Fermer", en : "Close", ru : "Закрыть"},
     DOWNLOAD:       {fr : "Téléchargement", en : "Download", ru : "Загрузка"},
-    RUIN :          {fr : "Ruine", en : "Ruin", ru : "Поломка скрипта"},
+    RUIN :          {fr : "Ruine", en : "Ruin", ru : "Сбой скрипта"},
 
     // Update
     UPDATE_TITLE :  {fr : "Mise à jour", en : "Update", ru : "Обновление"},
@@ -22,13 +22,17 @@ MMHKPLUS.translations = {
 	// EnhanceUi
 	CENTER :		{fr : "Centrer", en : "Go to", ru : "Перейти в"},
     IN_PROGRESS :   {fr : "En cours...", en : "In progress...", ru : "Подождите..."},
-    CHECK :         {fr : "Cocher", en : "Check", ru : "Проверка"},
+    CHECK :         {fr : "Cocher", en : "Check", ru : "Выделить"},
     FROM_MSG :      {fr : "De", en : "From", ru : "Из"},
     TO_MSG :        {fr : "À", en : "To", ru : "В"},
     SCOUT : 		{fr : "Reco", en : "Scout", ru : "[en]Scout"},
     DECOY : 		{fr : "Leurre", en : "Decoy", ru : "манок"},
     FRIDGE : 		{fr : "Frigo", en : "Fridge", ru : "холодильник"},
     ATTACK : 		{fr : "Attaque", en : "Attack", ru : "атака"},
+    SETTLE : 		{fr : "Coloniser", en : "Settle", ru : "[en] Settle"},
+    PILLAGE : 		{fr : "Piller", en : "Pillage", ru : "[en] Pillage"},
+    LOCAL :  		{fr : "Local", en : "Local", ru : "Лок. "},
+    SERVER :  		{fr : "Server", en : "Server", ru : "Серв. "},
 	
 	// Store
 	QUOTA_REACHED :		{fr : "Quota de stockage atteint", en : "Storage quota reached", ru : "Заполнено место хранения данных"},
@@ -47,7 +51,7 @@ MMHKPLUS.translations = {
     CONFIRM_TEXT :  {fr : "Confirmez-vous la remise à zéro?", en : "Do you confirm reset?", ru : "Очистить список?"},
     OK :            {fr : "Ok", en : "Ok", ru : "Да"},
     CANCEL :        {fr : "Annuler", en : "Cancel", ru : "Нет"},
-    WS_MESSAGE : 	{fr : "Voulez-vous changer de monde?", en: "Do you want to switch world?", ru:"[en] Do you want to switch world?"},
+    WS_MESSAGE : 	{fr : "Voulez-vous changer de monde?", en: "Do you want to switch world?", ru:"Сменить мир?"},
 
 	// Menu
 	ALLIANCE : 		{fr : "Alliance", en : "Alliance", ru : "Альянс"},
@@ -59,17 +63,17 @@ MMHKPLUS.translations = {
 	ALLIANCE_SPYS : {fr : "Rapports ", en : "Reports", ru : "Отчеты разведки"},
 	ALLIANCE_HEROES:{fr : "Héros", en : "Heroes", ru : "Герои"},
 	ARMIES : 		{fr : "Armées", en : "Armies", ru : "Войска"},
-	RECRUITMENT : 	{fr : "Recrutement", en : "Recruitment", ru : "Доступно для найма"},
+	RECRUITMENT : 	{fr : "Recrutement", en : "Recruitment", ru : "Найм существ"},
 	RESOURCES : 	{fr : "Ressources", en : "Resources", ru : "Ресурсы"},
 	HEROES : 		{fr : "Héros", en : "Heroes", ru : "Герои"},
 	ARTIFACTS : 	{fr : "Artéfacts", en : "Artifacts", ru : "Артефакты"},
 	ACTIONS : 		{fr : "Actions", en : "Actions", ru : "Действия"},
 	HEROES_SPELLS : {fr : "Sorts (héros)", en : "Spells (heroes)", ru : "Заклинания у героев"},
 	CITIES_SPELLS : {fr : "Sorts (villes)", en : "Spells (cities)", ru : "Заклинания в городах"},
-    CITIES_BUILDINGS :{fr : "Bâtiments", en : "Buildings", ru : "Строения в городе"},
-    REGIONS :       {fr : "Régions", en : "Regions", ru : "Регионы"},
+    CITIES_BUILDINGS :{fr : "Bâtiments", en : "Buildings", ru : "Постройки в городах"},
+    REGIONS :       {fr : "Régions", en : "Regions", ru : "Постройки в регионах"},
     ATTACKS_SIEGES :{fr : "Sièges", en : "Sieges", ru : "Осады"},
-	LOOKOUT : 		{fr : "Vigie", en : "Lookout", ru : "Передвижения"},
+	LOOKOUT : 		{fr : "Vigie", en : "Lookout", ru : "Наблюдение"},
 	MINEFINDER : 	{fr : "MineFinder", en : "MineFinder", ru : "Поиск ресурсов"},
 	CARTO : 		{fr : "Cartographe", en : "Cartographer", ru : "Карта мира"},
 	DISTANCES : 	{fr : "Distances", en : "Distances", ru : "Расстояния"},
@@ -265,9 +269,9 @@ MMHKPLUS.translations = {
 	GEM :			{fr : "Gemmes", en : "Gem", ru : "Самоцветы"},
 	
 	// KingdomResources
-	TOTAL: 			{fr : "Total", en : "Total", ru : "Всего ресурсов"},
-	FULL_IN : 		{fr : "Plein dans", en : "Full in", ru : "Заполнится за"},
-	EMPTY_IN : 		{fr : "Vide dans", en : "Empty in", ru : "Опустеет за"},
+	TOTAL: 			{fr : "Total", en : "Total", ru : "Всего"},
+	FULL_IN : 		{fr : "Plein dans", en : "Full in", ru : "Заполнится через"},
+	EMPTY_IN : 		{fr : "Vide dans", en : "Empty in", ru : "Опустеет через"},
 	MAINTENANCE : 	{fr : "Maintenance", en : "Maintenance", ru : "Расходы"},
 	AMOUNT : 		{fr : "Quantité", en : "Amount", ru : "Количество"},
 	DAILY_INCOME : 	{fr : "Revenu quotidien", en : "Daily income", ru : "Ежедневный доход"},
@@ -300,18 +304,18 @@ MMHKPLUS.translations = {
 	OWNER :			{fr : "Possesseur", en : "Owner", ru : "владелец"},
 	EQUIPPED :		{fr : "Équipé", en : "Equipped", ru : "Одет"},
 	BACKPACK :		{fr : "Sac à dos", en : "Backpack", ru : "В рюкзаке"},
-	UNBIND_IN :		{fr : "Délié dans", en : "Unbind in", ru : "Отвяжется в"},
+	UNBIND_IN :		{fr : "Délié dans", en : "Unbind in", ru : "Отвяжется через"},
 	
 	// KingdomActions
 	ACTION :		{fr : "Action", en : "Action", ru : "Действие"},
 	END_DATE :		{fr : "Fin le", en : "End date", ru : "Время заверешения"},
-	END_IN :		{fr : "Fin dans", en : "End in", ru : "Придет через"},
+	END_IN :		{fr : "Fin dans", en : "End in", ru : "Завершится через"},
 	
 	// KingdomHeroesSpells
 	SPELL :			{fr : "Sort", en : "Spell", ru : "Заклинание"},
-	IS_READY :		{fr : "Prêt", en : "Ready", ru : "Время готовности"},
+	IS_READY :		{fr : "Prêt", en : "Ready", ru : "Будет готово в"},
 	READY :			{fr : "Prêt", en : "Ready", ru : "Готово"},
-	READY_IN :		{fr : "Prêt dans", en : "Ready in", ru : "Будет готово через"},
+	READY_IN :		{fr : "Prêt dans", en : "Ready in", ru : "Время готовности"},
 
     // KingdomCityBuildings
     SUPPORT :       {fr : "Support", en : "Support", ru : "Административное здание, склад"},
@@ -328,7 +332,7 @@ MMHKPLUS.translations = {
     STOREHOUSES :   {fr : "Entrepôts", en : "Storehouses", ru : "Склады"},
 
     // AttacksSieges
-    ATTACKS :       {fr : "Attaques", en : "Attacks", ru : "Нападения"},
+    ATTACKS :       {fr : "Attaques", en : "Attacks", ru : "Атаки"},
     SIEGES :        {fr : "Sièges", en : "Sieges", ru : "Осады"},
     SIEGE :        	{fr : "Siège", en : "Siege", ru : "Осада"},
     COORDINATES:    {fr : "Coordonnées", en : "Coordinates", ru : "Координаты"},
@@ -336,7 +340,7 @@ MMHKPLUS.translations = {
     // Lookout
 	FILTER :		{fr : "Filtre", en : "Filter", ru : "Фильтр"},
 	HIDE_ALLIANCE :	{fr : "Cacher les mouvements de l'alliance", en : "Hide alliance movements", ru : "Скрыть передвижения игроков альянса"},
-	NONE :			{fr : "Aucune", en : "None", ru : "Без альянса"},
+	NONE :			{fr : "Aucune", en : "None", ru : "-"},
 	HERO :			{fr : "Héros", en : "Hero", ru : "Герой"},
 	SPEED :			{fr : "Vitesse", en : "Speed", ru : "Скорость"},
 	FROM :			{fr : "Depuis", en : "From", ru : "Из"},
@@ -345,7 +349,7 @@ MMHKPLUS.translations = {
     START_HALT :    {fr : "Début de la halte", en : "Halt start", ru : "Привал начнется в"},
     END_HALT :      {fr : "Fin de la halte", en : "Halt end", ru : "Привал закончится в"},
 	PLAYER :		{fr : "Joueur", en : "Player", ru : "Игрок"},
-	END :			{fr : "Fin", en : "End", ru : "Время окончания"},
+	END :			{fr : "Fin", en : "End", ru : "Время начала/окончания"},
 	DOMINATION :	{fr : "Domination", en : "Domination", ru : "Господство"},
 	WEALTH :		{fr : "Richesse", en : "Wealth", ru : "Богатство"},
 	HONOR :			{fr : "Honneur", en : "Honor", ru : "Честь"},
@@ -354,17 +358,17 @@ MMHKPLUS.translations = {
 	LOOKOUT_SPEED_2 :	{fr : "Rapide (Héros seul ou départ d'une cité avec Graal)", en : "Fast (Single hero or starting from city with Grail)", ru : "Быстрая (Герой вышел из города с Граалем)"},
 	LOOKOUT_SPEED_3 :	{fr : "Normale", en : "Regular", ru : "Обычная"},
 	LOOKOUT_SPEED_4 :	{fr : "Lente (Armes de siège)", en : "Slow (Siege weapons)", ru : "Медленная (Герой идет с осадными орудиями)"},
-    STARTED_SINCE : {fr : "Commencé depuis", en : "Started since", ru : "Вышел в"},
+    STARTED_SINCE : {fr : "Commencé depuis", en : "Started since", ru : "В пути"},
 	
     // MineFinder
-    PROGRESS :		{fr : "Progression", en : "Progress", ru : "прогрессия"},
-    RANGE :			{fr : "Distance", en : "Range", ru : "дальность"},
-    MINES :			{fr : "Mines", en : "Mines", ru : "копи"},
-    TAKEN :			{fr : "Occupé", en : "Taken", ru : "взятый"},
+    PROGRESS :		{fr : "Progression", en : "Progress", ru : "Прогресс"},
+    RANGE :			{fr : "Distance", en : "Range", ru : "Расстояние"},
+    MINES :			{fr : "Mines", en : "Mines", ru : "Шахты"},
+    TAKEN :			{fr : "Occupé", en : "Taken", ru : "Занят"},
     
 	// Cartographer
 	CURSOR :		{fr : "Curseur", en : "Cursor", ru : "Курсор"},
-	ACTUAL :		{fr : "Actuel", en : "Actual", ru : "положение"},
+	ACTUAL :		{fr : "Actuel", en : "Actual", ru : "Положение"},
     DETAILS :       {fr : "Détails", en : "Details", ru : "Детали"},
     CENTER_FIRST_CITY : {fr : "Center la vue sur la cité d'origine", en : "Center view on home city", ru : "Центрировать на первом городе"},
 	
@@ -409,7 +413,7 @@ MMHKPLUS.translations = {
     U_CHAT2 :       {fr : "Système du jeu amélioré", en : "Improved game chat system", ru : "Улучшенный игровой чат"},
     U_CHAT3 :       {fr : "Système original du jeu", en : "Game chat system", ru : "Игровой чат"},
     U_SPACE :       {fr : "Espace disque utilisé", en : "Disk space used", ru : "Использовано дискового пространства"},
-    CLEAN :         {fr : "Nettoyer", en : "Clean", ru : "Очистить"},
+    CLEAN :         {fr : "Nettoyer", en : "Clean", ru : "Снять выделение"},
     CLEAN_MARKS:    {fr : "Nettoyer les repères", en : "Clean marks", ru : "Очистить пометки"},
     CLEAN_NOTEPAD:  {fr : "Nettoyer les bloc-notes", en : "Clean notepads", ru : "Очистить блокноты"},
     WARNING:        {fr : "Attention", en : "Warning", ru : "Предупреждение"},
@@ -576,22 +580,22 @@ MMHKPLUS.translationsUnits = {
         EARTH : {fr : "Élémentaire de terre", en : "Earth Elemental", ru : "Земной элементаль"},
         FIRE : {fr : "Élémentaire de feu", en : "Fire Elemental", ru : "Огненный элементаль"},
         DEATHKNIGHT : {fr : "Chevalier de la mort", en : "Death Knight", ru : "Рыцарь смерти"},
-        GNOMESHOOTER : {fr : "Tireur gnome", en : "Gnome shooter", ru : "[en] Gnome shooter"},
-        GNOME : {fr : "Gnome", en : "Gnome", ru : "[en] Gnome"},
+        GNOMESHOOTER : {fr : "Tireur gnome", en : "Gnome shooter", ru : "Гном-стрелок"},
+        GNOME : {fr : "Gnome", en : "Gnome", ru : "Гном"},
         WOLF : {fr : "Loup", en : "Wolf", ru : "Волк"},
         CENTAURI : {fr : "Centaure", en : "Centauri", ru : "Кентавр"},
-        WANDERINGGHOST : {fr : "Fantôme errant", en : "Wandering Ghost", ru : "[en] Wandering Ghost"},
+        WANDERINGGHOST : {fr : "Fantôme errant", en : "Wandering Ghost", ru : "Блуждающий призрак"},
         MANTICORE : {fr : "Manticore", en : "Manticore", ru : "Мантикора"},
         MINOTAUR : {fr : "Minotaure", en : "Minotaur", ru : "Минотавр"},
-        HIGHDRUID : {fr : "haut druide", en : "High druid", ru : "[en] High druid"},
-        WHITEUNICORN : {fr : "Licorne blanche", en : "White unicorn", ru : "[en] White unicorn"},
-        ANGERTREANT : {fr : "Tréant coléreux", en : "Anger treant", ru : "[en] Anger treant"}
+        HIGHDRUID : {fr : "haut druide", en : "High druid", ru : "Старший друид"},
+        WHITEUNICORN : {fr : "Licorne blanche", en : "White unicorn", ru : "Светлый единорог"},
+        ANGERTREANT : {fr : "Tréant coléreux", en : "Anger treant", ru : "Дикий энт"}
     }
 };
 
 MMHKPLUS.translationsText = [
-    {fr : "Aucun", en : "None", ru : "Ничего"},
-    {fr : "Aucune", en : "None", ru : "Ничего"},
+    {fr : "Aucun", en : "None", ru : "-"},
+    {fr : "Aucune", en : "None", ru : "-"},
     {fr : "Fortin", en : "Fort", ru : "Форт"},
     {fr : "Citadelle", en : "Citadel", ru : "Цитадель"},
     {fr : "Château", en : "Castle", ru : "Замок"},
