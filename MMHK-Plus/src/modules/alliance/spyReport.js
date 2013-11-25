@@ -826,6 +826,7 @@ MMHKPLUS.SpyReport = MMHKPLUS.ArmiesPanelElement.extend({
                     }
             };
         myHero.skills = myHero.bonus.skills;
+        myHero.hero.skills = myHero.bonus.skills;
         myHero.hero.attachedUnitStackList = MMHKPLUS.getElement("Player").getHero(heroId).unitStackList.getContent().copy();
         var ennemyHero = self._getHero(self.currentReport.contentJSON.heroList, ennemyId);
         if(!ennemyHero)

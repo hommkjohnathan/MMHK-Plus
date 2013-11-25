@@ -950,7 +950,7 @@ MMHKPLUS.Jactari = MMHKPLUS.ExtendableElement.extend({
                 for (var t = 0; t < talents.length; t++)
                 {
                     var talent = talents[t];
-                    self.prepare_talent(defenderHero, talent);
+                    self.prepare_talent(donnees.d, talent);
                 }
             }
 			self.prepare_heros(donnees.d, defenderHero);
