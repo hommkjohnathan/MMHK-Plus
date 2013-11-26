@@ -67,7 +67,10 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
 		    );
 		}
 		else {
-			$("#MMHKPLUS_Ajax_RequestIndicator").remove();
+			if(this.$ajaxLoaderImage) {
+				this.$ajaxLoaderImage.remove();
+				this.$ajaxLoaderImage = null;
+			}
 			if(this.intervalTimeoutRequest) {
 				clearInterval(this.intervalTimeoutRequest);
 			}
@@ -77,20 +80,26 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
 	
 	_createPendingRequest : function(type)
 	{
-		var request = { id : $.now(), type : type };
+		if(this.$ajaxLoaderImage) {
+			var request = { id : $.now(), type : type };
+			
+			this.pendingRequests.push(request);
+			this.$ajaxLoaderImage.removeClass("hidden"); // at least one request!
+			
+			return request;
+		}
 		
-		this.pendingRequests.push(request);
-		this.$ajaxLoaderImage.removeClass("hidden"); // at least one request!
-		
-		return request;
+		return {};
 	},
 	
 	_deletePendingRequest : function(request)
 	{
-		var self = MMHKPLUS.getElement("Ajax");
-		self.pendingRequests.remove(request);
-		if(self.pendingRequests.length == 0) {
-			self.$ajaxLoaderImage.addClass("hidden");
+		if(this.$ajaxLoaderImage) {
+			var self = MMHKPLUS.getElement("Ajax");
+			self.pendingRequests.remove(request);
+			if(self.pendingRequests.length == 0) {
+				self.$ajaxLoaderImage.addClass("hidden");
+			}
 		}
 	},
 	
