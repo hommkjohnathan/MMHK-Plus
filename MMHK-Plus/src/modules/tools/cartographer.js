@@ -531,7 +531,6 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
     {
     	var self = MMHKPLUS.getElement("Cartographer");
     	var toSend = [];
-    	var toSendObj = {};
         regions.forEach(function(r)
             {
         		var cachedRegion = 
@@ -583,17 +582,15 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
                 self.cache[r.x + "_" + r.y] = cachedRegion;
                 
                 toSend.push(cachedRegion);
-                toSendObj[r.x + "_" + r.y] = 1;
                 // For attached region list (influenced regions)
                 if(hasProperty(r, "aRL"))
                 {
                     r.aRL.forEach(function(a)
                         {
-                           if(r.x != a[0] && r.y != a[1])
+                           if(r.x != a[0] || r.y != a[1])
                             {
                             	self.cache[a[0] + "_" + a[1]] = {x : a[0], y: a[1], r : {x : r.x , y: r.y}};
                                 toSend.push(self.cache[a[0] + "_" + a[1]]);
-                                toSendObj[a[0] + "_" + a[1]] = 1;
                             }
                         }
                     );
