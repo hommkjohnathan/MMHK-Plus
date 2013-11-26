@@ -34,8 +34,6 @@ MMHKPLUS.Chat = MMHKPLUS.PanelElement.extend({
 
 		this._setupPanel();
 		
-		console.log("chat", self.options.opened);
-
         this.originalShowLatest = MMHKPLUS.HOMMK.Chat.prototype.showLatest;
         MMHKPLUS.HOMMK.Chat.prototype.showLatest = injectAfter(MMHKPLUS.HOMMK.Chat.prototype.showLatest, function()
             {
