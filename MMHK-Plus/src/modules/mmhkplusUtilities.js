@@ -52,7 +52,7 @@ MMHKPLUS.removeElement = function(type) {
 MMHKPLUS.openDisplayable = function(type) {
 	if(!hasProperty(MMHKPLUS, type))
 	{
-		MMHKPLUS.alert("Error", "Element <b>" + type + "</b> not found!");
+		console.log("Error", "Element <b>" + type + "</b> not found!"); // for sure, this element has been removed or renamed.
 		return;
 	}
 	var element = MMHKPLUS.getElement(type);
