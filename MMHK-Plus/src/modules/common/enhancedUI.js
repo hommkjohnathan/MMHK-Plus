@@ -545,6 +545,14 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
 		}
         else if(this.options.chatType == 1)
         {
+        	if(this.$elemChat) MMHKPLUS.resetElement(this.$elemChat);
+			this.$elemChat = null;
+			var chat = MMHKPLUS.getElement("Chat");
+			if(chat && chat.options.opened)
+			{
+				chat.$elem.dialog("close");
+			}
+			
             var previsousIsP2P = false; 
 
             var $chatsystemp2ptab = $("ul.chatsystemp2ptab");
