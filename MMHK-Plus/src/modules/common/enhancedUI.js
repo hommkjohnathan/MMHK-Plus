@@ -325,7 +325,22 @@ MMHKPLUS.EnhancedUI = MMHKPLUS.ExtendableElement.extend({
 	
 	_setupBuyable : function()
 	{
+		var self = this;
+		
+		var toggleOptionsContent = function(r) {
+			if(self.options.showBuyable) {
+				r.getChildElement("CompleteViewCityOptionsContentContainer").removeClass("hidden");
+			}
+			else {
+				r.getChildElement("CompleteViewCityOptionsContentContainer").addClass("hidden");
+			}
+		};
+		
 		(this.options.showBuyable ? $("body").removeClass("MMHKPLUS_UiBuyable") :  $("body").addClass("MMHKPLUS_UiBuyable"));
+		var allRegions = MMHKPLUS.HOMMK.elementPool.get("RegionCity");
+		if(allRegions) {
+			MMHKPLUS.HOMMK.elementPool.get("RegionCity").each(toggleOptionsContent);
+		}
 	},
 
     _setupPanels : function()
