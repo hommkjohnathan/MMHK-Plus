@@ -37,7 +37,7 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
         saveWidth : false,
         saveHeight : false,
         saveOpened : true,
-        hop : 35,
+        hop : 50,
         showDetails : false,
         centerOnFirstCity : false,
         images : MMHKPLUS.URL_IMAGES + "carto/"
@@ -510,12 +510,15 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
     	// We receive an array of coordinates
     	if(coordinates.length == 0) {
     		// Update is complete for now!
-    		MMHKPLUS.clearInterval(self.intervalRequest); 
-            self.intervalRequest = null;
+    		//MMHKPLUS.clearInterval(self.intervalRequest); 
+            //self.intervalRequest = null;
     	}
     	else {
-    		self.lastX = coordinates[0].x;
-    		self.lastY = coordinates[0].y;
+    		// Need to ask for a bigger zone since Ubi does not give full city influence
+    		self.lastX = coordinates[0].x - 10;
+    		self.lastY = coordinates[0].y - 10;
+    		if(self.lastX <= 0) self.lastX += self.wS;
+    		if(self.lastY <= 0) self.lastY += self.wS;
     		MMHKPLUS.getElement("Ajax").getWorldmap(self.lastX, self.lastY, self.options.hop, self.options.hop, self._extract);
     	}
     },
@@ -530,9 +533,25 @@ MMHKPLUS.Cartographer = MMHKPLUS.PanelElement.extend({
     _prepareAndSend : function(regions)
     {
     	var self = MMHKPLUS.getElement("Cartographer");
+    	
+    	var allowedRegions = [];
+    	MMHKPLUS.worldRange(MMHKPLUS.worldSizeMod(self.lastX +10), MMHKPLUS.worldSizeMod(self.lastX +40)).forEach(function(xx)
+	        {
+	            MMHKPLUS.worldRange(MMHKPLUS.worldSizeMod(self.lastY +10), MMHKPLUS.worldSizeMod(self.lastY +40)).forEach(function(yy)
+	                {
+	            		allowedRegions.push(xx + "_" + yy);
+	                }
+	            );
+	        }
+	    );
+    	
     	var toSend = [];
         regions.forEach(function(r)
             {
+        		if(!allowedRegions.contains(r.x + "_" + r.y)) {
+        			return false;
+        		}
+        		
         		var cachedRegion = 
         			{
                 		x : r.x,
