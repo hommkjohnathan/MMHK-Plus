@@ -349,7 +349,7 @@ MMHKPLUS.checkUpdate = function() {
             
             var LNV_Major = parseInt(local[0]);
             var LNV_Minor = parseInt(local[1]);
-            var LNV_Patch = parseInt(local[2]);
+            var LNV_Patch = parseInt(local[2] || 0);
             
             var need = (LNV_Major < json.major) || ((LNV_Major == json.major) && (LNV_Minor < json.minor)) || ((LNV_Major == json.major) && (LNV_Minor == json.minor) && (LNV_Patch < json.patch));
             if(need)
