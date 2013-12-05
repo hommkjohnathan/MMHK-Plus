@@ -178,7 +178,7 @@ MMHKPLUS.MineFinder = MMHKPLUS.PanelElement.extend({
 		}
 		
 		$("<p>")
-			.html("Go")
+			.html(MMHKPLUS.localize("SEARCH"))
 			.addClass("MMHKPLUS_AutoCenter MMHKPLUS_TextCenter")
 			.css("width", "100%")
 			.button()
