@@ -424,6 +424,69 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
     		function(json) { callback(json) ;}
     	).complete(function() { MMHKPLUS.getElement("Ajax")._deletePendingRequest(request); delete request; });
     },
+    
+    sendStatistics : function(stats)
+    {
+    	var request = this._createPendingRequest("Sending alliance statistics");
+    	$.post(
+    		MMHKPLUS.URL_API + "statistics/" + MMHKPLUS.getElement("Player").get("worldId"),
+    		JSON.stringify(stats)
+    	).complete(function() { MMHKPLUS.getElement("Ajax")._deletePendingRequest(request); delete request; });
+    },
+    
+    sendWorldStatistics : function(stats) 
+    {
+    	var request = this._createPendingRequest("Sending alliance statistics");
+    	$.post(
+    		MMHKPLUS.URL_API + "statistics/world/" + MMHKPLUS.getElement("Player").get("worldId"),
+    		JSON.stringify(stats)
+    	).complete(function() { MMHKPLUS.getElement("Ajax")._deletePendingRequest(request); delete request; });
+    },
+    
+    getRankingFrame : function(rank, callback, sync)
+    {
+    	return this._send(
+			this.options.url + this.options.getContentUrl,
+			{ "elParamList" : [ { 
+					"elementType" : "RankingFrame", 
+					"elementId" : MMHKPLUS.getElement("Player").get("playerId"),
+					"rankingCategory":"BY_ALLIANCE",
+					"rankingType":"DOMINATION",
+					"searchType":"SEARCH_BY_POSITION",
+					"searchParam": rank,
+					"sortField":"position"
+			} ] },
+			callback,
+			sync
+		);
+    },
+    
+    getAllianceMembersStatistics : function(callback)
+    {
+    	var request = this._createPendingRequest("Getting alliance members statistics");
+    	$.getJSON(
+    		MMHKPLUS.URL_API + "statistics/members/" + MMHKPLUS.getElement("Player").get("worldId") + "/" + MMHKPLUS.getElement("Player").get("allianceId"),
+    		function(json) { callback(json) ;}
+    	).complete(function() { MMHKPLUS.getElement("Ajax")._deletePendingRequest(request); delete request; });
+    },
+    
+    getAllianceStatistics : function(callback)
+    {
+    	var request = this._createPendingRequest("Getting alliance statistics");
+    	$.getJSON(
+    		MMHKPLUS.URL_API + "statistics/alliance/" + MMHKPLUS.getElement("Player").get("worldId") + "/" + MMHKPLUS.getElement("Player").get("allianceId"),
+    		function(json) { callback(json) ;}
+    	).complete(function() { MMHKPLUS.getElement("Ajax")._deletePendingRequest(request); delete request; });
+    },
+    
+    getWorldStatistics : function(callback)
+    {
+    	var request = this._createPendingRequest("Getting world statistics");
+    	$.getJSON(
+    		MMHKPLUS.URL_API + "statistics/world/" + MMHKPLUS.getElement("Player").get("worldId"),
+    		function(json) { callback(json) ;}
+    	).complete(function() { MMHKPLUS.getElement("Ajax")._deletePendingRequest(request); delete request; });
+    },
 	
 	_send : function(url, json, callback, sync)
 	{

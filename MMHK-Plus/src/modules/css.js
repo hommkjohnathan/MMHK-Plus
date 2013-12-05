@@ -34,7 +34,8 @@ MMHKPLUS.css = [
     "body.MMHKPLUS_UiPanels .worldMapAlertImage_zoom1, body.MMHKPLUS_UiPanels .worldMapAlertImage_zoom2 { display:none }",
     "body.MMHKPLUS_UiMovements .MMHKPLUS_UiBigPlot { display:none; }",
     ".MMHKPLUS_UiGameToLeft { float:left; background-position-x:-295px !important; }",
-    	// Colored Alerts
+    
+    // Colored Alerts
     ".worldMapAlertImage_zoom2.MMHKPLUS_ColoredAlerts_Attaque { background-image:url(" + MMHKPLUS.URL_IMAGES + "alerts/attaque.png) }",
     ".worldMapAlertImage_zoom2.MMHKPLUS_ColoredAlerts_Siege { background-image:url(" + MMHKPLUS.URL_IMAGES + "alerts/siege.png) }",
     ".worldMapAlertImage_zoom2.MMHKPLUS_ColoredAlerts_Leurre { background-image:url(" + MMHKPLUS.URL_IMAGES + "alerts/leurre.png) }",
@@ -60,7 +61,12 @@ MMHKPLUS.css = [
 	".MMHKPLUS_MainMenuIcons { position : relative; float : left; width : 17px; height : 17px;  }",
 	".MMHKPLUS_SubMenu { position : absolute; top : 22px; }",
 
-    // AllianceSpys
+	// AllianceStatistics
+	'div.MMHKPLUS_AllianceStatistics_LegendContainer {margin-top: 400px;}',
+	'div.MMHKPLUS_AllianceStatistics_LegendContainer table {margin-left:auto; margin-right:auto;}',
+	'div.MMHKPLUS_AllianceStatistics_GraphContainer {box-sizing: border-box; width: 935px; height: 500px; padding: 5px 5px 5px 5px; margin: 5px auto 0px auto; border: 1px solid #ddd; background: #fff; background: linear-gradient(#f6f6f6 0, #fff 50px); background: -o-linear-gradient(#f6f6f6 0, #fff 50px); background: -ms-linear-gradient(#f6f6f6 0, #fff 50px); background: -moz-linear-gradient(#f6f6f6 0, #fff 50px); background: -webkit-linear-gradient(#f6f6f6 0, #fff 50px); box-shadow: 0 3px 10px rgba(0,0,0,0.15); -o-box-shadow: 0 3px 10px rgba(0,0,0,0.1); -ms-box-shadow: 0 3px 10px rgba(0,0,0,0.1); -moz-box-shadow: 0 3px 10px rgba(0,0,0,0.1); -webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.1);}',
+
+	// AllianceSpys
     ".MMHKPLUS_AllianceSpysHover {  }",
     ".MMHKPLUS_AllianceSpysHover:hover { background-color:rgba(255,0,0,0.3) !important; }",
 	

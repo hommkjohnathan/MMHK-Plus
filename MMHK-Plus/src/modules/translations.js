@@ -59,9 +59,10 @@ MMHKPLUS.translations = {
 	TOOLS : 		{fr : "Outils", en : "Tools", ru : "Инструменты"},
 	OPTIONS : 		{fr : "Options", en : "Options", ru : "Опции"},
 	
-    ONLINE_MEMBERS :{fr : "Membres en ligne ", en : "Online members", ru : "Игроки онлайн"},
-	ALLIANCE_SPYS : {fr : "Rapports ", en : "Reports", ru : "Отчеты разведки"},
+    ONLINE_MEMBERS :{fr : "Membres en ligne", en : "Online members", ru : "Игроки онлайн"},
+	ALLIANCE_SPYS : {fr : "Rapports", en : "Reports", ru : "Отчеты разведки"},
 	ALLIANCE_HEROES:{fr : "Héros", en : "Heroes", ru : "Герои"},
+	ALLIANCE_STATISTICS : {fr : "Statistiques", en : "Statistics", ru : "[en] Statistics"},
 	ARMIES : 		{fr : "Armées", en : "Armies", ru : "Войска"},
 	RECRUITMENT : 	{fr : "Recrutement", en : "Recruitment", ru : "Найм существ"},
 	RESOURCES : 	{fr : "Ressources", en : "Resources", ru : "Ресурсы"},
@@ -259,6 +260,12 @@ MMHKPLUS.translations = {
     NOT_FOUND_AH_TITLE : {fr : "Héros non trouvé", en : "Hero not found", ru : "Герой не найден"},
     NOT_FOUND_AH_TEXT :  {fr : "Aucune information disponible", en : "No information available", ru : "Информация недоступна"},
 
+    // AllianceStatistics
+    WORLD : 		{fr : "Monde", en : "World", ru : "[en] World"},
+    ADMINISTRATION :{fr : "Administration", en : "Administration", ru : "[en] Administration"},
+    COLLECT : 		{fr : "Collecter", en : "Collect", ru : "[en] Collect"},
+    COMPLETED : 	{fr : "Terminé", en : "Completed", ru : "[en] Completed"},
+    
 	// Ressources
 	GOLD :			{fr : "Or", en : "Gold", ru : "Золото"},
 	WOOD :			{fr : "Bois", en : "Wood", ru : "Дерево"},
