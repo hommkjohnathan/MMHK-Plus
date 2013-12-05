@@ -106,6 +106,8 @@ MMHKPLUS.AllianceStatistics = MMHKPLUS.PanelElement.extend({
         	}
         );
         
+        this._cleanGraph();
+        
         MMHKPLUS.getElement("Ajax").getAllianceMembersStatistics(this._onAllianceMembersStatisticsReceived);
         MMHKPLUS.getElement("Ajax").getAllianceStatistics(this._onAllianceStatisticsReceived);
         MMHKPLUS.getElement("Ajax").getWorldStatistics(this._onWorldStatisticsReceived);
@@ -162,47 +164,47 @@ MMHKPLUS.AllianceStatistics = MMHKPLUS.PanelElement.extend({
 	    									.append(
 												self._createRadioButton("Ranking", "serieChoiceAlliance", true)
 										            .change(function() { self._updateGraph($selector); }))
-										    .append($("<label>").html("Classement").css({marginRight: 15}))
+										    .append($("<label>").html(MMHKPLUS.localize("RANKING")).css({marginRight: 15}))
 										    .append(
 										    	self._createRadioButton("TotalArmyPowerScore", "serieChoiceAlliance", false)
 										            .change(function() { self._updateGraph($selector); }))
-										    .append($("<label>").html("Puissance des armées").css({marginRight: 15}))
+										    .append($("<label>").html(MMHKPLUS.localize("ARMY_POWER")).css({marginRight: 15}))
 										    .append(
 										    	self._createRadioButton("PvPXPScore", "serieChoiceAlliance", false)
 										            .change(function() { self._updateGraph($selector); }))
-										    .append($("<label>").html("Xp PvP").css({marginRight: 15}))
+										    .append($("<label>").html(MMHKPLUS.localize("PVP_XP")).css({marginRight: 15}))
 										    .append(
 										    	self._createRadioButton("RegionCountScore", "serieChoiceAlliance", false)
 										            .change(function() { self._updateGraph($selector); }))
-										    .append($("<label>").html("Taille territoire").css({marginRight: 15}))
+										    .append($("<label>").html(MMHKPLUS.localize("TERRITORY_SCORE")).css({marginRight: 15}))
 										    .append(
 										    	self._createRadioButton("GrailBuildingsScore", "serieChoiceAlliance", false)
 										            .change(function() { self._updateGraph($selector); }))
-										    .append($("<label>").html("Graals").css({marginRight: 15}));
+										    .append($("<label>").html(MMHKPLUS.localize("GRAIL_SCORE")).css({marginRight: 15}));
     									if(MMHKPLUS.getElement("Player").isPVEWorld()) {
     										$content
 	    										.append(
 											    	self._createRadioButton("RunicFortressesScore", "serieChoiceAlliance", false)
 											            .change(function() { self._updateGraph($selector); }))
-											    .append($("<label>").html("Forteresse runiques").css({marginRight: 15}));
+											    .append($("<label>").html(MMHKPLUS.localize("RUNIC_SCORE")).css({marginRight: 15}));
     									}
     									else {
     										$content
 	    										.append(
 											    	self._createRadioButton("CapturedCitiesScore", "serieChoiceAlliance", false)
 											            .change(function() { self._updateGraph($selector); }))
-											    .append($("<label>").html("Cités capturées").css({marginRight: 15}))
+											    .append($("<label>").html(MMHKPLUS.localize("CITIES_SCORE")).css({marginRight: 15}))
 											    .append(
 											    	self._createRadioButton("PillageScore", "serieChoiceAlliance", false)
 											            .change(function() { self._updateGraph($selector); }))
-											    .append($("<label>").html("Ressources pillées").css({marginRight: 15}));
+											    .append($("<label>").html(MMHKPLUS.localize("PILLAGE_SCORE")).css({marginRight: 15}));
     									}
     									
     									self._updateGraph($selector);
     								}
 				            	}
 				            ))
-				    .append($("<label>").html("Alliance").css({marginRight: 25}))
+				    .append($("<label>").html(MMHKPLUS.localize("ALLIANCE")).css({marginRight: 25}))
 					.append(
 						self._createRadioButton("Members", "allianceDataChoice", false)
 							.change(function()
@@ -213,36 +215,38 @@ MMHKPLUS.AllianceStatistics = MMHKPLUS.PanelElement.extend({
     										.append(
     											self._createRadioButton("DominationScore", "serieChoiceAllianceMembers", true)
 										            .change(function() { self._updateGraph($selector); }))
-										    .append($("<label>").html("Domination").css({marginRight: 15}))
+										    .append($("<label>").html(MMHKPLUS.localize("DOMINATION") + " [" + MMHKPLUS.localize("SCORE") + "]").css({marginRight: 15}))
 										    .append(
 										    	self._createRadioButton("WealthScore", "serieChoiceAllianceMembers", false)
 										            .change(function() { self._updateGraph($selector); }))
-										    .append($("<label>").html("Richesse").css({marginRight: 15}))
+										    .append($("<label>").html(MMHKPLUS.localize("WEALTH") + " [" + MMHKPLUS.localize("SCORE") + "]").css({marginRight: 15}))
 										    .append(
 										    	self._createRadioButton("HonorScore", "serieChoiceAllianceMembers", false)
 										            .change(function() { self._updateGraph($selector); }))
-										    .append($("<label>").html("Honneur").css({marginRight: 15}))
+										    .append($("<label>").html(MMHKPLUS.localize("HONOR") + " [" + MMHKPLUS.localize("SCORE") + "]").css({marginRight: 15}))
+										    .append("<br>")
 										    .append(
 										    	self._createRadioButton("DominationRanking", "serieChoiceAllianceMembers", false)
 										            .change(function() { self._updateGraph($selector); }))
-										    .append($("<label>").html("Domination classement").css({marginRight: 15}))
+										    .append($("<label>").html(MMHKPLUS.localize("DOMINATION") + " [" + MMHKPLUS.localize("RANKING") + "]").css({marginRight: 15}))
 										    .append(
 										    	self._createRadioButton("WealthRanking", "serieChoiceAllianceMembers", false)
 										            .change(function() { self._updateGraph($selector); }))
-										    .append($("<label>").html("Richesse classement").css({marginRight: 15}))
+										    .append($("<label>").html(MMHKPLUS.localize("WEALTH") + " [" + MMHKPLUS.localize("RANKING") + "]").css({marginRight: 15}))
 										    .append(
 										    	self._createRadioButton("HonorRanking", "serieChoiceAllianceMembers", false)
 										            .change(function() { self._updateGraph($selector); }))
-										    .append($("<label>").html("Honneur classement").css({marginRight: 15}))
+										    .append($("<label>").html(MMHKPLUS.localize("HONOR") + " [" + MMHKPLUS.localize("RANKING") + "]").css({marginRight: 15}))
+										    .append("<br>")
 										    .append(
 										    	self._createRadioButton("Cities", "serieChoiceAllianceMembers", false)
 										            .change(function() { self._updateGraph($selector); }))
-										    .append($("<label>").html("Cités"));
+										    .append($("<label>").html(MMHKPLUS.localize("CITIES_COUNT")));
     									
     									self._updateGraph($selector);
     								}
 				            	}))
-				     .append($("<label>").html("Membres"))
+				     .append($("<label>").html(MMHKPLUS.localize("MEMBERS")))
     		);
     	
 			$content.appendTo($selector);
@@ -261,58 +265,88 @@ MMHKPLUS.AllianceStatistics = MMHKPLUS.PanelElement.extend({
 				.append(
 					self._createRadioButton("WorldRanking", "serieChoiceWorld", true)
 			            .change(function() { self._updateGraph($selector); }))
-			    .append($("<label>").html("Classement").css({marginRight: 15}))
+			    .append($("<label>").html(MMHKPLUS.localize("RANKING")).css({marginRight: 15}))
 			    .append(
 			    	self._createRadioButton("WorldTotalArmyPowerScore", "serieChoiceWorld", false)
 			            .change(function() { self._updateGraph($selector); }))
-			    .append($("<label>").html("Puissance des armées").css({marginRight: 15}))
+			    .append($("<label>").html(MMHKPLUS.localize("ARMY_POWER")).css({marginRight: 15}))
 			    .append(
 			    	self._createRadioButton("WorldPvPXPScore", "serieChoiceWorld", false)
 			            .change(function() { self._updateGraph($selector); }))
-			    .append($("<label>").html("Xp PvP").css({marginRight: 15}))
+			    .append($("<label>").html(MMHKPLUS.localize("PVP_XP")).css({marginRight: 15}))
 			    .append(
 			    	self._createRadioButton("WorldRegionCountScore", "serieChoiceWorld", false)
 			            .change(function() { self._updateGraph($selector); }))
-			    .append($("<label>").html("Taille territoire").css({marginRight: 15}))
+			    .append($("<label>").html(MMHKPLUS.localize("TERRITORY_SCORE")).css({marginRight: 15}))
 			    .append(
 			    	self._createRadioButton("WorldGrailBuildingsScore", "serieChoiceWorld", false)
 			            .change(function() { self._updateGraph($selector); }))
-			    .append($("<label>").html("Graals").css({marginRight: 15}))
+			    .append($("<label>").html(MMHKPLUS.localize("GRAIL_SCORE")).css({marginRight: 15}))
 		);
 		if(MMHKPLUS.getElement("Player").isPVEWorld()) {
 			$content
 				.append(
 			    	self._createRadioButton("WorldRunicFortressesScore", "serieChoiceWorld", false)
 			            .change(function() { self._updateGraph($selector); }))
-			    .append($("<label>").html("Forteresse runiques").css({marginRight: 15}));
+			    .append($("<label>").html(MMHKPLUS.localize("RUNIC_SCORE")).css({marginRight: 15}));
 		}
 		else {
 			$content
 				.append(
 			    	self._createRadioButton("WorldCapturedCitiesScore", "serieChoiceWorld", false)
 			            .change(function() { self._updateGraph($selector); }))
-			    .append($("<label>").html("Cités capturées").css({marginRight: 15}))
+			    .append($("<label>").html(MMHKPLUS.localize("CITIES_SCORE")).css({marginRight: 15}))
 			    .append(
 			    	self._createRadioButton("WorldPillageScore", "serieChoiceWorld", false)
 			            .change(function() { self._updateGraph($selector); }))
-			    .append($("<label>").html("Ressources pillées").css({marginRight: 15}));
+			    .append($("<label>").html(MMHKPLUS.localize("PILLAGE_SCORE")).css({marginRight: 15}));
 		}
     },
     
     _initAdministrationTab : function($selector) 
     {
     	var self = this;
-    	
     	$selector.append(
     		$("<div>")
-    			.html(MMHKPLUS.localize("COLLECT"))
-    			.button()
-    			.click(function()
-    				{
-    					self._collectAllianceData($selector);
-    				}
+    			.addClass("MMHKPLUS_AutoCenter MMHKPLUS_100Width MMHKPLUS_TextCenter")
+    			.append(
+    				$("<p>")
+    					.attr("id", "MMHKPLUS_AllianceStatistics_CollectText")
     			)
+    			.append(
+    				$("<div>")
+		    			.attr("id", "MMHKPLUS_AllianceStatistics_CollectButton")
+		    			.html(MMHKPLUS.localize("COLLECT"))
+		    			.button().button("option", "disabled", true)
+		    			.click(function()
+		    				{
+		    					self._collectAllianceData($selector);
+		    					$(this).button("option", "disabled", true);
+		    				}
+		    			)
+	    		)
+	    		.append($("<br>"))
     		);
+    	
+    	MMHKPLUS.getElement("Ajax").getStatisticsLastUpdate(function(a)
+			{
+    			var $text = $("#MMHKPLUS_AllianceStatistics_CollectText");
+    			var $button = $("#MMHKPLUS_AllianceStatistics_CollectButton");
+    			if(a && a.t != null) {
+    				var d = new Date();
+					d.setTime(a.t * 1000);
+					$text.html(MMHKPLUS.localize("LAST_UPDATE") + ": " + d.countDown());
+    				var delta = a.t - 11*3600;
+    				if(delta >= 0) {
+    					$button.button("option", "disabled", false);
+    				} 
+    			}
+    			else {
+    				$text.html(MMHKPLUS.localize("LAST_UPDATE") + ": " + MMHKPLUS.localize("NONE"));
+    				$button.button("option", "disabled", false);
+    			}
+			}
+    	);
     },
     
     _updateGraph : function($selector)
@@ -591,7 +625,11 @@ MMHKPLUS.AllianceStatistics = MMHKPLUS.PanelElement.extend({
     		);
     		
     		MMHKPLUS.getElement("Ajax").sendStatistics(dataToSend);
-    		$selector.append($("<p>").html(MMHKPLUS.localize("COMPLETED")));
+    		
+    		setTimeout(function() {
+    			MMHKPLUS.getElement("Ajax").getAllianceMembersStatistics(MMHKPLUS.getElement("AllianceStatistics")._onAllianceMembersStatisticsReceived);
+    			MMHKPLUS.getElement("Ajax").getAllianceStatistics(MMHKPLUS.getElement("AllianceStatistics")._onAllianceStatisticsReceived);
+    		}, 2000);
     	};
     	
     	var allianceId = MMHKPLUS.getElement("Player").get("allianceId");
@@ -599,6 +637,8 @@ MMHKPLUS.AllianceStatistics = MMHKPLUS.PanelElement.extend({
     	var worldData = null;
     	var players = [];
     	var alliances = [];
+    	
+    	var $container = $selector.find("div").first();
     	
     	// This is a sync request, script is blocked until it's done
     	// Need it to avoid multiple callback functions
@@ -620,8 +660,12 @@ MMHKPLUS.AllianceStatistics = MMHKPLUS.PanelElement.extend({
 			true
 		);
     	
+    	$("<p>")
+    		.html("<i>" + MMHKPLUS.localize("ALLIANCE_MEMBERS")  + "</i>")
+    		.appendTo($container);
+    	
     	var $playersProgress = $("<div>")
-    		.appendTo($selector)
+    		.appendTo($container)
     		.progressbar(
     			{
     				max : allianceData.attachedPlayerList.length,
@@ -645,9 +689,13 @@ MMHKPLUS.AllianceStatistics = MMHKPLUS.PanelElement.extend({
     			);
     		}
     	);
+    	$("<br>").appendTo($container);
     	
+    	$("<p>")
+			.html("<i>" + MMHKPLUS.localize("ALLIANCE_TOP10")  + "</i>")
+			.appendTo($container);
     	var $alliancesProgress = $("<div>")
-		.appendTo($selector)
+		.appendTo($container)
 		.progressbar(
 			{
 				max : Math.min(10, worldData.length),
@@ -692,6 +740,9 @@ MMHKPLUS.AllianceStatistics = MMHKPLUS.PanelElement.extend({
 	        						$alliancesProgress.progressbar("option", "value", doneCount);
 	        						if(doneCount == Math.min(10, worldData.length)) {
 	        							MMHKPLUS.getElement("Ajax").sendWorldStatistics(alliances);
+	        							setTimeout(function() {
+	        				    			MMHKPLUS.getElement("Ajax").getWorldStatistics(MMHKPLUS.getElement("AllianceStatistics")._onWorldStatisticsReceived);
+	        				    		}, 2000);
 	        						}
 	        					}
 	        			);
@@ -703,11 +754,7 @@ MMHKPLUS.AllianceStatistics = MMHKPLUS.PanelElement.extend({
     _drawGraph : function($parent, series) 
     {
     	var self = MMHKPLUS.getElement("AllianceStatistics");
-    	$("div.MMHKPLUS_AllianceStatistics_GraphContainer").empty().remove();
-    	$("#MMHKPLUS_AllianceStatistics_Graph").empty().remove();
-    	$("#MMHKPLUS_AllianceStatistics_Overview").empty().remove();
-    	$("div.MMHKPLUS_AllianceStatistics_LegendContainer").empty().remove();
-    	$("#MMHKPLUS_AllianceStatistics_Reset").empty().remove();
+    	self._cleanGraph();
     	
     	var $container = $("<div>")
     		.addClass("MMHKPLUS_AllianceStatistics_GraphContainer")
@@ -860,9 +907,18 @@ MMHKPLUS.AllianceStatistics = MMHKPLUS.PanelElement.extend({
 			overview.setSelection(ranges, true);
 		});
 
-		$("#overview").bind("plotselected", function (event, ranges) {
+		$("#MMHKPLUS_AllianceStatistics_Overview").bind("plotselected", function (event, ranges) {
 			plot.setSelection(ranges);
 		});
+    },
+    
+    _cleanGraph : function()
+    {
+    	$("div.MMHKPLUS_AllianceStatistics_GraphContainer").empty().remove();
+    	$("#MMHKPLUS_AllianceStatistics_Graph").empty().remove();
+    	$("#MMHKPLUS_AllianceStatistics_Overview").empty().remove();
+    	$("div.MMHKPLUS_AllianceStatistics_LegendContainer").empty().remove();
+    	$("#MMHKPLUS_AllianceStatistics_Reset").empty().remove();
     },
 
     unload : function()

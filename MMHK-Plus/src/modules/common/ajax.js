@@ -487,6 +487,15 @@ MMHKPLUS.Ajax = MMHKPLUS.PanelElement.extend({
     		function(json) { callback(json) ;}
     	).complete(function() { MMHKPLUS.getElement("Ajax")._deletePendingRequest(request); delete request; });
     },
+    
+    getStatisticsLastUpdate : function(callback) 
+    {
+    	var request = this._createPendingRequest("Getting statistics last update delta");
+    	$.getJSON(
+    		MMHKPLUS.URL_API + "statistics/lastupdate/" + MMHKPLUS.getElement("Player").get("worldId") + "/" + MMHKPLUS.getElement("Player").get("allianceId"),
+    		function(json) { callback(json) ;}
+    	).complete(function() { MMHKPLUS.getElement("Ajax")._deletePendingRequest(request); delete request; });
+    },
 	
 	_send : function(url, json, callback, sync)
 	{
